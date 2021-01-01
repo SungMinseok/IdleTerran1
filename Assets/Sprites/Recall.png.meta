@@ -1,0 +1,428 @@
+fileFormatVersion: 2
+guid: 5cfb99ad0995ff341b3999e90a3e6c78
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 3793603978436607421
+    second: Recall_0
+  - first:
+      213: -5315907007602114477
+    second: Recall_1
+  - first:
+      213: 1194341568002257071
+    second: Recall_2
+  - first:
+      213: 685154843728977620
+    second: Recall_3
+  - first:
+      213: -3530628290832790926
+    second: Recall_4
+  - first:
+      213: -15312963066086982
+    second: Recall_5
+  - first:
+      213: 6695684496741045660
+    second: Recall_6
+  - first:
+      213: 3626552199277536013
+    second: Recall_7
+  - first:
+      213: 8388834611899853347
+    second: Recall_8
+  - first:
+      213: 2751793481518422563
+    second: Recall_9
+  - first:
+      213: -6976965125089202108
+    second: Recall_10
+  - first:
+      213: -1547034928640065074
+    second: Recall_11
+  - first:
+      213: 8108858958292284229
+    second: Recall_12
+  - first:
+      213: 2940347539557323712
+    second: Recall_13
+  - first:
+      213: 8401243431815618284
+    second: Recall_14
+  - first:
+      213: -8065229098903915572
+    second: Recall_15
+  - first:
+      213: -7351365937442364218
+    second: Recall_16
+  - first:
+      213: -8879241323001811272
+    second: Recall_17
+  - first:
+      213: -4097811430660607522
+    second: Recall_18
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 1
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 1
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 1
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 1
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 1
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Recall_0
+      rect:
+        serializedVersion: 2
+        x: 485
+        y: 179
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dbdf83118b695a430800000000000000
+      internalID: 3793603978436607421
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Recall_1
+      rect:
+        serializedVersion: 2
+        x: 419
+        y: 92
+        width: 40
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.52500004}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 350cdd0ddba1a36b0800000000000000
+      internalID: -5315907007602114477
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Recall_2
+      rect:
+        serializedVersion: 2
+        x: 422
+        y: 134
+        width: 61
+        height: 54
+      alignment: 9
+      pivot: {x: 0.5081967, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fa0f1450457239010800000000000000
+      internalID: 1194341568002257071
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Recall_3
+      rect:
+        serializedVersion: 2
+        x: 317
+        y: 15
+        width: 84
+        height: 78
+      alignment: 9
+      pivot: {x: 0.5119048, y: 0.42307693}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4de9a9443b8228900800000000000000
+      internalID: 685154843728977620
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Recall_4
+      rect:
+        serializedVersion: 2
+        x: 212
+        y: 8
+        width: 97
+        height: 88
+      alignment: 9
+      pivot: {x: 0.49484533, y: 0.45454547}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 27a87fa8640b00fc0800000000000000
+      internalID: -3530628290832790926
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Recall_5
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 3
+        width: 99
+        height: 93
+      alignment: 9
+      pivot: {x: 0.5050505, y: 0.47311828}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ab9bcf3f0f899cff0800000000000000
+      internalID: -15312963066086982
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Recall_6
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 1
+        width: 95
+        height: 96
+      alignment: 9
+      pivot: {x: 0.47368422, y: 0.4791667}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c9517541399dbec50800000000000000
+      internalID: 6695684496741045660
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Recall_7
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 100
+        width: 99
+        height: 93
+      alignment: 9
+      pivot: {x: 0.4949495, y: 0.4516129}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d03695dc20a145230800000000000000
+      internalID: 3626552199277536013
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Recall_8
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 98
+        width: 98
+        height: 94
+      alignment: 9
+      pivot: {x: 0.48979592, y: 0.46808508}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 32aeac132a02b6470800000000000000
+      internalID: 8388834611899853347
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Recall_9
+      rect:
+        serializedVersion: 2
+        x: 213
+        y: 101
+        width: 97
+        height: 89
+      alignment: 9
+      pivot: {x: 0.49484533, y: 0.46067417}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 32a14218795503620800000000000000
+      internalID: 2751793481518422563
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Recall_10
+      rect:
+        serializedVersion: 2
+        x: 317
+        y: 99
+        width: 98
+        height: 92
+      alignment: 9
+      pivot: {x: 0.48979592, y: 0.47826087}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 440f4cc2f27dc2f90800000000000000
+      internalID: -6976965125089202108
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
