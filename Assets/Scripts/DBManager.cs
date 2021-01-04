@@ -64,6 +64,12 @@ public class DBManager : MonoBehaviour
         public float[] remainingCoolTime;
         public float[] remainingDuration;
         public int[] count;
+        //연구 단계
+        public int fastCall;
+        public int moreSupply;
+        public int nowAccumulatedRP;
+        public int investRP;
+        
     }
     UIManager theUI;
     PlayerManager thePlayer;
@@ -129,6 +135,12 @@ public class DBManager : MonoBehaviour
             data.remainingDuration[i] = BuffManager.instance.buffs[i].remainingDuration;
             data.count[i] = BuffManager.instance.buffs[i].count;
         }
+
+    //연구 단계
+        data.fastCall = PlayerManager.instance.fastCall;
+        data.moreSupply = PlayerManager.instance.moreSupply;
+        data.nowAccumulatedRP = PlayerManager.instance.nowAccumulatedRP;
+        data.investRP = PlayerManager.instance.investRP;
         
 
         BinaryFormatter bf = new BinaryFormatter();
@@ -263,6 +275,12 @@ public class DBManager : MonoBehaviour
                         BuffManager.instance.buffs[i].count = data.count[i];
                     }
                 }
+                
+            //연구 단계
+                PlayerManager.instance.fastCall = data.fastCall;
+                PlayerManager.instance.moreSupply = data.moreSupply;
+                PlayerManager.instance.nowAccumulatedRP = data.nowAccumulatedRP;
+                PlayerManager.instance.investRP = data.investRP;
             }
 
 

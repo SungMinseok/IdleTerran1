@@ -364,6 +364,9 @@ public class UIManager : MonoBehaviour
             teches_Starport[1].desText.text = "랜덤 보급품 획득시 보너스 추가 지급\n미네랄/연구점수 : +"+(PlayerManager.instance.moreSupply*5)+"%\n스팀팩 : +"+(PlayerManager.instance.moreSupply*5)+"개";
             teches_Starport[1].priceText.text = "N/A";
         }
+
+        BuffManager.instance.buffs[2].coolTime = 3600 - PlayerManager.instance.fastCall*teches_Starport[0].delta*60;
+
     }
     public float Pibo(float a, float b){
         return a*b;
@@ -405,7 +408,7 @@ public class UIManager : MonoBehaviour
         teches_Science[0].mainText.text = "연구점수 획득";
         //if(PlayerManager.instance.fastCall<20){
             teches_Science[0].btn.SetActive(true);
-            teches_Science[0].desText.text = "자동으로 축적되는 연구점수를 획득합니다.\n"+"(최대 5000, 분당 "+((PlayerManager.instance.investRP+1)*teches_Science[1].delta)+")";
+            teches_Science[0].desText.text = "자동으로 축적되는 연구점수를 획득합니다.\n"+"(최대 10500, 분당 "+((PlayerManager.instance.investRP+1)*teches_Science[1].delta)+")";
             teches_Science[0].priceText.text = string.Format("{0:#,###0}",PlayerManager.instance.nowAccumulatedRP);
         //}
         //else{
@@ -420,7 +423,7 @@ public class UIManager : MonoBehaviour
 
             teches_Science[1].btn.SetActive(true);
             teches_Science[1].desText.text = "연구점수를 더 많이 획득합니다.\n맵 : "+((PlayerManager.instance.investRP+1)*100)+" > "+((PlayerManager.instance.investRP+2)*100)+"\n과학시설 : "+((PlayerManager.instance.investRP+1)*100)+"/분 > "+((PlayerManager.instance.investRP+2)*100)+"/분";
-            teches_Science[1].priceText.text = string.Format("{0:#,###0}", teches_Science[1].priceDefault + teches_Science[1].priceDelta * PlayerManager.instance.moreSupply);//(tempLevel*nowUpgradePanel.priceDelta));
+            teches_Science[1].priceText.text = string.Format("{0:#,###0}", teches_Science[1].priceDefault + teches_Science[1].priceDelta * PlayerManager.instance.investRP);//(tempLevel*nowUpgradePanel.priceDelta));
         }
         else{
 
@@ -431,6 +434,7 @@ public class UIManager : MonoBehaviour
     }
     public void RPCollect(){
         StartCoroutine(RPCollectCoroutine());
+        Debug.Log("연구점수 자동수집");
     }
     IEnumerator RPCollectCoroutine(){
         if(PlayerManager.instance.maxAccumulatedRP>PlayerManager.instance.nowAccumulatedRP){
@@ -448,6 +452,8 @@ public class UIManager : MonoBehaviour
     public void GetRP(){
         PlayerManager.instance.HandleRP(PlayerManager.instance.nowAccumulatedRP);
         PlayerManager.instance.nowAccumulatedRP = 0;
+        
+        teches_Science[0].priceText.text = string.Format("{0:#,###0}",PlayerManager.instance.nowAccumulatedRP);
     }
     public void UpgradeInvestRP(){
         

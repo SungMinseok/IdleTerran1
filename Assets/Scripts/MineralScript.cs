@@ -24,13 +24,13 @@ public class MineralScript : MonoBehaviour
     // }
 
     public void GotMined(int gotAmount){
-        curAmount -= gotAmount;
-        if(curAmount<0){
-            gameObject.SetActive(false);
-        }
-        else{
+        // curAmount -= gotAmount;
+        // if(curAmount<0){
+        //     gameObject.SetActive(false);
+        // }
+        // else{
 
-            bar.value = (float) curAmount / (float) totalAmount;
-        }
+        //     bar.value = (float) curAmount / (float) totalAmount;
+        // }
     }
 }

@@ -211,6 +211,10 @@ public class BuildingManager : MonoBehaviour
                 if(buildTimeCounter[i] >= buildings[i].buildTime){  //건설 되있으면.
                     childPanels[i].GetChild(3).gameObject.SetActive(true);//텍스트 활성화
                     buildingsInMap[i].transform.GetChild(1).gameObject.SetActive(true);
+                    
+                    if(i==1) UIManager.instance.ActivateLowerUIPanel(2);
+                    if(i==3) UIManager.instance.ActivateLowerUIPanel(7);
+                    if(i==4) UIManager.instance.RPCollect();
                 }
                 else{
                     childPanels[i].GetChild(3).gameObject.SetActive(false);//텍스트 활성화
@@ -223,8 +227,8 @@ public class BuildingManager : MonoBehaviour
             buildingsInMap[flag].transform.GetChild(1).gameObject.SetActive(true);
             
                     if(flag==1) UIManager.instance.ActivateLowerUIPanel(2);
-                    if(flag==4) UIManager.instance.ActivateLowerUIPanel(7);
-                    if(flag==3) UIManager.instance.RPCollect();
+                    if(flag==3) UIManager.instance.ActivateLowerUIPanel(7);
+                    if(flag==4) UIManager.instance.RPCollect();
         }   
     }
     // public void SetBuilt(int num){

@@ -15,6 +15,13 @@ public class HelperManager : MonoBehaviour
 
     public GameObject alertPop;
     public Text alertText;
+
+    [Header("New UI")]
+    public GameObject helpPanel;
+    public GameObject[] uis;
+    public string[] helpStrings;
+    public Text helpText;
+    public bool callNext;
     void Awake(){
         instance = this;
     }
@@ -112,6 +119,25 @@ public class HelperManager : MonoBehaviour
         QuestManager.instance.SetQuest(0);
     }
 
+    public void ShowHelp(){
+        StartCoroutine(ShowHelpCoroutine());
+        //helpText = helpStrings[
+    }
+    IEnumerator ShowHelpCoroutine(){
+        helpPanel.SetActive(true);
+        for(int i=0; i<uis.Length; i++){
+            callNext = true;
+            helpText.text = helpStrings[i];
+            for(int j=0;j<uis.Length;j++){
+                uis[j].SetActive(false);
+            }    
+            uis[i].SetActive(true);
 
+
+            yield return new WaitUntil(()=>!callNext);
+        }
+        helpPanel.SetActive(false);
+    }
+    public void NextHelpBtn() => callNext = false;
     
 }

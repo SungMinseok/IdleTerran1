@@ -61,6 +61,7 @@ public class BuffManager : MonoBehaviour
     public bool autoChargeFuel;
     private bool autoCharging;
     public bool autoGatherRP;
+    public bool autoStimpack;
     void Awake(){
         instance = this;
     }
@@ -234,6 +235,10 @@ public class BuffManager : MonoBehaviour
                 break;
         }
 
+        if(autoStimpack){
+            ActivateBuff(buff.name);
+        }
+
 
     }
     // IEnumerator NewBuffCoroutine(Buff buff){ // 버프 중첩용.
@@ -314,7 +319,7 @@ public class BuffManager : MonoBehaviour
                 float tempAmount = (PlayerManager.instance.weldingLevel+PlayerManager.instance.bodyLevel+PlayerManager.instance.engineLevel)
                 *(ranNum) * 2;
                 randomAmountText.text = tempAmount.ToString();
-                bonusAmountText.text = (((float)(PlayerManager.instance.moreSupply * 5) / 100 ) * tempAmount ).ToString();
+                bonusAmountText.text = Mathf.CeilToInt(((float)(PlayerManager.instance.moreSupply * 5) / 100 ) * tempAmount ).ToString();
             }
             else if(ranType == 1){//연구점수 현재 연구점수 획득량(100) * (3~5)
 
@@ -322,7 +327,7 @@ public class BuffManager : MonoBehaviour
                 randomImage.sprite = rp;
                 float tempAmount = (100 * (ranNum));
                 randomAmountText.text = tempAmount.ToString();
-                bonusAmountText.text = (((float)(PlayerManager.instance.moreSupply * 5) / 100 ) * tempAmount ).ToString();
+                bonusAmountText.text = Mathf.CeilToInt(((float)(PlayerManager.instance.moreSupply * 5) / 100 ) * tempAmount ).ToString();
 
             }
             else if(ranType ==2){//스팀팩
@@ -682,4 +687,11 @@ public class BuffManager : MonoBehaviour
             Debug.Log("코루틴 종료");
 
     }   
+    public void AutoStimOff(){
+        autoStimpack = false;
+    }
+    public void AutoStimOn(){
+        autoStimpack = true;
+
+    }
 }
