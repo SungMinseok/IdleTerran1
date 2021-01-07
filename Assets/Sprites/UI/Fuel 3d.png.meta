@@ -5,6 +5,9 @@ TextureImporter:
   - first:
       213: 6220461733829208710
     second: Fuel 3d_0
+  - first:
+      213: 5435155099426387688
+    second: Fuel 3d_0
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -129,10 +132,10 @@ TextureImporter:
       name: Fuel 3d_0
       rect:
         serializedVersion: 2
-        x: 41
-        y: 16
-        width: 177
-        height: 212
+        x: 56
+        y: 8
+        width: 400
+        height: 480
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -140,8 +143,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 68aeccf4df4835650800000000000000
-      internalID: 6220461733829208710
+      spriteID: 8e6767824cc8d6b40800000000000000
+      internalID: 5435155099426387688
       vertices: []
       indices: 
       edges: []

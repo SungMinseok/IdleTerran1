@@ -143,6 +143,10 @@ public class FactoryManager : MonoBehaviour
         clone.GetComponent<BotScript>().botState = BotState.Mine;
         clone.GetComponent<BotScript>().efficiency = BotManager.instance.botInfoList[nowNum].efficiency;
         clone.transform.parent = botManager;
+        // if(botManager.childCount!=0){
+        //     clone.GetComponent<SpriteRenderer>().sortingOrder = botManager.GetChild(botManager.childCount-1).GetComponent<SpriteRenderer>().sortingOrder +1;
+
+        // }
         BotManager.instance.RefreshBotEquip(BotManager.instance.transform.childCount-1);
 
 
@@ -199,7 +203,7 @@ public class FactoryManager : MonoBehaviour
         //Debug.Log(BotManager.instance.botSaved.Count + "개의 로봇");
         //Debug.Log("~"+BotManager.instance.botSaved.Count);
         for(int i=0;i<BotManager.instance.botSaved.Count;i++){            
-            botStatusScrollChildren[i].GetChild(0).GetComponent<RectTransform>().localScale = childPanels[BotManager.instance.botSaved[i]].GetChild(1).GetComponent<RectTransform>().localScale*0.5f;
+            botStatusScrollChildren[i].GetChild(0).GetComponent<RectTransform>().localScale = childPanels[BotManager.instance.botSaved[i]].GetChild(1).GetComponent<RectTransform>().localScale*2f;
             botStatusScrollChildren[i].GetChild(0).GetComponent<Image>().sprite = childPanels[BotManager.instance.botSaved[i]].GetChild(1).GetComponent<Image>().sprite;
             botStatusScrollChildren[i].GetChild(0).GetComponent<Image>().color = childPanels[BotManager.instance.botSaved[i]].GetChild(1).GetComponent<Image>().color;
         }

@@ -327,8 +327,8 @@ public class UpgradeManager : MonoBehaviour
         for(int i=0;i<upgradeList.Count;i++){
             for(int j=column*i; j<column*(i+1); j++){
 
-                if(j%4 == 3) accessibleUpgradePanelList[(i+1)*4-1].level.text = "<color=red>0</color> / 1" ;
-                else accessibleUpgradePanelList[j].level.text = "<color=red>0</color> / 20" ;
+                if(j%4 == 3) accessibleUpgradePanelList[(i+1)*4-1].level.text = "<color=white>0</color> / 1" ;
+                else accessibleUpgradePanelList[j].level.text = "<color=white>0</color> / 20" ;
 
                 if(j%4 == 0) accessibleUpgradePanelList[j].locked.SetActive(false);
                 else accessibleUpgradePanelList[j].locked.SetActive(true);
@@ -348,22 +348,22 @@ public class UpgradeManager : MonoBehaviour
         if(tempLevel<=20){
         }
         else if(tempLevel<=40 && tempLevel>20){
-            accessibleUpgradePanelList[num*4].level.text = "<color=red>20</color> / "+maxLevel0.ToString() ;
+            accessibleUpgradePanelList[num*4].level.text = "<color=white>20</color> / "+maxLevel0.ToString() ;
             accessibleUpgradePanelList[num*4+1].locked.SetActive(false);
             upgradePanelList_UI[num*4].GetComponent<Button>().interactable = false;
         }
         else if(tempLevel<=60 && tempLevel>40){
-            accessibleUpgradePanelList[num*4].level.text = "<color=red>20</color> / "+maxLevel0.ToString() ;
-            accessibleUpgradePanelList[num*4+1].level.text = "<color=red>20</color> / "+maxLevel0.ToString() ;
+            accessibleUpgradePanelList[num*4].level.text = "<color=white>20</color> / "+maxLevel0.ToString() ;
+            accessibleUpgradePanelList[num*4+1].level.text = "<color=white>20</color> / "+maxLevel0.ToString() ;
             accessibleUpgradePanelList[num*4+1].locked.SetActive(false);
             accessibleUpgradePanelList[num*4+2].locked.SetActive(false);
             upgradePanelList_UI[num*4].GetComponent<Button>().interactable = false;
             upgradePanelList_UI[num*4+1].GetComponent<Button>().interactable = false;
         }
         else{
-            accessibleUpgradePanelList[num*4].level.text = "<color=red>20</color> / "+maxLevel0.ToString() ;
-            accessibleUpgradePanelList[num*4+1].level.text = "<color=red>20</color> / "+maxLevel0.ToString() ;
-            accessibleUpgradePanelList[num*4+2].level.text = "<color=red>20</color> / "+maxLevel0.ToString() ;
+            accessibleUpgradePanelList[num*4].level.text = "<color=white>20</color> / "+maxLevel0.ToString() ;
+            accessibleUpgradePanelList[num*4+1].level.text = "<color=white>20</color> / "+maxLevel0.ToString() ;
+            accessibleUpgradePanelList[num*4+2].level.text = "<color=white>20</color> / "+maxLevel0.ToString() ;
             accessibleUpgradePanelList[num*4+1].locked.SetActive(false);
             accessibleUpgradePanelList[num*4+2].locked.SetActive(false);
             accessibleUpgradePanelList[num*4+3].locked.SetActive(false);
@@ -379,15 +379,15 @@ public class UpgradeManager : MonoBehaviour
         //현재 레벨 표시를 어디에 할 것인가.
         if(tempLevel%20 == 0 && tempLevel !=0){ //20, 40, 60 일 때
 
-            accessibleUpgradePanelList[(tempLevel-1)/20+num*4].level.text = "<color=red>"+(tempLevel%20+20).ToString()+"</color> / "+maxLevel0.ToString() ;
+            accessibleUpgradePanelList[(tempLevel-1)/20+num*4].level.text = "<color=white>"+(tempLevel%20+20).ToString()+"</color> / "+maxLevel0.ToString() ;
         }
         else{
             if(((tempLevel-1)/20)%20==3){   //61일때
-                accessibleUpgradePanelList[(tempLevel-1)/20+num*4].level.text = "<color=red>"+(tempLevel%20).ToString()+"</color> / 1";
+                accessibleUpgradePanelList[(tempLevel-1)/20+num*4].level.text = "<color=white>"+(tempLevel%20).ToString()+"</color> / 1";
 
             }
             else{ // 일반 수 일때 1~19, 21~39 // ex 용접기 렙 17 > 0 + 0*4
-                accessibleUpgradePanelList[(tempLevel-1)/20+num*4].level.text = "<color=red>"+(tempLevel%20).ToString()+"</color> / "+maxLevel0.ToString() ;
+                accessibleUpgradePanelList[(tempLevel-1)/20+num*4].level.text = "<color=white>"+(tempLevel%20).ToString()+"</color> / "+maxLevel0.ToString() ;
 
             }
         }

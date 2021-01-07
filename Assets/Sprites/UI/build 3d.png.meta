@@ -5,6 +5,9 @@ TextureImporter:
   - first:
       213: -1939124408491743511
     second: build 3d_0
+  - first:
+      213: -4338396130937175580
+    second: build 3d_0
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -129,10 +132,10 @@ TextureImporter:
       name: build 3d_0
       rect:
         serializedVersion: 2
-        x: 25
-        y: 54
-        width: 208
-        height: 138
+        x: 20
+        y: 41
+        width: 209
+        height: 156
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -140,8 +143,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9e66f88df98d615e0800000000000000
-      internalID: -1939124408491743511
+      spriteID: 4e18f8864bbeac3c0800000000000000
+      internalID: -4338396130937175580
       vertices: []
       indices: 
       edges: []
