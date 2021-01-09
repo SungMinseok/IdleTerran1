@@ -333,4 +333,13 @@ public class DBManager : MonoBehaviour
     }
 
 
+    // public void DeleteSaveFile(){
+        
+    //     FileInfo fileCheck = new FileInfo(Application.persistentDataPath + "/SaveFile.dat");
+
+    //     if(fileCheck.Exists){
+    //         FileStream file = File.Delete(Application.persistentDataPath + "/SaveFile.dat");
+    //     }
+    // }
+
 }
