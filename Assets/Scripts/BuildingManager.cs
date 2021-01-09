@@ -43,6 +43,7 @@ public class BuildingManager : MonoBehaviour
     public Transform[] childPanels;
     public GameObject buildingPanel;
     public GameObject buildPanel;
+    public Image buildingImage;
     public Text nameText;
     public Text desText;
     public Text buildTimeText;
@@ -120,6 +121,7 @@ public class BuildingManager : MonoBehaviour
         desText.text = buildings[nowBuilding].des;
         buildTimeText.text = buildings[nowBuilding].buildTime.ToString()+"초";
         priceText.text = string.Format("{0:#,###0}", buildings[nowBuilding].price);//buildings[num].price.ToString();
+        buildingImage.sprite = childPanels[num].GetChild(1).GetComponent<Image>().sprite;
 
         buildPanel.SetActive(true);
     }
@@ -213,6 +215,7 @@ public class BuildingManager : MonoBehaviour
                     buildingsInMap[i].transform.GetChild(1).gameObject.SetActive(true);
                     
                     if(i==1) UIManager.instance.ActivateLowerUIPanel(2);
+                    if(i==1) UIManager.instance.depotLock.SetActive(false);
                     if(i==3) UIManager.instance.ActivateLowerUIPanel(7);
                     if(i==4) UIManager.instance.RPCollect();
                 }
@@ -227,6 +230,7 @@ public class BuildingManager : MonoBehaviour
             buildingsInMap[flag].transform.GetChild(1).gameObject.SetActive(true);
             
                     if(flag==1) UIManager.instance.ActivateLowerUIPanel(2);
+                    if(flag==1) UIManager.instance.depotLock.SetActive(false);
                     if(flag==3) UIManager.instance.ActivateLowerUIPanel(7);
                     if(flag==4) UIManager.instance.RPCollect();
         }   

@@ -50,6 +50,7 @@ public class QuestManager : MonoBehaviour
                     }
                     else{
                         SetQuest(0);
+                        UIManager.instance.DeactivateLowerUIPanel(2);
                     }
                 }
             //튜토리얼 끝 정상 진행
@@ -149,9 +150,11 @@ public class QuestManager : MonoBehaviour
                 break;
 
             case 2 : 
-                yield return new WaitUntil(()=> !UIManager.instance.OnUI() );//센터나감
-                break;
+                // yield return new WaitUntil(()=> !UIManager.instance.OnUI() );//센터나감
+                // break;
 
+                yield return new WaitUntil(()=> PlayerManager.instance.curFuel >=500 );
+                break;
             case 3 : 
                 yield return new WaitUntil(()=> PlayerManager.instance.curMineral >=100 );
                 break;//SetActive(true);            
@@ -204,6 +207,7 @@ public class QuestManager : MonoBehaviour
                 SetQuest(3);
                 break;
             case 3 : 
+                UIManager.instance.ActivateLowerUIPanel(2);
                 SetQuest(4);
                 break;
             case 4 : 
@@ -231,6 +235,7 @@ public class QuestManager : MonoBehaviour
                 UIManager.instance.alertPopup.GetComponent<Animator>().speed = 0f;
                 UIManager.instance.SetPopUp("이제 기본 튜토리얼을 마칩니다. 10억 미네랄을 모아 승리하세요!");
 
+                    StartCoroutine(BuffManager.instance.CreateRandomRPCoroutine());
                 yield return new WaitForSeconds(5f);
                 UIManager.instance.alertPopup.GetComponent<Animator>().speed = 1f;
                 break;

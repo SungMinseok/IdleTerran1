@@ -390,7 +390,7 @@ public class BuffManager : MonoBehaviour
         if(ranNum0==0){ //왼쪽등장
             dropship.GetComponent<SpriteRenderer>().flipX = false;
             dropship.transform.GetChild(0).GetComponent<SpriteRenderer>().flipX = false;
-            dropship.transform.GetChild(1).GetComponent<SpriteRenderer>().flipX = false;
+            //dropship.transform.GetChild(1).GetComponent<SpriteRenderer>().flipX = false;
             //dropship.transform.GetChild(1).transform.local = false;
             dropship.transform.position = -mapBoundPos;//new Vector2(pos.x-10,Random.Range(pos.y-2,pos.y+2));
             tempPos = dropship.transform.position;
@@ -399,7 +399,7 @@ public class BuffManager : MonoBehaviour
         else{
             dropship.GetComponent<SpriteRenderer>().flipX = true;
             dropship.transform.GetChild(0).GetComponent<SpriteRenderer>().flipX = true;
-            dropship.transform.GetChild(1).GetComponent<SpriteRenderer>().flipX = true;
+            //dropship.transform.GetChild(1).GetComponent<SpriteRenderer>().flipX = true;
             dropship.transform.position = mapBoundPos;
             //dropship.transform.position = new Vector2(pos.x+10,Random.Range(pos.y-2,pos.y+2));
             tempPos = dropship.transform.position;
@@ -693,5 +693,29 @@ public class BuffManager : MonoBehaviour
     public void AutoStimOn(){
         autoStimpack = true;
 
+    }
+    public void RefreshUICount(){
+        for(int i=0;i<buffs.Count;i++){
+            if(buffs[i].count > 0 || buffs[i].count==-1 ){
+                if(buffs[i].count != -1){
+                    buffs[i].btn.GetChild(buffs[i].btn.childCount-1).GetComponent<Text>().text = (--buffs[i].count).ToString();
+
+                }
+
+                //     if(buffs[i].name=="AD"){
+                        
+                //         StartCoroutine(ADCoolTimeCoroutine(buffs[i]));
+                //     }
+                //     else{
+                        
+                //         StartCoroutine(BuffCoolTimeCoroutine(buffs[i]));
+                //     }
+
+                // if(buffs[i].duration!= -1){
+                //     StartCoroutine(BuffCoroutine(buffs[i]));
+                // }
+            }
+            
+        }
     }
 }

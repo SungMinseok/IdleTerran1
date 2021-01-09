@@ -48,6 +48,8 @@ public class UIManager : MonoBehaviour
     public GameObject[] lowerUI;
     [Header("센터")]
     public GameObject centerUI;
+    [Header("디팟")]
+    public GameObject depotLock;
     [Header("Bay")]
     public GameObject bayUI;
     public Text[] upgradeTextArr;
@@ -332,6 +334,9 @@ public class UIManager : MonoBehaviour
     }
     public void ActivateLowerUIPanel(int num){
         lowerUI[num].transform.GetChild(2).gameObject.SetActive(false);
+    }
+    public void DeactivateLowerUIPanel(int num){
+        lowerUI[num].transform.GetChild(2).gameObject.SetActive(true);
     }
 
     public void RefreshStarportPanel(){
