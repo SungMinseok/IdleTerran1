@@ -366,7 +366,7 @@ public class UIManager : MonoBehaviour
         else{
 
             teches_Starport[1].btn.SetActive(false);
-            teches_Starport[1].desText.text = "랜덤 보급품 획득시 보너스 추가 지급\n미네랄/연구점수 : +"+(PlayerManager.instance.moreSupply*5)+"%\n스팀팩 : +"+(PlayerManager.instance.moreSupply*5)+"개";
+            teches_Starport[1].desText.text = "랜덤 보급품 획득시 보너스 추가 지급\n미네랄/연구점수 : +"+(PlayerManager.instance.moreSupply*5)+"%\n스팀팩 : +"+(PlayerManager.instance.moreSupply)+"개";
             teches_Starport[1].priceText.text = "N/A";
         }
 
@@ -377,31 +377,36 @@ public class UIManager : MonoBehaviour
         return a*b;
     }
     public void UpgradeFastCall(){
-        if(PlayerManager.instance.curMineral>float.Parse(teches_Starport[0].priceText.text)){
-            UIManager.instance.SetPopUp("업그레이드 완료.","up");
-            
-            PlayerManager.instance.HandleMineral(-float.Parse(teches_Starport[0].priceText.text));
-            PlayerManager.instance.fastCall ++;
-            RefreshStarportPanel();
-        }
-        else{
-            UIManager.instance.SetPopUp("미네랄이 부족합니다.","notenoughmin");
+        if(PlayerManager.instance.fastCall<20){
+                
+            if(PlayerManager.instance.curMineral>float.Parse(teches_Starport[0].priceText.text)){
+                UIManager.instance.SetPopUp("업그레이드 완료.","up");
+                
+                PlayerManager.instance.HandleMineral(-float.Parse(teches_Starport[0].priceText.text));
+                PlayerManager.instance.fastCall ++;
+                RefreshStarportPanel();
+            }
+            else{
+                UIManager.instance.SetPopUp("미네랄이 부족합니다.","notenoughmin");
 
+            }
         }
 
     }
     public void UpgradeMoreSupply(){
+        if(PlayerManager.instance.moreSupply<20){
         
-        if(PlayerManager.instance.curMineral>float.Parse(teches_Starport[1].priceText.text)){
-            UIManager.instance.SetPopUp("업그레이드 완료.","up");
-            
-            PlayerManager.instance.HandleMineral(-float.Parse(teches_Starport[1].priceText.text));
-            PlayerManager.instance.moreSupply ++;
-            RefreshStarportPanel();
-        }
-        else{
-            UIManager.instance.SetPopUp("미네랄이 부족합니다.","notenoughmin");
+            if(PlayerManager.instance.curMineral>float.Parse(teches_Starport[1].priceText.text)){
+                UIManager.instance.SetPopUp("업그레이드 완료.","up");
+                
+                PlayerManager.instance.HandleMineral(-float.Parse(teches_Starport[1].priceText.text));
+                PlayerManager.instance.moreSupply ++;
+                RefreshStarportPanel();
+            }
+            else{
+                UIManager.instance.SetPopUp("미네랄이 부족합니다.","notenoughmin");
 
+            }
         }
     }    
 
@@ -461,17 +466,19 @@ public class UIManager : MonoBehaviour
         teches_Science[0].priceText.text = string.Format("{0:#,###0}",PlayerManager.instance.nowAccumulatedRP);
     }
     public void UpgradeInvestRP(){
-        
-        if(PlayerManager.instance.curMineral>float.Parse(teches_Science[1].priceText.text)){
-            UIManager.instance.SetPopUp("업그레이드 완료.","up");
+        if(PlayerManager.instance.investRP<20){
             
-            PlayerManager.instance.HandleMineral(-float.Parse(teches_Science[1].priceText.text));
-            PlayerManager.instance.investRP ++;
-            RefreshSciencePanel();
-        }
-        else{
-            UIManager.instance.SetPopUp("미네랄이 부족합니다.","notenoughmin");
+            if(PlayerManager.instance.curMineral>float.Parse(teches_Science[1].priceText.text)){
+                UIManager.instance.SetPopUp("업그레이드 완료.","up");
+                
+                PlayerManager.instance.HandleMineral(-float.Parse(teches_Science[1].priceText.text));
+                PlayerManager.instance.investRP ++;
+                RefreshSciencePanel();
+            }
+            else{
+                UIManager.instance.SetPopUp("미네랄이 부족합니다.","notenoughmin");
 
-        }
+            }
+            }
     }
 }

@@ -41,6 +41,7 @@ public class SpriteButton : MonoBehaviour
 
             if(buildingType == BuildingType.Enterable){
                 PlayerManager.instance.Order(transform,OrderType.Enter);
+                //if(objectName=="Center") BuffManager.instance. RefreshUICount();
                 //UIManager.instance.TogglegoTo(objectName);
             }
             else if(buildingType == BuildingType.Resource){

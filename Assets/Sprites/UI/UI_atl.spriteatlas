@@ -43,7 +43,7 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: a696f91dc4ae2a146857ac9f37896f92, type: 3}
-    totalSpriteSurfaceArea: 5226748
+    totalSpriteSurfaceArea: 5357820
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -59,9 +59,11 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 45a324f6de759eb468e4ca630522ba1d, type: 3}
   - {fileID: 21300000, guid: 53e0f7e73f0361b479d69abe2ef4bd75, type: 3}
   - {fileID: 21300000, guid: 414178e7cc6a91d40b5427037f71ae1f, type: 3}
+  - {fileID: -6305592753371565172, guid: 6a29a2983311cb74496b7a30cbf0f8da, type: 3}
   - {fileID: 1316580925875639478, guid: 6a29a2983311cb74496b7a30cbf0f8da, type: 3}
   - {fileID: 21300000, guid: c8dcf6a841538364b9e50654479a68e5, type: 3}
   - {fileID: -3928725646380236089, guid: 4b3f741944362e6458c50ad4a7cbf747, type: 3}
+  - {fileID: -1135513190014899655, guid: 4b3f741944362e6458c50ad4a7cbf747, type: 3}
   - {fileID: 21300000, guid: 787794b9520d6b342bdffa6c7bd8eb6d, type: 3}
   - {fileID: 2753217934699055344, guid: 60aae3e9fd7131a46b62cadc71eb4355, type: 3}
   - {fileID: -1939124408491743511, guid: 07001af9c131d6345b388f962f4e0650, type: 3}
@@ -88,9 +90,11 @@ SpriteAtlas:
   - 592x120
   - 592x240
   - crate
+  - ore 3d_1
   - ore 3d_0
   - ad 3d
   - DNA 3d_0
+  - DNA 3d_1
   - 512x512
   - box 3d_0
   - build 3d_0

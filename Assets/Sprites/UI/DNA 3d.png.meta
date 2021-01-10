@@ -5,6 +5,9 @@ TextureImporter:
   - first:
       213: -3928725646380236089
     second: DNA 3d_0
+  - first:
+      213: -1135513190014899655
+    second: DNA 3d_1
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -134,7 +137,7 @@ TextureImporter:
         width: 192
         height: 198
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -142,6 +145,27 @@ TextureImporter:
       bones: []
       spriteID: 7c20a8307dc5a79c0800000000000000
       internalID: -3928725646380236089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DNA 3d_1
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 93a246715c8dd30f0800000000000000
+      internalID: -1135513190014899655
       vertices: []
       indices: 
       edges: []

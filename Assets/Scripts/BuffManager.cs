@@ -40,8 +40,9 @@ public class BuffManager : MonoBehaviour
     public Text bonusAmountText;
     public GameObject randomOk;
     public Image randomImage;
-    public Sprite mineral;
-    public Sprite rp;
+    public Sprite mineralSprite;
+    public Sprite rpSprite;
+    public Sprite spSprite;
     public GameObject recallEffect;
     [Header("드랍쉽")]
     public GameObject dropship;
@@ -287,13 +288,13 @@ public class BuffManager : MonoBehaviour
         if(ranType == 0){ //미네랄 50000~100000
             
             ranNum = Random.Range(50,100);
-            randomImage.sprite = mineral;
+            randomImage.sprite = mineralSprite;
             randomAmountText.text = (ranNum * 1000).ToString();
         }
         else if(ranType == 1){//연구점수 200~2000
 
             ranNum = Random.Range(10,100); 
-            randomImage.sprite = rp;
+            randomImage.sprite = rpSprite;
             randomAmountText.text = (ranNum * 20).ToString();
         }
         
@@ -309,13 +310,13 @@ public class BuffManager : MonoBehaviour
             boxCountText.text = "x "+(--boxCount).ToString();
                 
             SoundManager.instance.Play("recall");
-            ranType = Random.Range(0,2);//0,1
+            ranType = Random.Range(0,4);//0,1
             
             if(ranType == 0){ //미네랄 (용접기레벨+적재함레벨+엔진레벨) * (100~200) * 2
 
                 
                 ranNum = Random.Range(100,201);
-                randomImage.sprite = mineral;
+                randomImage.sprite = mineralSprite;
                 float tempAmount = (PlayerManager.instance.weldingLevel+PlayerManager.instance.bodyLevel+PlayerManager.instance.engineLevel)
                 *(ranNum) * 2;
                 randomAmountText.text = tempAmount.ToString();
@@ -324,17 +325,29 @@ public class BuffManager : MonoBehaviour
             else if(ranType == 1){//연구점수 현재 연구점수 획득량(100) * (3~5)
 
                 ranNum = Random.Range(3,6); 
-                randomImage.sprite = rp;
-                float tempAmount = (100 * (ranNum));
+                randomImage.sprite = rpSprite;
+                float tempAmount = (((PlayerManager.instance.investRP+1)*100) * (ranNum));
                 randomAmountText.text = tempAmount.ToString();
                 bonusAmountText.text = Mathf.CeilToInt(((float)(PlayerManager.instance.moreSupply * 5) / 100 ) * tempAmount ).ToString();
 
             }
-            else if(ranType ==2){//스팀팩
+            else if(ranType ==2){//엔진 스팀팩 3~5 + 연료탱크레벨 10당 1 + 보너스레벨
 
                 ranNum = Random.Range(3,6); 
+                randomImage.sprite = spSprite;
                 
-                randomAmountText.text = (PlayerManager.instance.fuelLevel/10 * (ranNum)).ToString();
+                float tempAmount = (PlayerManager.instance.fuelLevel/10 + (ranNum));
+                randomAmountText.text = tempAmount.ToString();
+                bonusAmountText.text = (PlayerManager.instance.moreSupply).ToString();
+
+            }
+            else if(ranType ==3){//탱크 스팀팩 3~5 + 적재량레벨 10당 1 + 보너스레벨
+
+                ranNum = Random.Range(3,6); 
+                randomImage.sprite = spSprite;
+                
+                float tempAmount = (PlayerManager.instance.bodyLevel/10 + (ranNum));
+                randomAmountText.text = tempAmount.ToString();
                 bonusAmountText.text = (PlayerManager.instance.moreSupply).ToString();
 
             }
@@ -357,8 +370,14 @@ public class BuffManager : MonoBehaviour
         }
         else if (ranType==2){
 
+            BuffManager.instance.buffs[0].count+=int.Parse(randomAmountText.text) + int.Parse(bonusAmountText.text);
+        }
+        else if (ranType==3){
+
+            BuffManager.instance.buffs[1].count+=int.Parse(randomAmountText.text) + int.Parse(bonusAmountText.text);
         }
         
+        RefreshUICount();
         randomAmountText.text = "";
         bonusAmountText.text = "";
     }
@@ -695,6 +714,8 @@ public class BuffManager : MonoBehaviour
 
     }
     public void RefreshUICount(){
+        
+        boxCountText.text = "x " + boxCount.ToString();
         for(int i=0;i<buffs.Count;i++){
             if(buffs[i].count > 0 || buffs[i].count==-1 ){
                 if(buffs[i].count != -1){

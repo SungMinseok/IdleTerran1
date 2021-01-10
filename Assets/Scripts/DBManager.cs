@@ -291,8 +291,8 @@ public class DBManager : MonoBehaviour
     public void ResetDB(){
         SettingManager.instance.testMode = true;
         
-        PlayerManager.instance.curMineral = 1000000;
-        PlayerManager.instance.curRP = 1000000;
+        PlayerManager.instance.curMineral = 10000000;
+        PlayerManager.instance.curRP = 10000000;
         PlayerManager.instance.curFuel = PlayerManager.instance.defaultFuel;
         PlayerManager.instance.curSpeed = PlayerManager.instance. defaultSpeed;
         PlayerManager.instance.weldingLevel = 1;
@@ -326,10 +326,12 @@ public class DBManager : MonoBehaviour
         FactoryManager.instance.ResetData();
         
         //버프
-        BuffManager.instance.boxCount = 10;
+        BuffManager.instance.boxCount = 100;
 
         //보급
         BotManager.instance.maxPopulation = 5;
+
+        BuffManager.instance. RefreshUICount();
     }
 
 
@@ -341,5 +343,75 @@ public class DBManager : MonoBehaviour
     //         FileStream file = File.Delete(Application.persistentDataPath + "/SaveFile.dat");
     //     }
     // }
+    // public Camera theCamera;       //보여지는 카메라.
+ 
+    // private int resWidth;
+    // private int resHeight;
+    // string path;
+    // // Use this for initialization
+    // void Start () {
+    //     resWidth = Screen.width;
+    //     resHeight = Screen.height;
+    //     path = Application.dataPath+"/ScreenShot/";
+    //     Debug.Log(path);
+    // }
+ 
+    // public void ClickScreenShot()
+    // {
+    //     DirectoryInfo dir = new DirectoryInfo(path);
+    //     if (!dir.Exists)
+    //     {
+    //         Directory.CreateDirectory(path);
+    //     }
+    //     string name;
+    //     name = path + System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".png";
+    //     RenderTexture rt = new RenderTexture(resWidth, resHeight, 24);
+    //     theCamera.targetTexture = rt;
+    //     Texture2D screenShot = new Texture2D(resWidth, resHeight, TextureFormat.RGB24, false);
+    //     Rect rec = new Rect(0, 0, screenShot.width, screenShot.height);
+    //     theCamera.Render();
+    //     RenderTexture.active = rt;
+    //     screenShot.ReadPixels(new Rect(0, 0, resWidth, resHeight), 0, 0);
+    //     screenShot.Apply();
+ 
+    //     byte[] bytes = screenShot.EncodeToPNG();
+    //     File.WriteAllBytes(name, bytes);
+    // }
+#if UNITY_EDITOR
+    void Update(){
 
+        if(Input.GetKeyDown(KeyCode.F12)){
+            //ScreenCapture.CaptureScreenshot("SomeLevel");
+            StartCoroutine(captureScreenshot());
+            Debug.Log("스샷");
+            
+        Debug.Log(Application.persistentDataPath);
+        }
+    }
+    IEnumerator captureScreenshot()
+    {
+       yield return new WaitForEndOfFrame();
+
+       string path = Application.persistentDataPath + "/Screenshots/";
+       
+        DirectoryInfo dir = new DirectoryInfo(path);
+        if (!dir.Exists)
+        {
+            Directory.CreateDirectory(path);
+        }
+
+       string name = Application.persistentDataPath + "/Screenshots/"
+                + Screen.width + "x" + Screen.height + "_" + System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") +".png";
+
+       Texture2D screenImage = new Texture2D(Screen.width, Screen.height);
+       //Get Image from screen
+       screenImage.ReadPixels(new Rect(0, 0, Screen.width, Screen.height), 0, 0);
+       screenImage.Apply();
+       //Convert to png
+       byte[] imageBytes = screenImage.EncodeToPNG();
+
+       //Save image to file
+       System.IO.File.WriteAllBytes(name, imageBytes);
+    }
+#endif
 }
