@@ -43,7 +43,7 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: 93aa359a5b067754d8fc95d164e8cfa4, type: 3}
-    totalSpriteSurfaceArea: 2188169
+    totalSpriteSurfaceArea: 2253705
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -74,6 +74,7 @@ SpriteAtlas:
   - {fileID: 1194341568002257071, guid: 5cfb99ad0995ff341b3999e90a3e6c78, type: 3}
   - {fileID: -6976965125089202108, guid: 5cfb99ad0995ff341b3999e90a3e6c78, type: 3}
   - {fileID: 21300000, guid: 5c9b22ce9c928004f9237056f3fd0b75, type: 3}
+  - {fileID: 21300000, guid: b2c0aefed00978e4b885598eb3baf2d0, type: 3}
   - {fileID: 21300000, guid: 0266d66fa9768814ca56b58f717d3ac1, type: 3}
   - {fileID: 21300000, guid: ca9456ffd8f7013489b54480435fa382, type: 3}
   m_PackedSpriteNamesToIndex:
@@ -104,6 +105,7 @@ SpriteAtlas:
   - Recall_2
   - Recall_10
   - mineral field 3d
+  - model_red
   - work_side
   - ore2 3d
   m_Tag: Units_atl

@@ -22,6 +22,7 @@ public class BuffManager : MonoBehaviour
     public static BuffManager instance;
     public int boxCount;
     public Text boxCountText;
+    public Text boxCountText2;
     public Transform botManager;
     [SerializeField]
     public List<Buff> buffs = new List<Buff>();
@@ -38,6 +39,7 @@ public class BuffManager : MonoBehaviour
     public GameObject randomBoxPanel;
     public Text randomAmountText;
     public Text bonusAmountText;
+    public Text totalAmountText;
     public GameObject randomOk;
     public Image randomImage;
     public Sprite mineralSprite;
@@ -63,6 +65,11 @@ public class BuffManager : MonoBehaviour
     private bool autoCharging;
     public bool autoGatherRP;
     public bool autoStimpack;
+    [Header("랜덤박스 전체")]
+    public GameObject randomBoxPanel_All;
+    public Transform randomBoxPanel_All_Grid;
+    public GameObject randomBoxPanel_All_Ok;
+    public Text randomBoxRemain;
     void Awake(){
         instance = this;
     }
@@ -70,6 +77,7 @@ public class BuffManager : MonoBehaviour
     {
         //CreateDropship();
         boxCountText.text = "x " + boxCount.ToString();
+        boxCountText2.text = "x " + boxCount.ToString();
 
         for(int i=0; i< buffs.Count;i++){
             if(buffs[i].count != -1){
@@ -94,11 +102,6 @@ public class BuffManager : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     public void ActivateBuff(string name){
         for(int i=0;i<buffs.Count;i++){
             if(buffs[i].name == name){
@@ -301,34 +304,42 @@ public class BuffManager : MonoBehaviour
 
         Invoke("DelayOkBtn",0.7f);
     }    
-    public void SetRandomBox(){ //획득 가능 랜덤 상자 클릭
-        if(boxCount >0){
-            //ActivateBuff("Center");
-            recallEffect.SetActive(true);
-            randomBoxPanel.SetActive(true);
-            //boxCount --;
-            boxCountText.text = "x "+(--boxCount).ToString();
+    public void SetRandomBox(bool all = false){ //획득 가능 랜덤 상자 클릭
+        //if(boxCount >0){
+            // //ActivateBuff("Center");
+            // recallEffect.SetActive(true);
+            // randomBoxPanel.SetActive(true);
+            // //boxCount --;
+            // boxCountText.text = "x "+(--boxCount).ToString();
                 
-            SoundManager.instance.Play("recall");
-            ranType = Random.Range(0,4);//0,1
+            // SoundManager.instance.Play("recall");
+            //if(setRandom == -1){
+
+                ranType = Random.Range(0,4);//0,1
+            //}
+            //else{
+                //ranType = setRandom;
+            //}
+            float tempAmount=0;
+            float tempBonusAmount=0;
             
             if(ranType == 0){ //미네랄 (용접기레벨+적재함레벨+엔진레벨) * (100~200) * 2
-
-                
                 ranNum = Random.Range(100,201);
                 randomImage.sprite = mineralSprite;
-                float tempAmount = (PlayerManager.instance.weldingLevel+PlayerManager.instance.bodyLevel+PlayerManager.instance.engineLevel)
+                tempAmount = (PlayerManager.instance.weldingLevel+PlayerManager.instance.bodyLevel+PlayerManager.instance.engineLevel)
                 *(ranNum) * 2;
-                randomAmountText.text = tempAmount.ToString();
-                bonusAmountText.text = Mathf.CeilToInt(((float)(PlayerManager.instance.moreSupply * 5) / 100 ) * tempAmount ).ToString();
+                tempBonusAmount = Mathf.CeilToInt(((float)(PlayerManager.instance.moreSupply * 5) / 100 ) * tempAmount );
+                // amount.text = (tempAmount+float.Parse(amount.text)).ToString();
+                // bonus.text = (Mathf.CeilToInt(((float)(PlayerManager.instance.moreSupply * 5) / 100 ) * tempAmount )).ToString();
             }
             else if(ranType == 1){//연구점수 현재 연구점수 획득량(100) * (3~5)
 
                 ranNum = Random.Range(3,6); 
                 randomImage.sprite = rpSprite;
-                float tempAmount = (((PlayerManager.instance.investRP+1)*100) * (ranNum));
-                randomAmountText.text = tempAmount.ToString();
-                bonusAmountText.text = Mathf.CeilToInt(((float)(PlayerManager.instance.moreSupply * 5) / 100 ) * tempAmount ).ToString();
+                tempAmount = (((PlayerManager.instance.investRP+1)*100) * (ranNum));
+                tempBonusAmount = Mathf.CeilToInt(((float)(PlayerManager.instance.moreSupply * 5) / 100 ) * tempAmount );
+                // amount.text = tempAmount.ToString();
+                // bonus.text = Mathf.CeilToInt(((float)(PlayerManager.instance.moreSupply * 5) / 100 ) * tempAmount ).ToString();
 
             }
             else if(ranType ==2){//엔진 스팀팩 3~5 + 연료탱크레벨 10당 1 + 보너스레벨
@@ -336,9 +347,10 @@ public class BuffManager : MonoBehaviour
                 ranNum = Random.Range(3,6); 
                 randomImage.sprite = spSprite;
                 
-                float tempAmount = (PlayerManager.instance.fuelLevel/10 + (ranNum));
-                randomAmountText.text = tempAmount.ToString();
-                bonusAmountText.text = (PlayerManager.instance.moreSupply).ToString();
+                tempAmount = (PlayerManager.instance.fuelLevel/10 + (ranNum));
+                tempBonusAmount = (PlayerManager.instance.moreSupply);
+                // amount.text = tempAmount.ToString();
+                // bonus.text = (PlayerManager.instance.moreSupply).ToString();
 
             }
             else if(ranType ==3){//탱크 스팀팩 3~5 + 적재량레벨 10당 1 + 보너스레벨
@@ -346,40 +358,99 @@ public class BuffManager : MonoBehaviour
                 ranNum = Random.Range(3,6); 
                 randomImage.sprite = spSprite;
                 
-                float tempAmount = (PlayerManager.instance.bodyLevel/10 + (ranNum));
-                randomAmountText.text = tempAmount.ToString();
-                bonusAmountText.text = (PlayerManager.instance.moreSupply).ToString();
+                tempAmount = (PlayerManager.instance.bodyLevel/10 + (ranNum));
+                tempBonusAmount = (PlayerManager.instance.moreSupply);
 
+            }
+            if(!all){
+                randomAmountText.text = tempAmount.ToString();
+                bonusAmountText.text = tempBonusAmount.ToString();
+                totalAmountText.text = (tempAmount+tempBonusAmount).ToString();
+
+            Invoke("DelayOkBtn",0.7f);
+            }
+            else{
+                randomBoxPanel_All_Grid.GetChild(ranType).GetChild(0).gameObject.SetActive(false);
+                randomBoxPanel_All_Grid.GetChild(ranType).GetChild(0).gameObject.SetActive(true);
+                Text amount = randomBoxPanel_All_Grid.GetChild(ranType).GetChild(2).GetChild(1).GetChild(0).GetComponent<Text>();
+                Text bonus = randomBoxPanel_All_Grid.GetChild(ranType).GetChild(2).GetChild(3).GetChild(0).GetComponent<Text>();
+                Text total = randomBoxPanel_All_Grid.GetChild(ranType).GetChild(2).GetChild(5).GetChild(0).GetComponent<Text>();
+                Text count = randomBoxPanel_All_Grid.GetChild(ranType).GetChild(1).GetChild(1).GetComponent<Text>();
+                amount.text = (tempAmount+float.Parse(amount.text)).ToString();
+                bonus.text = (tempBonusAmount+float.Parse(bonus.text)).ToString();
+                total.text = (float.Parse(amount.text)+float.Parse(bonus.text)).ToString();
+                count.text = (int.Parse(count.text)+1).ToString();
             }
             
 
-            Invoke("DelayOkBtn",0.7f);
-        }
+        //}
 
     }
     public void DelayOkBtn(){
         SoundManager.instance.Play("rescue");
         randomOk.SetActive(true);
     }
-    public void GetRandomBox(){ //확인 클릭
-        if(ranType ==0 ){
+    public void DelayOkBtn_All(){
+        SoundManager.instance.Play("rescue");
+        randomBoxPanel_All_Ok.SetActive(true);
+    }
+    public void GetRandomBox(bool all = false){ //확인 클릭
+        if(!all){
+            switch(ranType){
+                case 0:
             PlayerManager.instance.HandleMineral(int.Parse(randomAmountText.text) + int.Parse(bonusAmountText.text) );
-        }
-        else if(ranType ==1){
+                    break;
+                case 1:
             PlayerManager.instance.HandleRP(int.Parse(randomAmountText.text) + int.Parse(bonusAmountText.text) );
-        }
-        else if (ranType==2){
-
+                    break;
+                case 2:
             BuffManager.instance.buffs[0].count+=int.Parse(randomAmountText.text) + int.Parse(bonusAmountText.text);
-        }
-        else if (ranType==3){
-
+                    break;
+                case 3:
             BuffManager.instance.buffs[1].count+=int.Parse(randomAmountText.text) + int.Parse(bonusAmountText.text);
+                    break;
+
+            }
+            RefreshUICount();
+            randomAmountText.text = "";
+            bonusAmountText.text = "";
+        }
+        else{
+            PlayerManager.instance.HandleMineral(int.Parse(randomBoxPanel_All_Grid.GetChild(0).GetChild(2).GetChild(5).GetChild(0).GetComponent<Text>().text) );
+            PlayerManager.instance.HandleRP(int.Parse(randomBoxPanel_All_Grid.GetChild(1).GetChild(2).GetChild(5).GetChild(0).GetComponent<Text>().text) );
+            BuffManager.instance.buffs[0].count+=int.Parse(randomBoxPanel_All_Grid.GetChild(2).GetChild(2).GetChild(5).GetChild(0).GetComponent<Text>().text);
+            BuffManager.instance.buffs[1].count+=int.Parse(randomBoxPanel_All_Grid.GetChild(3).GetChild(2).GetChild(5).GetChild(0).GetComponent<Text>().text);
+                
+            for(int i=0;i< randomBoxPanel_All_Grid.childCount;i++){
+
+                Text amount = randomBoxPanel_All_Grid.GetChild(i).GetChild(2).GetChild(1).GetChild(0).GetComponent<Text>();
+                Text bonus = randomBoxPanel_All_Grid.GetChild(i).GetChild(2).GetChild(3).GetChild(0).GetComponent<Text>();
+                Text total = randomBoxPanel_All_Grid.GetChild(i).GetChild(2).GetChild(5).GetChild(0).GetComponent<Text>();
+                Text count = randomBoxPanel_All_Grid.GetChild(i).GetChild(1).GetChild(1).GetComponent<Text>();
+                amount.text = "0";
+                bonus.text = "0";
+                total.text = "0";
+                count.text = "0";
+
+            }
+
+
         }
         
-        RefreshUICount();
-        randomAmountText.text = "";
-        bonusAmountText.text = "";
+        // if(ranType ==0 ){
+        //     PlayerManager.instance.HandleMineral(int.Parse(randomAmountText.text) + int.Parse(bonusAmountText.text) );
+        // }
+        // else if(ranType ==1){
+        //     PlayerManager.instance.HandleRP(int.Parse(randomAmountText.text) + int.Parse(bonusAmountText.text) );
+        // }
+        // else if (ranType==2){
+
+        //     BuffManager.instance.buffs[0].count+=int.Parse(randomAmountText.text) + int.Parse(bonusAmountText.text);
+        // }
+        // else if (ranType==3){
+
+        //     BuffManager.instance.buffs[1].count+=int.Parse(randomAmountText.text) + int.Parse(bonusAmountText.text);
+        // }
     }
 
     public void CreateDropship(){
@@ -463,6 +534,7 @@ public class BuffManager : MonoBehaviour
         SoundManager.instance.Play("rescue");
 
         boxCountText.text = "x "+(++boxCount).ToString();
+        boxCountText2.text = "x " + boxCount.ToString();
 
         Destroy(box.transform.parent.gameObject);
     }
@@ -716,6 +788,7 @@ public class BuffManager : MonoBehaviour
     public void RefreshUICount(){
         
         boxCountText.text = "x " + boxCount.ToString();
+        boxCountText2.text = "x " + boxCount.ToString();
         for(int i=0;i<buffs.Count;i++){
             if(buffs[i].count > 0 || buffs[i].count==-1 ){
                 if(buffs[i].count != -1){
@@ -737,6 +810,51 @@ public class BuffManager : MonoBehaviour
                 // }
             }
             
+        }
+    }
+    public void OpenBox_One(){
+        if(boxCount >0){
+            recallEffect.SetActive(true);
+            randomBoxPanel.SetActive(true);
+            boxCountText.text = "x "+(--boxCount).ToString();
+            boxCountText2.text = "x " + boxCount.ToString();
+            SoundManager.instance.Play("recall");
+            
+            SetRandomBox();
+
+            Invoke("DelayOkBtn",0.7f);
+        }
+    }
+    public void OpenBox_All(){
+        StartCoroutine(OpenBox_All_Coroutine());
+    }
+    IEnumerator OpenBox_All_Coroutine(){
+        if(boxCount >0){
+            //recallEffect.SetActive(true);
+            randomBoxPanel_All.SetActive(true);
+            //boxCount = 0;
+            int count = boxCount;
+                Debug.Log(count+"번 실행");
+            SoundManager.instance.Play("recall");
+            for(int i=0; i<count;i++){
+                if(!SoundManager.instance.IsPlaying("recall")){
+                    SoundManager.instance.Play("recall");
+
+                }
+
+
+
+                boxCountText.text = "x "+(--boxCount).ToString();
+                boxCountText2.text = "x " + boxCount.ToString();
+                randomBoxRemain.text = "남은 보급품 : "+ boxCount.ToString();
+                    
+                SetRandomBox(true);
+
+                yield return new WaitForSeconds(0.01f);
+                //}
+            }
+
+            Invoke("DelayOkBtn_All",0.7f);
         }
     }
 }

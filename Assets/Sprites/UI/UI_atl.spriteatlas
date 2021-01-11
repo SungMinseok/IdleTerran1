@@ -43,11 +43,12 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: a696f91dc4ae2a146857ac9f37896f92, type: 3}
-    totalSpriteSurfaceArea: 5357820
+    totalSpriteSurfaceArea: 9814279
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: -4060339134492186001, guid: f68ae1102fa74334ca30b929bf3113f6, type: 3}
+  - {fileID: 21300000, guid: bd6c8320529168249b0e181eb8bd6670, type: 3}
   - {fileID: 21300000, guid: 3927a9a01bf7efa44918ff533663371a, type: 3}
   - {fileID: 21300000, guid: 7fa50561eac33d041bd470d9394d7d80, type: 3}
   - {fileID: 21300000, guid: f63425d2123751641b08d9ade4717c3e, type: 3}
@@ -55,6 +56,7 @@ SpriteAtlas:
   - {fileID: -4178046375966092550, guid: 0273ead4235b4874497453ce28dab8cc, type: 3}
   - {fileID: 21300000, guid: ca9c3f657bfb56a4284d65741985fd0b, type: 3}
   - {fileID: 21300000, guid: e5e777d531809db49939b5e74f2e6535, type: 3}
+  - {fileID: 21300000, guid: 8cab2516faa665e408564197aceaad86, type: 3}
   - {fileID: 4130640169021434097, guid: d75977e6d006589458e4e54f110ccebf, type: 3}
   - {fileID: 21300000, guid: 45a324f6de759eb468e4ca630522ba1d, type: 3}
   - {fileID: 21300000, guid: 53e0f7e73f0361b479d69abe2ef4bd75, type: 3}
@@ -75,10 +77,12 @@ SpriteAtlas:
   - {fileID: -6470460504253458178, guid: 82b5ef5dade2e0b4481f5e6911560655, type: 3}
   - {fileID: 21300000, guid: 3350a6dde26e29945ba509a359a9c91d, type: 3}
   - {fileID: 21300000, guid: 5516340e2afb2414a85c10838363da64, type: 3}
+  - {fileID: 21300000, guid: c9cad62ee54b2bd45b3d285a86dc9b31, type: 3}
   - {fileID: 6937817954938267909, guid: a9f5ec5e437bc1e47acac31955b45b29, type: 3}
   - {fileID: -1248623373463830765, guid: e5117a3f9562143448db56479f6f7e29, type: 3}
   m_PackedSpriteNamesToIndex:
   - 4_1_0
+  - 2048x1000_4
   - 1400x450
   - plus 3d
   - 592x120_white
@@ -86,6 +90,7 @@ SpriteAtlas:
   - 4_0
   - 888x60
   - stimpack 3d
+  - 2048x1000_3
   - 5_0
   - 592x120
   - 592x240
@@ -106,6 +111,7 @@ SpriteAtlas:
   - 3_0
   - "2 - \uBCF5\uC0AC\uBCF8"
   - 592x120_noline
+  - mainText
   - 2_0
   - dollar 3d_0
   m_Tag: UI_atl
