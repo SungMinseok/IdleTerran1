@@ -702,7 +702,10 @@ Instantiate(effect, mineral.transform.position, Quaternion.identity);
         //     }
         // }
         if(curFuel<=0){
-            if(BuffManager.instance.autoChargeFuel){
+            if(BuffManager.instance.autoChargeFuel || BuffManager.instance.buffs[4].count > 0){
+                if(BuffManager.instance.buffs[4].count > 0){
+                   BuffManager.instance.buffs[4].count--; 
+                }
                 BuffManager.instance.AutoChargeFuel();
             }
         }

@@ -43,7 +43,7 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: a696f91dc4ae2a146857ac9f37896f92, type: 3}
-    totalSpriteSurfaceArea: 9814279
+    totalSpriteSurfaceArea: 10092807
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -52,6 +52,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 3927a9a01bf7efa44918ff533663371a, type: 3}
   - {fileID: 21300000, guid: 7fa50561eac33d041bd470d9394d7d80, type: 3}
   - {fileID: 21300000, guid: f63425d2123751641b08d9ade4717c3e, type: 3}
+  - {fileID: 21300000, guid: 56697af3a1281bc40a85ef43c31a4331, type: 3}
   - {fileID: 21300000, guid: d0a14244fda59f445bc52d4fcf5da264, type: 3}
   - {fileID: -4178046375966092550, guid: 0273ead4235b4874497453ce28dab8cc, type: 3}
   - {fileID: 21300000, guid: ca9c3f657bfb56a4284d65741985fd0b, type: 3}
@@ -69,6 +70,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 787794b9520d6b342bdffa6c7bd8eb6d, type: 3}
   - {fileID: 2753217934699055344, guid: 60aae3e9fd7131a46b62cadc71eb4355, type: 3}
   - {fileID: -1939124408491743511, guid: 07001af9c131d6345b388f962f4e0650, type: 3}
+  - {fileID: 1544084101132751874, guid: 35661eea9353c924f9442002be597498, type: 3}
   - {fileID: 6220461733829208710, guid: 35661eea9353c924f9442002be597498, type: 3}
   - {fileID: 21300000, guid: 2969d56c6caf51f49935412a8018272e, type: 3}
   - {fileID: 21300000, guid: e6428dcc55bcbfc4d9520d2a40db64a6, type: 3}
@@ -86,6 +88,7 @@ SpriteAtlas:
   - 1400x450
   - plus 3d
   - 592x120_white
+  - Price
   - Arrow 3d
   - 4_0
   - 888x60
@@ -103,6 +106,7 @@ SpriteAtlas:
   - 512x512
   - box 3d_0
   - build 3d_0
+  - Fuel 3d_1
   - Fuel 3d_0
   - Timer 3d
   - null

@@ -31,6 +31,8 @@ public class UIManager : MonoBehaviour
     // }
     public string btnClickSound ;
     public float totalTime = 86341f; //2 minutes
+    public Color activatedColor;
+    public Color normalColor;
     
     [Header("상단 UI")]
     [SerializeField] public Slider fuelBar;
@@ -481,4 +483,11 @@ public class UIManager : MonoBehaviour
             }
             }
     }
+    // public void SetColorUI(GameObject ui,string type){
+    //     switch(type){
+    //         case "Activate" :
+    //             ui.GetComponent<Image>().color = 
+    //             break;
+    //     }
+    // }
 }

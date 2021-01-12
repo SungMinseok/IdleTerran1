@@ -811,6 +811,14 @@ public class BuffManager : MonoBehaviour
             }
             
         }
+        if(autoChargeFuel){
+            buffs[4].btn.GetChild(buffs[4].btn.childCount-1).gameObject.SetActive(false);
+        }
+        if(autoGatherRP){
+            buffs[5].btn.GetChild(buffs[5].btn.childCount-1).gameObject.SetActive(false);
+        }
+        
+        
     }
     public void OpenBox_One(){
         if(boxCount >0){
@@ -856,5 +864,8 @@ public class BuffManager : MonoBehaviour
 
             Invoke("DelayOkBtn_All",0.7f);
         }
+    }
+    public void SubtractBuffCount(Buff buff){
+        buff.btn.GetChild(buff.btn.childCount-1).GetComponent<Text>().text = (--buff.count).ToString();
     }
 }

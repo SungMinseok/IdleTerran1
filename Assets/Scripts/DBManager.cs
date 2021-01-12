@@ -69,7 +69,16 @@ public class DBManager : MonoBehaviour
         public int moreSupply;
         public int nowAccumulatedRP;
         public int investRP;
+
+
+        //자동모드
+        public bool autoChargeFuel;
+        public bool autoGatherRP;
+        public bool autoStimpack;
         
+        //캐쉬 구매 목록
+        public bool[] packageCheck;
+        public int[] normalCheck;
     }
     UIManager theUI;
     PlayerManager thePlayer;
@@ -142,6 +151,14 @@ public class DBManager : MonoBehaviour
         data.nowAccumulatedRP = PlayerManager.instance.nowAccumulatedRP;
         data.investRP = PlayerManager.instance.investRP;
         
+        //자동모드
+        data.autoChargeFuel = BuffManager.instance.autoChargeFuel;
+        data.autoGatherRP= BuffManager.instance.autoGatherRP;
+        data.autoStimpack= BuffManager.instance.autoStimpack;
+        
+        //캐쉬 구매 목록
+        data.packageCheck = ShopManager.instance.packageCheck;
+        data.normalCheck= ShopManager.instance.normalCheck;
 
         BinaryFormatter bf = new BinaryFormatter();
         //FileStream file = File.Create(Application.persistentDataPath + "/SaveFile" + num +".dat");
@@ -281,6 +298,18 @@ public class DBManager : MonoBehaviour
                 PlayerManager.instance.moreSupply = data.moreSupply;
                 PlayerManager.instance.nowAccumulatedRP = data.nowAccumulatedRP;
                 PlayerManager.instance.investRP = data.investRP;
+
+
+                
+        //자동모드
+                BuffManager.instance.autoChargeFuel = data.autoChargeFuel;
+                BuffManager.instance.autoGatherRP = data.autoGatherRP;
+                BuffManager.instance.autoStimpack = data.autoStimpack;
+
+                
+        //캐쉬 구매 목록
+                ShopManager.instance.packageCheck = data.packageCheck;
+                ShopManager.instance.normalCheck = data.normalCheck;
             }
 
 
