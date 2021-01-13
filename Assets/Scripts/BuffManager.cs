@@ -99,7 +99,7 @@ public class BuffManager : MonoBehaviour
                     //buffs[i].btn.GetChild(buffs[i].btn.childCount-2).GetComponent<Text>().text
             //}
         }
-
+RefreshUICount();
     }
 
     public void ActivateBuff(string name){
@@ -411,7 +411,6 @@ public class BuffManager : MonoBehaviour
                     break;
 
             }
-            RefreshUICount();
             randomAmountText.text = "";
             bonusAmountText.text = "";
         }
@@ -437,6 +436,7 @@ public class BuffManager : MonoBehaviour
 
         }
         
+        RefreshUICount();
         // if(ranType ==0 ){
         //     PlayerManager.instance.HandleMineral(int.Parse(randomAmountText.text) + int.Parse(bonusAmountText.text) );
         // }
@@ -641,7 +641,9 @@ public class BuffManager : MonoBehaviour
     public void SetSCVSpeed(float amount = 1){
         PlayerManager.instance.bonusSpeed = amount;
     }
-
+    public void CreateRandomRP(){
+        StartCoroutine(CreateRandomRPCoroutine());
+    }
     public IEnumerator CreateRandomRPCoroutine(){
         yield return new WaitForSeconds(rpCoolTime);
         //var temp = mapBound.bounds;
@@ -654,9 +656,13 @@ public class BuffManager : MonoBehaviour
             clone.transform.SetParent(rpParent);
             //Debug.Log("RP랜덤생성");
 
-            if(autoGatherRP){
-                    StartCoroutine(AutoGatherRPCoroutine(clone.transform));
-
+            if(autoGatherRP || buffs[5].count > 0){
+                //StartCoroutine(AutoGatherRPCoroutine(clone.transform));
+                if(buffs[5].count > 0){
+                   //BuffManager.instance.buffs[4].count--; 
+                    SubtractBuffCount(buffs[5]);
+                }
+                AutoGatherRP(clone.transform);
             }
         }
         
@@ -664,6 +670,10 @@ public class BuffManager : MonoBehaviour
         StartCoroutine(CreateRandomRPCoroutine());
 
     }    
+    public void AutoGatherRP(Transform clone){
+        
+        StartCoroutine(AutoGatherRPCoroutine(clone));
+    }
     public IEnumerator AutoGatherRPCoroutine(Transform clone){
         //Debug.Log("자동 이동");
         while(clone!=null){
@@ -792,7 +802,7 @@ public class BuffManager : MonoBehaviour
         for(int i=0;i<buffs.Count;i++){
             if(buffs[i].count > 0 || buffs[i].count==-1 ){
                 if(buffs[i].count != -1){
-                    buffs[i].btn.GetChild(buffs[i].btn.childCount-1).GetComponent<Text>().text = (--buffs[i].count).ToString();
+                    buffs[i].btn.GetChild(buffs[i].btn.childCount-1).GetComponent<Text>().text = (buffs[i].count).ToString();
 
                 }
 
@@ -867,5 +877,14 @@ public class BuffManager : MonoBehaviour
     }
     public void SubtractBuffCount(Buff buff){
         buff.btn.GetChild(buff.btn.childCount-1).GetComponent<Text>().text = (--buff.count).ToString();
+    }
+//오토알피 증가 시 이거 실행.
+    public void SetAutoRemainRP(){
+        if(!autoGatherRP &&buffs[5].count>0){
+            for(int i=0;i<BuffManager.instance.rpParent.childCount;i++){
+                BuffManager.instance.rpParent.GetChild(i).GetComponent<SpriteButton>().buildingType = BuildingType.None;
+                BuffManager.instance.AutoGatherRP(BuffManager.instance.rpParent.GetChild(i));
+            }
+        }
     }
 }

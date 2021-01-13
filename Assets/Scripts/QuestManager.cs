@@ -55,8 +55,8 @@ public class QuestManager : MonoBehaviour
                 }
             //튜토리얼 끝 정상 진행
                 else{
-                    
-                    StartCoroutine(BuffManager.instance.CreateRandomRPCoroutine());
+                    BuffManager.instance.CreateRandomRP();
+                    //StartCoroutine(BuffManager.instance.CreateRandomRPCoroutine());
                 }
             }
         }
@@ -81,6 +81,7 @@ public class QuestManager : MonoBehaviour
             questOverList.Add(i);
             }
         }
+        BuffManager.instance.CreateRandomRP();
     }
     public void SetQuest(int phase){
         StartCoroutine(QuestCoroutine(phase));
@@ -217,7 +218,7 @@ public class QuestManager : MonoBehaviour
                 FactoryManager.instance.ProduceInTuto();
                 UIManager.instance.alertPopup.GetComponent<Animator>().speed = 0f;
                 UIManager.instance.SetPopUp("보급고 건설 보너스로 꼬마 scv를 드립니다.\n꼬마 SCV의 효율은 본체 SCV의 효율에 비례합니다.");
-                yield return new WaitForSeconds(5f);
+                yield return new WaitForSeconds(10f);
                 UIManager.instance.alertPopup.GetComponent<Animator>().speed = 1f;
                 SetQuest(6);
                 break;
@@ -235,8 +236,9 @@ public class QuestManager : MonoBehaviour
                 UIManager.instance.alertPopup.GetComponent<Animator>().speed = 0f;
                 UIManager.instance.SetPopUp("이제 기본 튜토리얼을 마칩니다. 10억 미네랄을 모아 승리하세요!");
 
-                    StartCoroutine(BuffManager.instance.CreateRandomRPCoroutine());
-                yield return new WaitForSeconds(5f);
+                    BuffManager.instance.CreateRandomRP();
+                    //StartCoroutine(BuffManager.instance.CreateRandomRPCoroutine());
+                yield return new WaitForSeconds(10f);
                 UIManager.instance.alertPopup.GetComponent<Animator>().speed = 1f;
                 break;
             default : 

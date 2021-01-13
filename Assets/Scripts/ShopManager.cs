@@ -73,13 +73,11 @@ public class ShopManager : MonoBehaviour
     public void Buy(string code){//000 001 002 003 004 , 100 101 102 103 104 105 106
         SoundManager.instance.Play("rescue");
 
-Debug.Log("a");
         //shopPanel.SetActive(false);
         successBuyPanel.SetActive(true);
         //contentNameText.text = name;
         int type = int.Parse(code)/100;
         int num = int.Parse(code)%100;
-Debug.Log("aa");
 
         if(type == 0){
             
@@ -95,7 +93,6 @@ Debug.Log("aa");
             contentsText.text = normalChild[num].GetChild(1).GetComponent<Text>().text;
 
         }
-Debug.Log("aaa");
 
         // packageCheck[0] = true;
         // contentNameText.text = packageChild[0].GetChild(0).GetComponent<Text>().text;
@@ -109,26 +106,82 @@ Debug.Log("aaa");
                 BuffManager.instance.autoGatherRP = true;
                 for(int i=0;i<BuffManager.instance.rpParent.childCount;i++){
                     BuffManager.instance.rpParent.GetChild(i).GetComponent<SpriteButton>().buildingType = BuildingType.None;
+                    BuffManager.instance.AutoGatherRP(BuffManager.instance.rpParent.GetChild(i));
                 }
 
                 BuffManager.instance.boxCount+=10;
                 BuffManager.instance.buffs[0].count+=50;
                 BuffManager.instance.buffs[1].count+=50;
 
-                BuffManager.instance.RefreshUICount();
 
                 // UIManager.instance.ActivateLowerUIPanel(5);
                 // UIManager.instance.ActivateLowerUIPanel(6);
                 break;
-            case "AutoGatherRP" :
+            case "001" :
                 
+                BuffManager.instance.boxCount+=20;
+                BuffManager.instance.buffs[0].count+=100;
+                BuffManager.instance.buffs[1].count+=100;
+                break;
+            case "002" :
+                
+                BuffManager.instance.boxCount+=30;
+                BuffManager.instance.buffs[0].count+=150;
+                BuffManager.instance.buffs[1].count+=150;
+                break;
+            case "003" :
+                
+                BuffManager.instance.boxCount+=60;
+                BuffManager.instance.buffs[0].count+=300;
+                BuffManager.instance.buffs[1].count+=300;
+                break;
+            case "004" :
+                
+                BuffManager.instance.boxCount+=120;
+                BuffManager.instance.buffs[0].count+=600;
+                BuffManager.instance.buffs[1].count+=600;
+                break;
+            case "100" :
+            
+                BuffManager.instance.autoChargeFuel = true;
+                BuffManager.instance.autoGatherRP = true;
+                for(int i=0;i<BuffManager.instance.rpParent.childCount;i++){
+                    BuffManager.instance.rpParent.GetChild(i).GetComponent<SpriteButton>().buildingType = BuildingType.None;
+                    BuffManager.instance.AutoGatherRP(BuffManager.instance.rpParent.GetChild(i));
+                }
+                break;
+            case "101" :
+                
+                BuffManager.instance.buffs[0].count+=50;
+                BuffManager.instance.buffs[1].count+=50;
+                break;
+            case "102" :
+                
+                BuffManager.instance.buffs[0].count+=100;
+                BuffManager.instance.buffs[1].count+=100;
+                break;
+            case "103" :
+                
+                BuffManager.instance.buffs[0].count+=200;
+                BuffManager.instance.buffs[1].count+=200;
+                break;
+            case "104" :
+                
+                BuffManager.instance.boxCount+=10;
+                break;
+            case "105" :
+                
+                BuffManager.instance.boxCount+=20;
+                break;
+            case "106" :
+                
+                BuffManager.instance.boxCount+=40;
                 break;
 
         }
-Debug.Log("aaaa");
 
+        BuffManager.instance.RefreshUICount();
         RefreshShopUI();
-Debug.Log("aaaaa");
 
     }
 }

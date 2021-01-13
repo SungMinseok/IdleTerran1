@@ -121,7 +121,7 @@ public class PlayerManager : MonoBehaviour
         public bool gotDestination;//센터 발견
         [HideInInspector]public bool placeFlag;
         [HideInInspector]public SpriteRenderer mineral;
-        [HideInInspector]public GameObject workLight;
+        public GameObject workLight;
         Transform centerPos;
         Transform mineralPos;
         public GameObject miningMineral;
@@ -205,8 +205,12 @@ public class PlayerManager : MonoBehaviour
             capacity = defaultCapacity;
 
             curMineral = 0;
+            
             curFuel = 300;
             curRP = 0;
+            
+            mineralBar.text = "0";
+            rpBar.text = "0";
             //selectedMineral = mineralPos;
         }
         // DBManager.instance.CallLoad(0);
@@ -704,9 +708,16 @@ Instantiate(effect, mineral.transform.position, Quaternion.identity);
         if(curFuel<=0){
             if(BuffManager.instance.autoChargeFuel || BuffManager.instance.buffs[4].count > 0){
                 if(BuffManager.instance.buffs[4].count > 0){
-                   BuffManager.instance.buffs[4].count--; 
+                   //BuffManager.instance.buffs[4].count--; 
+                   BuffManager.instance.SubtractBuffCount(BuffManager.instance.buffs[4]);
                 }
                 BuffManager.instance.AutoChargeFuel();
+            }
+            else{
+                if(!UIManager.instance.alertPopup.activeSelf){
+                UIManager.instance.SetPopUp("연료가 부족합니다. 연료통을 클릭해 충전하세요.","outofgas");
+
+                }
             }
         }
         
@@ -785,13 +796,14 @@ Instantiate(effect, mineral.transform.position, Quaternion.identity);
     public void HandleFuel(float amount, bool lerp=true){
         if(curFuel>=0 && curFuel<=maxFuel){
             curFuel += amount;
-
+//Debug.Log("a");
         }
         else if(curFuel<0){
             curFuel = 0f;
             fuelBar.value = 0;
             //canMove = false;
             animator.SetFloat("Speed", 0f);
+//Debug.Log("b");
 
 
             //Debug.Log("앵꼬");
@@ -915,7 +927,7 @@ Instantiate(effect, mineral.transform.position, Quaternion.identity);
     private void OnTriggerStay2D(Collider2D collision){
         // if(!placeFlag){
         //     placeFlag = true;
-            if(collision.tag == "Mineral Field"){
+            if(collision.transform == selectedMineral.transform){
                 if(!isHolding){
                     gotMine = true;
                     //miningMineral = collision.gameObject.GetComponent<MineralScript>();
@@ -939,11 +951,11 @@ Instantiate(effect, mineral.transform.position, Quaternion.identity);
 
             // }
         //}
-        if(BuffManager.instance.autoGatherRP){
+        //if(BuffManager.instance.autoGatherRP){
             if(collision.tag == "RP"){
                 GetItem(collision.gameObject);
             }
-        }
+        //}
     
     }
         private void OnTriggerExit2D(Collider2D collision){
@@ -995,6 +1007,7 @@ Instantiate(effect, mineral.transform.position, Quaternion.identity);
     public void StopAuto(){
  Debug.Log("STOP AUTO");
         if(goTo) goTo =false;
+        gotMine = false;
         CMCamera.SetActive(false);
         autoPanel.SetActive(false);
         UIManager.instance.EnableColliders();

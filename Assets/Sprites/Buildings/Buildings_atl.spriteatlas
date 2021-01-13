@@ -43,7 +43,7 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: 02e1d2d9540833f45ad1c72275f77fa8, type: 3}
-    totalSpriteSurfaceArea: 6898923
+    totalSpriteSurfaceArea: 9782507
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -54,21 +54,26 @@ SpriteAtlas:
   - {fileID: 611038642238240390, guid: 6a933d73ccfab47489c6bae55f8d4a51, type: 3}
   - {fileID: 21300000, guid: e20f66c356440f14594c106027bb8cef, type: 3}
   - {fileID: 6308797556561431668, guid: 81dfc9e380b74c147bc55d661a09d02d, type: 3}
+  - {fileID: 21300000, guid: 44fb48e4913063940ae4cba9dac79c05, type: 3}
   - {fileID: -4794886969372994778, guid: dd974505c1ce2a64aac5af53b2781984, type: 3}
   - {fileID: 21300000, guid: 3a1e2e756856fce4092309d9dece1e14, type: 3}
   - {fileID: 21300000, guid: f33d60e543e28d44d980ccd0b38f4e44, type: 3}
+  - {fileID: 21300000, guid: faa234071d035b346997068e3777a0a5, type: 3}
   - {fileID: 21300000, guid: dbb0d257b32e7544994fd97250eb2f26, type: 3}
   - {fileID: 21300000, guid: 3f5f23b7bca2d434081d58c6cdfd0e53, type: 3}
   - {fileID: 21300000, guid: 1d0ad92845eb3584bba0cf41bc0f9936, type: 3}
   - {fileID: 21300000, guid: 686de5689732c414ebac5336396bfacb, type: 3}
   - {fileID: 21300000, guid: 102d6769011fb824f8ed061286fe4a4e, type: 3}
+  - {fileID: 21300000, guid: b18d5979aea929e4b93e3000e79d672f, type: 3}
   - {fileID: 21300000, guid: 7acd6fb97d5445c49b83ca048f1c99c7, type: 3}
   - {fileID: 21300000, guid: 9927581ab51343547b579eb268936a3f, type: 3}
   - {fileID: 21300000, guid: 53c87c9ab60400e459e0aa3be9d9b8ba, type: 3}
+  - {fileID: 21300000, guid: e4b86faa07309004994ca2de55ee0bd0, type: 3}
   - {fileID: 21300000, guid: 92078e1bfe5a91e4c9072e716668cb6b, type: 3}
   - {fileID: 21300000, guid: 9ad0bb5b25df8bf44a8dfe2986b79bdc, type: 3}
   - {fileID: 21300000, guid: e919d5eb81e4f5541b3f4789147bc665, type: 3}
   - {fileID: 21300000, guid: f50d525c42137824aba886fec4e78a1c, type: 3}
+  - {fileID: 21300000, guid: 682f8ddc3f8ea204bbfac5b95fbdbdf2, type: 3}
   - {fileID: -1810407307624384978, guid: e930f22dd09f5c04caa1af27d3affaa5, type: 3}
   - {fileID: 8047045203926799037, guid: 91bf6e3e3800d964f9d43911fc81ab12, type: 3}
   - {fileID: 21300000, guid: 0b21f47f8b907c745aac6f8a31465695, type: 3}
@@ -82,21 +87,26 @@ SpriteAtlas:
   - depot_3_0
   - silo_anim_3
   - depot_1_0
+  - construct_anim_1
   - depot_0_0
   - science_1
   - barrack_0
+  - construct_anim_0
   - silo_anim_5
   - center_1
   - barrack_1
   - silo_anim_6
   - starport_1
+  - center2_1
   - silo_anim_4
   - silo_0
   - science_0
+  - construct_anim_2
   - silo_anim_2
   - silo_1
   - bay_0
   - barrack2_0
+  - center2_0
   - depot_2_0
   - depot_4_0
   - starport_0

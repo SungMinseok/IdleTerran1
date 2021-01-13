@@ -43,7 +43,7 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: a696f91dc4ae2a146857ac9f37896f92, type: 3}
-    totalSpriteSurfaceArea: 10092807
+    totalSpriteSurfaceArea: 10371335
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -51,7 +51,9 @@ SpriteAtlas:
   - {fileID: 21300000, guid: bd6c8320529168249b0e181eb8bd6670, type: 3}
   - {fileID: 21300000, guid: 3927a9a01bf7efa44918ff533663371a, type: 3}
   - {fileID: 21300000, guid: 7fa50561eac33d041bd470d9394d7d80, type: 3}
+  - {fileID: 21300000, guid: 71e06e72df62b4c43899ac1e1973d57d, type: 3}
   - {fileID: 21300000, guid: f63425d2123751641b08d9ade4717c3e, type: 3}
+  - {fileID: 21300000, guid: d324431313fbe494bbb38d6599e20256, type: 3}
   - {fileID: 21300000, guid: 56697af3a1281bc40a85ef43c31a4331, type: 3}
   - {fileID: 21300000, guid: d0a14244fda59f445bc52d4fcf5da264, type: 3}
   - {fileID: -4178046375966092550, guid: 0273ead4235b4874497453ce28dab8cc, type: 3}
@@ -87,7 +89,9 @@ SpriteAtlas:
   - 2048x1000_4
   - 1400x450
   - plus 3d
+  - 512x512_white
   - 592x120_white
+  - up0
   - Price
   - Arrow 3d
   - 4_0

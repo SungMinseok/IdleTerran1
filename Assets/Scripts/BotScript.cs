@@ -41,6 +41,7 @@ public class BotScript : MonoBehaviour
     public GameObject floatingText;
     public GameObject floatingCanvas;
     public GameObject miningMineral;
+    public Transform selectedMineral;
     void Awake(){
         if(shadowType==ShadowType.booster){
             
@@ -63,7 +64,7 @@ public class BotScript : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();   
         floatingCanvas = PlayerManager.instance.floatingCanvas;     
         
-
+        selectedMineral = UIManager.instance.mineralsInMap[Random.Range(0,UIManager.instance.mineralsInMap.Length)] ;
     }
 
     // Update is called once per frame
@@ -73,8 +74,8 @@ public class BotScript : MonoBehaviour
             if(!isHolding&&!isMining){
                 //destination = GameObject.FindWithTag("Mineral Field").transform;
                 
-                destination = PlayerManager.instance.selectedMineral;
-                
+                //destination = PlayerManager.instance.selectedMineral;
+                destination = selectedMineral;
                 if(gotMine){
                     gotMine = false;
                     isMining = true;
@@ -215,7 +216,8 @@ public class BotScript : MonoBehaviour
     private void OnTriggerStay2D(Collider2D collision){
         // if(!placeFlag){
         //     placeFlag = true;
-            if(collision.tag == "Mineral Field"){
+            //if(collision.tag == "Mineral Field"){
+            if(collision.transform == selectedMineral.transform){
                 if(!isHolding){
                     gotMine = true;
                     //miningMineral = collision.gameObject.GetComponent<MineralScript>();

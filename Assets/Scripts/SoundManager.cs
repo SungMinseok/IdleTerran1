@@ -97,7 +97,8 @@ public class SoundManager : MonoBehaviour
         {
             if(_soundName == sfxSounds[i].soundName)
             {
-                sfxSounds[i].Play();
+                if(!sfxSounds[i].isPlaying())
+                    sfxSounds[i].Play();
                 return;
             }
         }

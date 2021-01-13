@@ -33,6 +33,7 @@ public class UIManager : MonoBehaviour
     public float totalTime = 86341f; //2 minutes
     public Color activatedColor;
     public Color normalColor;
+    public Transform[] mineralsInMap;
     
     [Header("상단 UI")]
     [SerializeField] public Slider fuelBar;
@@ -76,6 +77,17 @@ public class UIManager : MonoBehaviour
     // public Text fastCallDesText;
     // public Text moreSupplyMainText;
     // public Text moreSupplyDesText;
+    
+    [Header("에러창")]
+    public GameObject errorPop;
+    public Text errorPopText;
+    // public Text errorPopOkText;
+    
+    [Header("선택창")]
+    public GameObject selectPop;
+    public Text selectPopText;
+    // public Text selectPopOkText;
+    // public Text selectPopCancelText;
     
     void Awake(){
         instance = this;
@@ -490,4 +502,18 @@ public class UIManager : MonoBehaviour
     //             break;
     //     }
     // }
+    public void SetErrorPop(string des){
+        errorPopText.text = des;
+        errorDes = des;
+        
+        errorPop.SetActive(true);
+
+    }
+    public string errorDes;
+    public void ExitErrorPop(){
+        switch(errorDes){
+            default :
+                break;
+        }
+    }
 }

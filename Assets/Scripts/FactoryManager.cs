@@ -23,6 +23,7 @@ public class FactoryManager : MonoBehaviour
 
     [Header("생산 패널")]
     public Text nameText;
+    public Image botImage;
     public Text efficiencyText;
     public Text priceText;
     public Text populationText;
@@ -75,12 +76,15 @@ public class FactoryManager : MonoBehaviour
         nowNum = num;
 
         nameText.text = BotManager.instance.botInfoList[num].name;
+        botImage.color = childPanels[num].GetChild(1).GetComponent<Image>().color;
+        botImage.transform.localScale = childPanels[num].GetChild(1).transform.localScale*6;
         efficiencyText.text = "본체의 "+(BotManager.instance.botInfoList[num].efficiency*100).ToString()+"%"+"(<color=#C0F678>"+Mathf.RoundToInt(BotManager.instance.botInfoList[num].efficiency*PlayerManager.instance.capacity)+"</color>)";
         priceText.text = string.Format("{0:#,###0}", BotManager.instance.botInfoList[num].price);//BotManager.instance.botInfoList[num].price.ToString();
 
     }
     public void ProduceInTuto(){
         var clone = Instantiate(robots[0],BuildingManager.instance.buildingsInMap[0].transform.position,Quaternion.identity);
+                clone.transform.localScale = childPanels[nowNum].GetChild(1).transform.localScale *6;
         clone.GetComponent<SpriteRenderer>().color = childPanels[0].GetChild(1).GetComponent<Image>().color;
         clone.GetComponent<BotScript>().botState = BotState.Mine;
         clone.GetComponent<BotScript>().efficiency = BotManager.instance.botInfoList[0].efficiency;
@@ -102,7 +106,8 @@ public class FactoryManager : MonoBehaviour
                 
                 PlayerManager.instance.HandleMineral(-BotManager.instance.botInfoList[nowNum].price, false);
                     
-                var clone = Instantiate(robots[nowNum],factoryPos.position,Quaternion.identity);
+                var clone = Instantiate(robots[0],factoryPos.position,Quaternion.identity);
+                clone.transform.localScale = childPanels[nowNum].GetChild(1).transform.localScale *6;
                 clone.GetComponent<SpriteRenderer>().color = childPanels[nowNum].GetChild(1).GetComponent<Image>().color;
                 clone.GetComponent<BotScript>().botState = BotState.Mine;
                 clone.GetComponent<BotScript>().efficiency = BotManager.instance.botInfoList[nowNum].efficiency;
@@ -138,7 +143,8 @@ public class FactoryManager : MonoBehaviour
 
     }    
     public void ProduceByLoad(){
-        var clone = Instantiate(robots[nowNum],factoryPos.position,Quaternion.identity);
+        var clone = Instantiate(robots[0],factoryPos.position,Quaternion.identity);
+                clone.transform.localScale = childPanels[nowNum].GetChild(1).transform.localScale *6;
         clone.GetComponent<SpriteRenderer>().color = childPanels[nowNum].GetChild(1).GetComponent<Image>().color;
         clone.GetComponent<BotScript>().botState = BotState.Mine;
         clone.GetComponent<BotScript>().efficiency = BotManager.instance.botInfoList[nowNum].efficiency;
