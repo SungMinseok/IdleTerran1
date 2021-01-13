@@ -43,7 +43,7 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: a696f91dc4ae2a146857ac9f37896f92, type: 3}
-    totalSpriteSurfaceArea: 10371335
+    totalSpriteSurfaceArea: 10387719
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -67,6 +67,7 @@ SpriteAtlas:
   - {fileID: -6305592753371565172, guid: 6a29a2983311cb74496b7a30cbf0f8da, type: 3}
   - {fileID: 1316580925875639478, guid: 6a29a2983311cb74496b7a30cbf0f8da, type: 3}
   - {fileID: 21300000, guid: c8dcf6a841538364b9e50654479a68e5, type: 3}
+  - {fileID: 21300000, guid: 01053bb89a44edc4aa994aa3193fd207, type: 3}
   - {fileID: -3928725646380236089, guid: 4b3f741944362e6458c50ad4a7cbf747, type: 3}
   - {fileID: -1135513190014899655, guid: 4b3f741944362e6458c50ad4a7cbf747, type: 3}
   - {fileID: 21300000, guid: 787794b9520d6b342bdffa6c7bd8eb6d, type: 3}
@@ -105,6 +106,7 @@ SpriteAtlas:
   - ore 3d_1
   - ore 3d_0
   - ad 3d
+  - up1
   - DNA 3d_0
   - DNA 3d_1
   - 512x512
