@@ -43,7 +43,7 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: 93aa359a5b067754d8fc95d164e8cfa4, type: 3}
-    totalSpriteSurfaceArea: 2253705
+    totalSpriteSurfaceArea: 2515849
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -56,6 +56,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 9214a80682c47b343a98f88e69f0c950, type: 3}
   - {fileID: 21300000, guid: 20a43f07e8e888e4f86a77036e4e79c7, type: 3}
   - {fileID: 21300000, guid: 010b6d77552a83340bd4c98f02c6c267, type: 3}
+  - {fileID: 21300000, guid: 815a900833d6c934798c60bc36f486a9, type: 3}
   - {fileID: 21300000, guid: 912df9190ac82754cb2f3faca9c8a413, type: 3}
   - {fileID: 21300000, guid: 8ea92a39390cdd54697bbec5a6bfc3e9, type: 3}
   - {fileID: 21300000, guid: 97ad048900705144da1cee345a4b5e5c, type: 3}
@@ -87,6 +88,7 @@ SpriteAtlas:
   - work_down
   - idle_up
   - 'Dropship2_1 3d '
+  - Nuclear
   - Dropship model
   - boost_side
   - Dropship2_0 3d

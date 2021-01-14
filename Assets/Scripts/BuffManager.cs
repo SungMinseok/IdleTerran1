@@ -589,10 +589,10 @@ RefreshUICount();
             switch(_color){
                 case "red" : 
             //Debug.Log("f");
-                    PlayerManager.instance.boosters[i].color = Color.red;
+                    PlayerManager.instance.boosters[i].color =new Color(1,0,0,0.5f);
                     break;
                 default :
-                    PlayerManager.instance.boosters[i].color = new Color(1,1,1,1);
+                    PlayerManager.instance.boosters[i].color = new Color(1,1,1,0.5f);
                     break;
             }
         }
@@ -753,9 +753,9 @@ RefreshUICount();
         var coolTimeImage = buff.btn.GetChild(buff.btn.childCount-2).GetComponent<Image>();
         var coolTimeText = buff.btn.GetChild(buff.btn.childCount-2).transform.GetChild(0).GetComponent<Text>();
         //buff.btn.GetComponent<Button>().interactable = false;//centerBuffBtn.interactable = false;
-        Debug.Log("남은 카운트"+buff.count);
+        //Debug.Log("남은 카운트"+buff.count);
         if(buff.count<=0){
-            Debug.Log("실행");
+            //Debug.Log("실행");
             buff.btn.GetComponent<Button>().interactable = false;
             coolTimeImage.gameObject.SetActive(true);//centerBuffImg.gameObject.SetActive(true);
             coolTimeText.text = buff.coolTime.ToString();//centerBuffText.text = buff.time.ToString();
@@ -763,7 +763,7 @@ RefreshUICount();
 
         if(buff.remainingCoolTime==buff.coolTime || firstLoad){
             firstLoad = false;
-            Debug.Log("쿨타임 돌기");
+            //Debug.Log("쿨타임 돌기");
             while(buff.remainingCoolTime>0f){  
 
                 buff.remainingCoolTime -= Time.deltaTime;
@@ -785,7 +785,7 @@ RefreshUICount();
         }
         // buff.btn.GetComponent<Button>().interactable = true;
         // coolTimeImage.gameObject.SetActive(false);//centerBuffImg.gameObject.SetActive(false);
-            Debug.Log("코루틴 종료");
+            //Debug.Log("코루틴 종료");
 
     }   
     public void AutoStimOff(){
@@ -881,9 +881,10 @@ RefreshUICount();
 //오토알피 증가 시 이거 실행.
     public void SetAutoRemainRP(){
         if(!autoGatherRP &&buffs[5].count>0){
-            for(int i=0;i<BuffManager.instance.rpParent.childCount;i++){
-                BuffManager.instance.rpParent.GetChild(i).GetComponent<SpriteButton>().buildingType = BuildingType.None;
-                BuffManager.instance.AutoGatherRP(BuffManager.instance.rpParent.GetChild(i));
+            for(int i=0;i<rpParent.childCount;i++){
+                rpParent.GetChild(i).GetComponent<SpriteButton>().buildingType = BuildingType.None;
+                AutoGatherRP(BuffManager.instance.rpParent.GetChild(i));
+                buffs[5].count--;
             }
         }
     }

@@ -531,7 +531,7 @@ Instantiate(effect, mineral.transform.position, Quaternion.identity);
                 }
                 if(!isMining){
 
-                    rb.MovePosition(rb.position + movement * (curSpeed * bonusSpeed) * Time.fixedDeltaTime);
+                    rb.MovePosition(rb.position + movement * (curSpeed * bonusSpeed) * Time.deltaTime);
                     animator.SetFloat("Speed", curSpeed / defaultSpeed / 2);
                     HandleFuel(-fuelUsagePerWalk);
                 }
@@ -559,13 +559,16 @@ Instantiate(effect, mineral.transform.position, Quaternion.identity);
                         StopAuto();
                     }
                     else if(orderType == OrderType.Get){
-                        if(destination.GetComponent<SpriteButton>().buildingType == BuildingType.Drop){
-                            
-                            BuffManager.instance.GetDropBox(destination.gameObject);
-                        }                        
-                        else if(destination.GetComponent<SpriteButton>().buildingType == BuildingType.Item){
-                            
-                            GetItem(destination.gameObject);
+                        if(destination !=null){
+
+                            if(destination.GetComponent<SpriteButton>().buildingType == BuildingType.Drop){
+                                
+                                BuffManager.instance.GetDropBox(destination.gameObject);
+                            }                        
+                            else if(destination.GetComponent<SpriteButton>().buildingType == BuildingType.Item){
+                                
+                                GetItem(destination.gameObject);
+                            }
                         }
                         StopAuto();
                         //Debug.Log("획득");
@@ -620,7 +623,7 @@ Instantiate(effect, mineral.transform.position, Quaternion.identity);
                     // HandleFuel(-fuelUsagePerWalk);
                 }
                     
-                rb.MovePosition(rb.position + movement * (curSpeed * bonusSpeed) * Time.fixedDeltaTime);
+                rb.MovePosition(rb.position + movement * (curSpeed * bonusSpeed) * Time.deltaTime);
                 animator.SetFloat("Speed", curSpeed / defaultSpeed / 2);
                 HandleFuel(-fuelUsagePerWalk);
             }
@@ -630,10 +633,10 @@ Instantiate(effect, mineral.transform.position, Quaternion.identity);
 #region SetMineral
         //if(int.Parse(mineralBar.text)!=curMineral){
         if(calculated!=curMineral){
-            if(!SoundManager.instance.IsPlaying("fill")){
+            // if(!SoundManager.instance.IsPlaying("fill")){
                 
-                SoundManager.instance.Play("fill");
-            }
+            //     SoundManager.instance.Play("fill");
+            // }
             ////Debug.Log("미네랄 업");
             //int temp = curMineral-int.Parse(mineralBar.text);
             float temp = curMineral-calculated;
@@ -1224,7 +1227,7 @@ Instantiate(effect, mineral.transform.position, Quaternion.identity);
         //Debug.Log("상자 삭제");
         int tempAmount = 0;
 
-Instantiate(effect, item.transform.position, Quaternion.identity);
+//Instantiate(effect, item.transform.position, Quaternion.identity);
 
         SoundManager.instance.Play("rescue");
         switch(item.GetComponent<SpriteButton>().objectName){

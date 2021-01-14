@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine.SceneManagement;
@@ -9,11 +10,17 @@ using UnityEngine.SceneManagement;
 public class DBManager : MonoBehaviour
 {    
     public static DBManager instance;
+    public int debugVersion;
     public bool ActivateLoad;
     public bool loadComplete;
+    public Text debugTimer;
     private void Awake()
     {
         instance = this;
+        if(SettingManager.instance!=null){
+
+            debugVersion = SettingManager.instance.saveNum;
+        }
     }
     [System.Serializable]   //SL에 필수적 속성 : 직렬화. 컴퓨터가 읽고쓰기 쉽게.
     public class Data{
@@ -96,7 +103,7 @@ public class DBManager : MonoBehaviour
         // data.playerY = thePlayer.transform.position.y;
         // data.playerZ = thePlayer.transform.position.z;
 
-        data.timer = theUI.totalTime;
+        data.timer = theUI.playTime;
         
     //[Header("기타 값 ( Save & Load )")]
         data.helperDone = thePlayer.helperDone;
@@ -162,17 +169,23 @@ public class DBManager : MonoBehaviour
 
         BinaryFormatter bf = new BinaryFormatter();
         //FileStream file = File.Create(Application.persistentDataPath + "/SaveFile" + num +".dat");
-        FileStream file = File.Create(Application.persistentDataPath + "/SaveFile.dat");
+        //FileStream file = File.Create(Application.persistentDataPath + "/SaveFile.dat");
+        FileStream file = debugVersion!=-1 ? File.Create(Application.persistentDataPath + "/SaveFile_"+debugVersion+".dat")
+        : File.Create(Application.persistentDataPath + "/SaveFile.dat");
         bf.Serialize(file, data);
         file.Close();
     }
 
     public void CallLoad(int num){
         BinaryFormatter bf = new BinaryFormatter();
-        FileInfo fileCheck = new FileInfo(Application.persistentDataPath + "/SaveFile.dat");
+        //FileInfo fileCheck = new FileInfo(Application.persistentDataPath + "/SaveFile.dat");
+        FileInfo fileCheck = debugVersion!=-1 ?  new FileInfo(Application.persistentDataPath + "/SaveFile_"+debugVersion+".dat")
+        : new FileInfo(Application.persistentDataPath + "/SaveFile.dat");
 
         if(fileCheck.Exists){
-        FileStream file = File.Open(Application.persistentDataPath + "/SaveFile.dat", FileMode.Open);
+        //FileStream file = File.Open(Application.persistentDataPath + "/SaveFile.dat", FileMode.Open);
+        FileStream file = debugVersion!=-1 ?  File.Open(Application.persistentDataPath + "/SaveFile_"+debugVersion+".dat", FileMode.Open)
+        : File.Open(Application.persistentDataPath + "/SaveFile.dat", FileMode.Open);
         
             if(file != null && file.Length >0){
 
@@ -185,7 +198,7 @@ public class DBManager : MonoBehaviour
                 // Vector3 vector =new Vector3(data.playerX, data.playerY, data.playerZ);
                 // thePlayer.transform.position = vector;
 
-                theUI.totalTime = data.timer;
+                theUI.playTime = data.timer;
                 
             //[Header("기타 값 ( Save & Load )")]
                 thePlayer.helperDone =data.helperDone;
@@ -318,7 +331,7 @@ public class DBManager : MonoBehaviour
     }
 
     public void ResetDB(){
-        SettingManager.instance.testMode = true;
+        //SettingManager.instance.testMode = true;
         
         PlayerManager.instance.curMineral = 10000000;
         PlayerManager.instance.curRP = 10000000;
@@ -406,8 +419,11 @@ public class DBManager : MonoBehaviour
     //     byte[] bytes = screenShot.EncodeToPNG();
     //     File.WriteAllBytes(name, bytes);
     // }
-#if UNITY_EDITOR
-    void Update(){
+#if DEV_MODE
+int hour;
+int minute;
+int second;
+    void FixedUpdate(){
 
         if(Input.GetKeyDown(KeyCode.F12)){
             //ScreenCapture.CaptureScreenshot("SomeLevel");
@@ -416,6 +432,14 @@ public class DBManager : MonoBehaviour
             
         Debug.Log(Application.persistentDataPath);
         }
+
+        UIManager.instance.playTime += Time.deltaTime;
+        //day = (int)(playTime / 86400f) + 1;
+        hour = (int)(UIManager.instance.playTime / 3600f)%24;
+        minute = (int)(UIManager.instance.playTime / 60f)%60;
+        second = (int)UIManager.instance.playTime % 60;
+        debugTimer.text = string.Format("{0:00}:{1:00}:{2:00}", hour, minute,second); // <color=red>Day</color> 1 <color=red>/</color> 24:00
+    
     }
     IEnumerator captureScreenshot()
     {
@@ -442,5 +466,6 @@ public class DBManager : MonoBehaviour
        //Save image to file
        System.IO.File.WriteAllBytes(name, imageBytes);
     }
+
 #endif
 }

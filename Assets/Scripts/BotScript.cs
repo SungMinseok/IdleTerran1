@@ -174,7 +174,7 @@ public class BotScript : MonoBehaviour
         //movement = new Vector2(animator.GetFloat("Horizontal"),animator.GetFloat("Vertical"));
         if(movement != Vector2.zero && !isMining){
             if(PlayerManager.instance.curFuel>0){
-                rb.MovePosition(rb.position + movement * (speed * PlayerManager.instance.bonusSpeed) * Time.fixedDeltaTime);
+                rb.MovePosition(rb.position + movement * (speed * PlayerManager.instance.bonusSpeed) * Time.deltaTime);
                 PlayerManager.instance.HandleFuel(-fuelUsagePerWalk);
 
             }

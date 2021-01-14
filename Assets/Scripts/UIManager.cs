@@ -30,10 +30,12 @@ public class UIManager : MonoBehaviour
     //     }
     // }
     public string btnClickSound ;
-    public float totalTime = 86341f; //2 minutes
+    //public float totalTime = 86341f; //2 minutes
+    public float playTime;
     public Color activatedColor;
     public Color normalColor;
     public Transform[] mineralsInMap;
+    public GameObject debugPanel;
     
     [Header("상단 UI")]
     [SerializeField] public Slider fuelBar;
@@ -86,6 +88,13 @@ public class UIManager : MonoBehaviour
     [Header("선택창")]
     public GameObject selectPop;
     public Text selectPopText;
+    
+    [Header("선택창")]
+    public GameObject rewardPop;
+    public Text rewardPopText;
+    public Image rewardImage;
+    public GameObject autoText;
+    public Sprite[] sprites;
     // public Text selectPopOkText;
     // public Text selectPopCancelText;
     
@@ -93,6 +102,11 @@ public class UIManager : MonoBehaviour
         instance = this;
         //StartTimer();
     //UpdateCharacterTexture();
+#if DEV_MODE
+        debugPanel.SetActive(true);
+#else
+        debugPanel.SetActive(false);
+#endif
     }
     void Start(){
         RefreshSciencePanel();
@@ -202,9 +216,9 @@ public class UIManager : MonoBehaviour
  
     private void Update()
     {
-        if(timerBtn){
-            UpdateTimer(totalTime );
-        }
+        // if(timerBtn){
+        //     UpdateTimer(totalTime );
+        // }
 
         //if(QuestManager.instance.questOverList.Contains(3) || SettingManager.instance.testMode){
 
@@ -216,8 +230,20 @@ public class UIManager : MonoBehaviour
             }
         //}
     }
+    // void FixedUpdate(){
+    //     UpdateTimer();
+    // }
 
 
+    public void UpdateTimer()
+    {     
+        playTime += Time.deltaTime;
+        //day = (int)(playTime / 86400f) + 1;
+        hour = (int)(playTime / 3600f)%24;
+        minute = (int)(playTime / 60f)%60;
+        second = (int)playTime % 60;
+        timerText.text = string.Format("{0:00}:{1:00}:{2:00}", hour, minute,second); // <color=red>Day</color> 1 <color=red>/</color> 24:00
+    }
     // public void UpdateTimer(float totalSeconds)
     // {     
     //     totalTime += Time.deltaTime*20;
@@ -227,15 +253,15 @@ public class UIManager : MonoBehaviour
     //     //second = (int)totalSeconds % 60;
     //     timerText.text = string.Format("<color=red>Day</color> {0} <color=red>/</color> {1:00}:{2:00}", day, hour, minute); // <color=red>Day</color> 1 <color=red>/</color> 24:00
     // }
-    public void UpdateTimer(float totalMinutes)
-    {     
-        totalTime += Time.deltaTime*2;
-        day = (int)(totalMinutes / 1440f) + 1;
-        hour = (int)(totalMinutes / 60f)%24;
-        minute = (int)(totalMinutes)%60;
-        //second = (int)totalSeconds % 60;
-        timerText.text = string.Format("<color=red>Day</color> {0} <color=red>/</color> {1:00}:{2:00}", day, hour, minute); // <color=red>Day</color> 1 <color=red>/</color> 24:00
-    }
+    // public void UpdateTimer(float totalMinutes)
+    // {     
+    //     totalTime += Time.deltaTime*2;
+    //     day = (int)(totalMinutes / 1440f) + 1;
+    //     hour = (int)(totalMinutes / 60f)%24;
+    //     minute = (int)(totalMinutes)%60;
+    //     //second = (int)totalSeconds % 60;
+    //     timerText.text = string.Format("<color=red>Day</color> {0} <color=red>/</color> {1:00}:{2:00}", day, hour, minute); // <color=red>Day</color> 1 <color=red>/</color> 24:00
+    // }
 
 /////////////////////////////////////////////센터
     public void ExitCenterBtn(){
@@ -502,18 +528,62 @@ public class UIManager : MonoBehaviour
     //             break;
     //     }
     // }
-    public void SetErrorPop(string des){
-        errorPopText.text = des;
-        errorDes = des;
-        
-        errorPop.SetActive(true);
-
-    }
-    public string errorDes;
+    public string popDes;
     public void ExitErrorPop(){
-        switch(errorDes){
+        switch(popDes){
             default :
                 break;
         }
     }
+    public void SetErrorPop(string des){
+        errorPopText.text = des;
+        popDes = des;
+        
+        errorPop.SetActive(true);
+
+    }
+    public void SetRewardPop(string des, string what, int amount = 1){
+        rewardPopText.text = des;
+        autoText.SetActive(false);
+        switch(what){
+            case "Box":
+                rewardImage.sprite = sprites[0];
+                BuffManager.instance.boxCount += amount;
+                break;
+            case "AutoFuel":
+                autoText.SetActive(true);
+                rewardImage.sprite = sprites[1];
+                BuffManager.instance.buffs[4].count += amount;
+                break;
+            case "AutoRP":
+                autoText.SetActive(true);
+                rewardImage.sprite = sprites[2];
+                BuffManager.instance.buffs[5].count += amount;
+                BuffManager.instance.SetAutoRemainRP();
+                break;
+            
+        }
+
+        
+        BuffManager.instance.RefreshUICount();
+        popDes = des;
+        
+        rewardPop.SetActive(true);
+
+    }
+#if DEV_MODE
+    public void SetGameSpeed(float speed){
+        Time.timeScale = speed;
+    }
+    public void DebugBtn(int num){
+        switch(num){
+            case 0 : 
+                ShopManager.instance.Buy("100");
+                break;
+            case 1 : 
+                ShopManager.instance.Buy("106");
+                break;
+        }
+    }
+#endif
 }

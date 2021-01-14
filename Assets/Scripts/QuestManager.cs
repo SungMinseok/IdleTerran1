@@ -147,7 +147,7 @@ public class QuestManager : MonoBehaviour
                 yield return new WaitForSeconds(2f);
                 break;
             case 1 : 
-                yield return new WaitUntil(()=> PlayerManager.instance.curMineral ==8 );
+                yield return new WaitUntil(()=> PlayerManager.instance.curMineral >=8 );
                 break;
 
             case 2 : 

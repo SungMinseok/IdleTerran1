@@ -38,9 +38,9 @@ public class AdmobManager : MonoBehaviour
         rewardAd = new RewardedAd(testMode ? rewardTestID : rewardID);
         rewardAd.LoadAd(GetAdRequest());
         rewardAd.OnUserEarnedReward += (sender, e) =>{
-            Debug.Log("리워드 성공");
-            rewardPanel.SetActive(true);
-            BuffManager.instance.boxCount ++;
+            //Debug.Log("리워드 성공");
+            //rewardPanel.SetActive(true);
+            UIManager.instance.SetRewardPop("랜덤 보급품 1개 획득!", "Box");
             
         };
     }

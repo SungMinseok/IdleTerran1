@@ -5,6 +5,10 @@ using UnityEngine.UI;
 
 public class MissionManager : MonoBehaviour
 {
+    public GameObject[] missionPanels;
+    public GameObject[] missionHelpPanels;
+    public string nowMission;
+    [Header("Sync")]
     public Color[] colors;
     public int[] nums;
     public Transform imageParent;
@@ -19,8 +23,42 @@ public class MissionManager : MonoBehaviour
             images[i] = imageParent.GetChild(i).GetComponent<Image>();
         }
     }
-    public void SyncMission(){
+    public void StartMission(string name){
+        nowMission = name;
+        switch(name){
+            case "Sync" :
+                missionPanels[0].SetActive(true);
+                missionHelpPanels[0].SetActive(true);
+                //SyncMission();
+                break;
+        }
+    }
+    public void SuccessMission(){
 
+        switch(nowMission){
+            case "Sync" :
+                missionPanels[0].SetActive(false);
+                int ranType = Random.Range(0,2);
+                int randomAmount = Random.Range(1,4);
+                if(ranType==0){
+                    UIManager.instance.SetRewardPop("자동 연료 충전 "+randomAmount+"개 획득!", "AutoFuel", randomAmount);
+
+                }
+                else if(ranType==1){
+                    UIManager.instance.SetRewardPop("자동 연구 점수 습득 "+randomAmount+"개 획득!", "AutoRP", randomAmount);
+
+                }
+                break;
+        }
+    }
+    public void FailMission(){
+        switch(nowMission){
+            case "Sync" :
+                missionPanels[0].SetActive(false);
+                break;
+        }
+    }
+    public void SyncMission(){
         for(int i=0; i<images.Length;i++){
             nums[i] = Random.Range(0,5);
             SetColor(i);
@@ -36,6 +74,7 @@ public class MissionManager : MonoBehaviour
         }
         timerText.text = "0.00";
         Debug.Log("시간 종료");
+        FailMission();
     }
     public void SetColor(int j){
         images[j].color = colors[nums[j]];
@@ -60,5 +99,7 @@ public class MissionManager : MonoBehaviour
             }
         }
         Debug.Log("성공");
+        SuccessMission();
+
     }
 }

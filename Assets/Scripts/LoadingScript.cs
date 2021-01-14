@@ -7,13 +7,32 @@ using UnityEngine.SceneManagement;
 public class LoadingScript : MonoBehaviour
 {
     public Slider slider;
-
+    public InputField inputText;
 
     // Start is called before the first frame update
     void Start()
     {
+#if !DEV_MODE
+        inputText.gameObject.SetActive(false);
         StartCoroutine(Load());
+#else
+        inputText.gameObject.SetActive(true);
+        inputText.onEndEdit.AddListener(delegate{SetSaveNum();});
+        
+        //onSubmit.AddListener(delegate { SetSaveNum(); });
+
+#endif
+        //StartCoroutine(Load());
+        //if(!SettingManager.instance.testMode) StartCoroutine(Load());
     }
+#if DEV_MODE
+    void SetSaveNum(){
+        if(inputText.text != ""){
+            SettingManager.instance.saveNum = int.Parse(inputText.text);
+            StartCoroutine(Load());
+        }
+    }
+#endif
 
     IEnumerator Load(){
         AsyncOperation asyncScene = SceneManager.LoadSceneAsync(1);
