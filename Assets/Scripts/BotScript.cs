@@ -310,7 +310,10 @@ public class BotScript : MonoBehaviour
                 default :
                     break;
             }
-            if(floating) PrintFloating("+ "+temp.ToString());
+            
+            if(UIManager.instance.set_floating) {
+                if(floating) PrintFloating("+ "+temp.ToString());
+            }
         }
         else{
             PlayerManager.instance.curMineral += amount;

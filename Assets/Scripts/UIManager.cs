@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 [System.Serializable]
 public class Tech{
@@ -29,6 +30,11 @@ public class UIManager : MonoBehaviour
     //         instance = this;
     //     }
     // }
+    [Header ("세팅")]
+    public bool set_floating;
+    [Header ("페이더")]
+    public Animator fader;
+    [Space]
     public string btnClickSound ;
     //public float totalTime = 86341f; //2 minutes
     public float playTime;
@@ -79,6 +85,9 @@ public class UIManager : MonoBehaviour
     // public Text fastCallDesText;
     // public Text moreSupplyMainText;
     // public Text moreSupplyDesText;
+    [Header("사일로")]
+    public GameObject nukePanel;
+    public GameObject nukeInMap;
     
     [Header("에러창")]
     public GameObject errorPop;
@@ -571,6 +580,37 @@ public class UIManager : MonoBehaviour
         rewardPop.SetActive(true);
 
     }
+    public void ArmNuke(Transform btn){
+        if(PlayerManager.instance.curMineral>=99 && PlayerManager.instance.curRP>=99){
+            btn.GetChild(btn.childCount-1).gameObject.SetActive(true);
+            StartCoroutine(ArmNukeCoroutine());
+        }
+    }
+    IEnumerator ArmNukeCoroutine(){
+        UIManager.instance.SetPopUp("핵 미사일이 준비되었습니다. 잠시 후 핵 조준이 완료되면 핵을 발사할 수 있습니다.");
+        yield return new WaitForSeconds(5f);
+        nukePanel.SetActive(true);
+    }
+    public void LaunchNuke(){
+
+
+            StartCoroutine(LaunchNukeCoroutine());
+    }
+    IEnumerator LaunchNukeCoroutine(){
+        nukeInMap.SetActive(true);
+
+        yield return new WaitForSeconds(1f);
+
+        fader.gameObject.SetActive(true);
+        fader.SetTrigger("out");
+        
+        yield return new WaitForSeconds(5f);
+
+        DBManager.instance.CallSave(0);
+        SceneManager.LoadScene("LaunchNuke");
+        //nukePanel.SetActive(true);
+    }
+
 #if DEV_MODE
     public void SetGameSpeed(float speed){
         Time.timeScale = speed;

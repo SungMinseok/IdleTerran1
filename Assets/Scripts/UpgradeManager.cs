@@ -122,7 +122,8 @@ public class UpgradeManager : MonoBehaviour
             ,upgradePanelList_UI[i].GetChild(3).gameObject));
 
             accessibleUpgradePanelList[temp].locked.GetComponent<Button>().onClick.AddListener(()=>LockedUpgradeBtn(temp));
-            accessibleUpgradePanelList[i].name.text = upgradeNameList[i];
+            // accessibleUpgradePanelList[i].name.text = upgradeNameList[i];
+            // accessibleUpgradePanelList[i].name.gameObject.SetActive(false);
         }
         ResetUpgradePanelUI();
         ApplyEquipsLevel();

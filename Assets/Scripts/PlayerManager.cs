@@ -150,7 +150,7 @@ public class PlayerManager : MonoBehaviour
     public int nowAccumulatedRP;
     public int investRP;
 
-    
+    bool getItemFlag;
     // public Texture2D characterTexture2D;
     // public Sprite[] characterSprites;
     // private string[] names;
@@ -397,9 +397,9 @@ public class PlayerManager : MonoBehaviour
                 //if(goTo || MobileControl.instance.isTouch){
                 if(goTo){
                     isAuto = false;  //오토모드중 움직이면 오토 중지.
-                Debug.Log("11");
+                //Debug.Log("11");
                     StopAuto();
-                       Debug.Log("22");
+                       //Debug.Log("22");
                 }
                 
                     
@@ -543,7 +543,7 @@ Instantiate(effect, mineral.transform.position, Quaternion.identity);
                 //if(isAuto || MobileControl.instance.isTouch){
                 if(isAuto){
                     goTo = false;  //오토모드중 움직이면 오토 중지.
-                Debug.Log("22");
+                //Debug.Log("22");
                     StopAuto();
                 }
                 if(gotDestination){
@@ -566,7 +566,7 @@ Instantiate(effect, mineral.transform.position, Quaternion.identity);
                                 BuffManager.instance.GetDropBox(destination.gameObject);
                             }                        
                             else if(destination.GetComponent<SpriteButton>().buildingType == BuildingType.Item){
-                                
+                                //Debug.Log("1");
                                 GetItem(destination.gameObject);
                             }
                         }
@@ -838,16 +838,22 @@ Instantiate(effect, mineral.transform.position, Quaternion.identity);
                 default :
                     break;
             }
-            if(floating) PrintFloating("+ "+temp.ToString());
+            if(UIManager.instance.set_floating) {
+
+                if(floating) PrintFloating("+ "+temp.ToString());
+            }
         }
         else{
             curMineral += amount;
-            if(floating){
-                if(amount>=0){
-                    PrintFloating("+ "+amount.ToString());
-                }
-                else{
-                    PrintFloating("- "+(-amount).ToString());
+            
+            if(UIManager.instance.set_floating) {
+                if(floating){
+                    if(amount>=0){
+                        PrintFloating("+ "+amount.ToString());
+                    }
+                    else{
+                        PrintFloating("- "+(-amount).ToString());
+                    }
                 }
             }
         }
@@ -955,32 +961,39 @@ Instantiate(effect, mineral.transform.position, Quaternion.identity);
             // }
         //}
         //if(BuffManager.instance.autoGatherRP){
-            if(collision.tag == "RP"){
-                GetItem(collision.gameObject);
-            }
+        //if(!getItemFlag){
+        //}
         //}
     
     }
-        private void OnTriggerExit2D(Collider2D collision){
-        // if(!placeFlag){
-        //     placeFlag = true;
-            if(collision.tag == "Mineral Field"){
-                    gotMine = false;
-                isMining = false;
-                //if(isHolding) miningMineral.GotMined(capacity);
-                //miningMineral = null;
-            }        
-            
-            else if(collision.tag == "Center"){
-                    gotDestination = false;
-            }            
-            
-            // if(UIManager.instance.selectPanel.activeSelf){
-            //     UIManager.instance.selectPanel.GetComponent<Animator>().SetTrigger("out");
-            //     //SetActive(true);
-            //     enterableBuilding = "";
-            // }
-        //}
+    void OnTriggerEnter2D(Collider2D collision){
+        
+            if(collision.tag == "RP"){
+                collision.GetComponent<BoxCollider2D>().enabled = false;
+                                //Debug.Log("2");
+                GetItem(collision.gameObject);
+            }
+    }
+    private void OnTriggerExit2D(Collider2D collision){
+    // if(!placeFlag){
+    //     placeFlag = true;
+        if(collision.tag == "Mineral Field"){
+                gotMine = false;
+            isMining = false;
+            //if(isHolding) miningMineral.GotMined(capacity);
+            //miningMineral = null;
+        }        
+        
+        else if(collision.tag == "Center"){
+                gotDestination = false;
+        }            
+        
+        // if(UIManager.instance.selectPanel.activeSelf){
+        //     UIManager.instance.selectPanel.GetComponent<Animator>().SetTrigger("out");
+        //     //SetActive(true);
+        //     enterableBuilding = "";
+        // }
+    //}
     
     }
 
@@ -1226,7 +1239,7 @@ Instantiate(effect, mineral.transform.position, Quaternion.identity);
         //box.GetComponent<SpriteButton>().DestroySprite();
         //Debug.Log("상자 삭제");
         int tempAmount = 0;
-
+Debug.Log("GETITEM");
 //Instantiate(effect, item.transform.position, Quaternion.identity);
 
         SoundManager.instance.Play("rescue");
@@ -1234,12 +1247,14 @@ Instantiate(effect, mineral.transform.position, Quaternion.identity);
             case "RP" :
                 tempAmount = 100*(investRP+1);
                 curRP += tempAmount;
-                PrintFloating("+ "+tempAmount.ToString(),null,1);
+                if(UIManager.instance.set_floating) PrintFloating("+ "+tempAmount.ToString(),null,1);
                 break;
         }
         //boxCountText.text = "x "+(++boxCount).ToString();
 
         Destroy(item);
+                //getItemFlag = false;
+
     }
 
 }
