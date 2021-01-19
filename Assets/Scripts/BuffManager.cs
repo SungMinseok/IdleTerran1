@@ -466,7 +466,7 @@ RefreshUICount();
         //var pos = SettingManager.instance.screenSize/2;
         Vector2 mainPos = CameraMovement.instance.transform.position;
         
-        Vector2 mapBoundPos = new Vector2(mapBound.bounds.size.x/2f + 2f,Random.Range(mapBound.bounds.min.y + 2f,mapBound.bounds.max.y - 2f));
+        Vector2 mapBoundPos = new Vector2(mapBound.bounds.size.x/2f + 2f,Random.Range(mapBound.bounds.min.y + 5f,mapBound.bounds.max.y - 5f));
         
        //Debug.Log(SettingManager.instance.screenSize);
         Vector2 tempPos = Vector2.zero;

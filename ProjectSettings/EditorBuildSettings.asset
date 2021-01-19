@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Main.unity
     guid: e35c9ce115e895843b1c8cc99e477472
   - enabled: 1
-    path: Assets/Scenes/marinetest.unity
+    path: Assets/Scenes/Planet0.unity
     guid: 99d0019fb6658464fb725a26255b970f
   - enabled: 1
     path: Assets/Scenes/LaunchNuke.unity

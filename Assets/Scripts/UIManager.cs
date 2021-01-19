@@ -589,22 +589,28 @@ public class UIManager : MonoBehaviour
     IEnumerator ArmNukeCoroutine(){
         UIManager.instance.SetPopUp("핵 미사일이 준비되었습니다. 잠시 후 핵 조준이 완료되면 핵을 발사할 수 있습니다.");
         yield return new WaitForSeconds(5f);
+        UIManager.instance.SetPopUp("핵 발사 지점이 확보되었습니다. '핵 발사' 버튼을 눌러 핵을 발사하세요.");
+        SoundManager.instance.Play("ghostaim");
         nukePanel.SetActive(true);
     }
     public void LaunchNuke(){
 
 
-            StartCoroutine(LaunchNukeCoroutine());
+        StartCoroutine(LaunchNukeCoroutine());
     }
     IEnumerator LaunchNukeCoroutine(){
         nukeInMap.SetActive(true);
+        SoundManager.instance.Play("nukelaunched");
 
         yield return new WaitForSeconds(1f);
 
         fader.gameObject.SetActive(true);
         fader.SetTrigger("out");
+
+        yield return new WaitForSeconds(2f);
+        SoundManager.instance.Play("nukedetected");
         
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(3f);
 
         DBManager.instance.CallSave(0);
         SceneManager.LoadScene("LaunchNuke");

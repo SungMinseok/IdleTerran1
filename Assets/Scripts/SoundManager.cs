@@ -63,7 +63,15 @@ public class SoundManager : MonoBehaviour
 
     void Awake()
     {
-        instance =this;
+        if(instance == null)
+        {
+            DontDestroyOnLoad(this.gameObject);
+            instance = this;
+        }
+        else{
+            Destroy(this.gameObject);
+        }
+    
         bgmPlayer.clip = bgmSounds[0].clip;
         bgmPlayer.Play();        
         

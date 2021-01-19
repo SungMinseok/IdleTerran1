@@ -7,8 +7,9 @@ public class FactoryManager : MonoBehaviour
 {   
     public static FactoryManager instance;
 
-    [Header("요구 연구점수")]
+    [Header("요구 연구점수/확률")]
     public int[] rpRequirement;
+    public int[] ptgRequirement;
 
     [Header("재판매 할인율")]
     public float discount = 0.5f;
@@ -19,7 +20,11 @@ public class FactoryManager : MonoBehaviour
     public GameObject[] robots;
     public int nowNum;
     public int pricePerUpgrade = 500;
+
+    [Header("요구사항 패널")]
+    public GameObject researchPanel;
     public Text priceNextUpgradeText;
+    public Text ptgNextUpgradeText;
 
     [Header("생산 패널")]
     public Text nameText;
@@ -178,20 +183,47 @@ public class FactoryManager : MonoBehaviour
         nowNum = num;
         
         priceNextUpgradeText.text = string.Format("{0:#,###0}", rpRequirement[nowNum-1]);//(num * (num-1) * pricePerUpgrade).ToString();
+        ptgNextUpgradeText.text = ptgRequirement[nowNum-1].ToString() + "%";//(num * (num-1) * pricePerUpgrade).ToString();
         
-        if(PlayerManager.instance.curRP >= rpRequirement[nowNum-1]){
-            unlockCover.SetActive(false);
-        }
-        else{
-            unlockCover.SetActive(true);
-        }
+        // if(PlayerManager.instance.curRP >= rpRequirement[nowNum-1]){
+        //     unlockCover.SetActive(false);
+        // }
+        // else{
+        //     unlockCover.SetActive(true);
+        // }
         
     }
     public void Unlock(){//잠금 해제 버튼 누름.
+        
+        if(PlayerManager.instance.curRP >= rpRequirement[nowNum-1]){        
+            PlayerManager.instance.curRP -= rpRequirement[nowNum-1];
+            
+            float tempPtg = Random.Range(0f,100f);
+    //성공
+            if(ptgRequirement[nowNum-1]>=tempPtg){
+
+                unlockedNextProduce[nowNum] = true;
+                childPanels[nowNum].transform.GetChild(2).gameObject.SetActive(false);      
+            }
+    //실패
+            else{
+
+            }
+
+
+            //StartCoroutine(UnlockCoroutine());
+        }
+        else{
+            UIManager.instance.SetPopUp("연구점수가 부족합니다.");
+        }
+
+    }
+    IEnumerator UnlockCoroutine(){
+        float tempPtg = Random.Range(0f,100f);
+
 
         unlockedNextProduce[nowNum] = true;
-        childPanels[nowNum].transform.GetChild(2).gameObject.SetActive(false);                
-        PlayerManager.instance.curRP -= rpRequirement[nowNum-1];
+        childPanels[nowNum].transform.GetChild(2).gameObject.SetActive(false);        
     }
 
     public void ResetData(){
