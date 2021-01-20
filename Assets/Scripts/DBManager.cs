@@ -84,7 +84,7 @@ public class DBManager : MonoBehaviour
         public bool autoStimpack;
         
         //캐쉬 구매 목록
-        public bool[] packageCheck;
+        public int[] packageCheck;
         public int[] normalCheck;
     }
     UIManager theUI;

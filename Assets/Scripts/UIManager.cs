@@ -98,7 +98,7 @@ public class UIManager : MonoBehaviour
     public GameObject selectPop;
     public Text selectPopText;
     
-    [Header("선택창")]
+    [Header("리워드창")]
     public GameObject rewardPop;
     public Text rewardPopText;
     public Image rewardImage;
@@ -107,9 +107,18 @@ public class UIManager : MonoBehaviour
     // public Text selectPopOkText;
     // public Text selectPopCancelText;
     
+    
+    [Header("연구결과창")]
+    public GameObject researchPanel;
+    public GameObject recallImage;
+    public GameObject successImage;
+    public GameObject failImage;
+    public GameObject okBtn;
+    [Header("연구효율(0<=x<1)")]
+    public float ptgBonus;
     void Awake(){
         instance = this;
-        //StartTimer();
+        //StartTimer(); 
     //UpdateCharacterTexture();
 #if DEV_MODE
         debugPanel.SetActive(true);

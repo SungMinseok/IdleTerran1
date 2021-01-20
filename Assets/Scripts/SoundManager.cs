@@ -72,8 +72,8 @@ public class SoundManager : MonoBehaviour
             Destroy(this.gameObject);
         }
     
-        bgmPlayer.clip = bgmSounds[0].clip;
-        bgmPlayer.Play();        
+        //bgmPlayer.clip = bgmSounds[0].clip;
+        //bgmPlayer.Play();        
         
         for(int i = 0; i<sfxSounds.Length; i++)
         {

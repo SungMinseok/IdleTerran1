@@ -16,7 +16,7 @@ public class ShopManager : MonoBehaviour
     public Transform normalParent;
     Transform[] normalChild;
     [Header("구매여부")]
-    public bool[] packageCheck;
+    public int[] packageCheck;
     public int[] normalCheck;
 
     void Awake(){
@@ -38,15 +38,21 @@ public class ShopManager : MonoBehaviour
 
     public void RefreshShopUI(){
         //if(packageCheck[0])
+//패키지 한번만 구매 가능
+        // for(int i=0;i<packageParent.childCount;i++){
 
-        for(int i=0;i<packageParent.childCount;i++){
-
-            if(packageCheck[i]){//구매 시.
-                if(i==0){
-                    normalChild[i].GetChild(normalChild[i].childCount-2).gameObject.SetActive(true);
-                }
-                packageChild[i].GetChild(packageChild[i].childCount-1).gameObject.SetActive(true);
-            }
+        //     if(packageCheck[i]){//구매 시.
+        //         if(i==0){
+        //             normalChild[i].GetChild(normalChild[i].childCount-2).gameObject.SetActive(true);
+        //             packageChild[i].GetChild(packageChild[i].childCount-1).gameObject.SetActive(true);
+        //         }
+        //         //packageChild[i].GetChild(packageChild[i].childCount-1).gameObject.SetActive(true);
+        //     }
+        // }
+        if(packageCheck[0]==1){
+            
+            normalChild[0].GetChild(normalChild[0].childCount-2).gameObject.SetActive(true);
+            packageChild[0].GetChild(packageChild[0].childCount-1).gameObject.SetActive(true);
         }
 
         if(normalCheck[0]==1){
@@ -81,7 +87,8 @@ public class ShopManager : MonoBehaviour
 
         if(type == 0){
             
-            packageCheck[num] = true;
+            //packageCheck[num] = true;
+            packageCheck[num] +=1;
             contentNameText.text = packageChild[num].GetChild(0).GetComponent<Text>().text;
             contentNameText.color = packageChild[num].GetChild(0).GetComponent<Text>().color;
             contentsText.text = packageChild[num].GetChild(1).GetComponent<Text>().text;

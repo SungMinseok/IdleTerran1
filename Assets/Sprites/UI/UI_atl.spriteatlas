@@ -43,7 +43,7 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: a696f91dc4ae2a146857ac9f37896f92, type: 3}
-    totalSpriteSurfaceArea: 10961159
+    totalSpriteSurfaceArea: 10977543
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -51,6 +51,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: bd6c8320529168249b0e181eb8bd6670, type: 3}
   - {fileID: 21300000, guid: 44a93b6084df8644881c2aba8b0b5ada, type: 3}
   - {fileID: 21300000, guid: 3927a9a01bf7efa44918ff533663371a, type: 3}
+  - {fileID: 21300000, guid: 7aa3dd11e845d5344b956fb02f007c87, type: 3}
   - {fileID: 21300000, guid: 7fa50561eac33d041bd470d9394d7d80, type: 3}
   - {fileID: 21300000, guid: 71e06e72df62b4c43899ac1e1973d57d, type: 3}
   - {fileID: 21300000, guid: f63425d2123751641b08d9ade4717c3e, type: 3}
@@ -95,6 +96,7 @@ SpriteAtlas:
   - 2048x1000_4
   - light effect
   - 1400x450
+  - dice 3d
   - plus 3d
   - 512x512_white
   - 592x120_white

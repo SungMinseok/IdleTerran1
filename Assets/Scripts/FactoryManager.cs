@@ -7,9 +7,9 @@ public class FactoryManager : MonoBehaviour
 {   
     public static FactoryManager instance;
 
-    [Header("요구 연구점수/확률")]
+    [Header("요구 연구점수/확률(0<=x<1)")]
     public int[] rpRequirement;
-    public int[] ptgRequirement;
+    public float[] ptgRequirement;
 
     [Header("재판매 할인율")]
     public float discount = 0.5f;
@@ -22,7 +22,7 @@ public class FactoryManager : MonoBehaviour
     public int pricePerUpgrade = 500;
 
     [Header("요구사항 패널")]
-    public GameObject researchPanel;
+    public GameObject lockedPanel;
     public Text priceNextUpgradeText;
     public Text ptgNextUpgradeText;
 
@@ -128,7 +128,7 @@ public class FactoryManager : MonoBehaviour
             } 
             else{
                 //SoundManager.instance.Play("notenoughmin");
-                UIManager.instance.SetPopUp("미네랄이 부족합니다.","notenoughmin");
+                UIManager.instance.SetPopUp("미네랄이 부족합니다.","error1");
             }
 
         }
@@ -137,7 +137,7 @@ public class FactoryManager : MonoBehaviour
             //Debug.Log("인구수 부족");
             //SoundManager.instance.Play("error");
             if(BotManager.instance.maxPopulation<BotManager.instance.populationLimit){
-                UIManager.instance.SetPopUp("보급품이 더 필요합니다. 보급고를 강화하세요.","error");
+                UIManager.instance.SetPopUp("보급품이 더 필요합니다. 보급고를 강화하세요.","error1");
 
             }
             else{
@@ -183,7 +183,30 @@ public class FactoryManager : MonoBehaviour
         nowNum = num;
         
         priceNextUpgradeText.text = string.Format("{0:#,###0}", rpRequirement[nowNum-1]);//(num * (num-1) * pricePerUpgrade).ToString();
-        ptgNextUpgradeText.text = ptgRequirement[nowNum-1].ToString() + "%";//(num * (num-1) * pricePerUpgrade).ToString();
+        
+        if(UIManager.instance.ptgBonus==0){
+            ptgNextUpgradeText.text = (100*ptgRequirement[nowNum-1]).ToString() + "%";//(num * (num-1) * pricePerUpgrade).ToString();
+
+        }
+        else{
+            if(100*ptgRequirement[nowNum-1]*(1+UIManager.instance.ptgBonus)>100){
+
+                ptgNextUpgradeText.text = "100%"
+                +"(<color=#C0F678>+"+(100*UIManager.instance.ptgBonus)+"%</color>)";
+            }
+            else{
+
+                // ptgNextUpgradeText.text = (100*ptgRequirement[nowNum-1]*(1+UIManager.instance.ptgBonus)).ToString("N2") + "%"
+                // +"(<color=#C0F678>+"+(100*UIManager.instance.ptgBonus)+"%</color>)";
+
+                ptgNextUpgradeText.text = string.Format("{0:0.##}", 100*ptgRequirement[nowNum-1]*(1+UIManager.instance.ptgBonus)) + "%"
+                +"(<color=#C0F678>+"+(100*UIManager.instance.ptgBonus)+"%</color>)";
+
+            }
+        }
+        //+"(<color=#C0F678>"+Mathf.RoundToInt(BotManager.instance.botInfoList[num].efficiency*PlayerManager.instance.capacity)+"</color>)"
+        
+        
         
         // if(PlayerManager.instance.curRP >= rpRequirement[nowNum-1]){
         //     unlockCover.SetActive(false);
@@ -193,38 +216,59 @@ public class FactoryManager : MonoBehaviour
         // }
         
     }
+    float tempPtg;
     public void Unlock(){//잠금 해제 버튼 누름.
         
         if(PlayerManager.instance.curRP >= rpRequirement[nowNum-1]){        
             PlayerManager.instance.curRP -= rpRequirement[nowNum-1];
+
+            UIManager.instance.successImage.SetActive(false);
+            UIManager.instance.failImage.SetActive(false);
+            UIManager.instance.okBtn.SetActive(false);
+            UIManager.instance.researchPanel.SetActive(true);
+            UIManager.instance.recallImage.SetActive(true);
+            SoundManager.instance.Play("recall");
             
-            float tempPtg = Random.Range(0f,100f);
-    //성공
-            if(ptgRequirement[nowNum-1]>=tempPtg){
+            int ranPtg = Random.Range(0,1000);
+            tempPtg = ranPtg * 0.001f;
 
-                unlockedNextProduce[nowNum] = true;
-                childPanels[nowNum].transform.GetChild(2).gameObject.SetActive(false);      
-            }
-    //실패
-            else{
+            Debug.Log("확률 : "+ptgRequirement[nowNum-1]*(1+UIManager.instance.ptgBonus)+"/ 뽑힌 수 : "+ tempPtg);
 
-            }
-
+            Invoke("DelayResult", 0.7f);
+            //DelayResult();
 
             //StartCoroutine(UnlockCoroutine());
         }
         else{
-            UIManager.instance.SetPopUp("연구점수가 부족합니다.");
+            UIManager.instance.SetPopUp("연구점수가 부족합니다.","error1");
         }
 
     }
-    IEnumerator UnlockCoroutine(){
-        float tempPtg = Random.Range(0f,100f);
+    void DelayResult(){
+//성공
+        if(ptgRequirement[nowNum-1]*(1+UIManager.instance.ptgBonus)     >=tempPtg){
+            UIManager.instance.successImage.SetActive(true);
+            UIManager.instance.okBtn.SetActive(true);
+            SoundManager.instance.Play("rescue");
+            lockedPanel.SetActive(false);
+            unlockedNextProduce[nowNum] = true;
+            childPanels[nowNum].transform.GetChild(2).gameObject.SetActive(false);      
+        }
+//실패
+        else{
+            UIManager.instance.failImage.SetActive(true);
+            UIManager.instance.okBtn.SetActive(true);
+            SoundManager.instance.Play("error");
 
-
-        unlockedNextProduce[nowNum] = true;
-        childPanels[nowNum].transform.GetChild(2).gameObject.SetActive(false);        
+        }
     }
+    // IEnumerator UnlockCoroutine(){
+    //     float tempPtg = Random.Range(0f,100f);
+
+
+    //     unlockedNextProduce[nowNum] = true;
+    //     childPanels[nowNum].transform.GetChild(2).gameObject.SetActive(false);        
+    // }
 
     public void ResetData(){
         unlockedNextProduce = new bool[8];

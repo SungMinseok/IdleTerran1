@@ -29,8 +29,9 @@ public class BuildingManager : MonoBehaviour
     public static BuildingManager instance;
     public bool[] unlockedNextBuilding = new bool[4];
 
-    [Header("요구 연구점수")]
+    [Header("요구 연구점수/확률(0<=x<1)")]
     public int[] rpRequirement;
+    public float[] ptgRequirement;
     [Header("작성해야할 것")]
     public Building[] buildings;
     public int[] order = new int[]{0,1,2};
@@ -49,7 +50,11 @@ public class BuildingManager : MonoBehaviour
     public Text buildTimeText;
     public Text priceText;
 
+
+    [Header("요구사항 패널")]
+    public GameObject lockedPanel;
     public Text priceNextUpgradeText;
+    public Text ptgNextUpgradeText;
     public GameObject unlockCover;
     void Awake(){
 
@@ -105,7 +110,7 @@ public class BuildingManager : MonoBehaviour
         }
         else{
             //SoundManager.instance.Play("notenoughmin");
-            UIManager.instance.SetPopUp("미네랄이 부족합니다.","notenoughmin");
+            UIManager.instance.SetPopUp("미네랄이 부족합니다.","error1");
         }
 
     }
@@ -288,19 +293,83 @@ public class BuildingManager : MonoBehaviour
         nowNum = num;
         
         priceNextUpgradeText.text = string.Format("{0:#,###0}", rpRequirement[nowNum]);//(num * (num-1) * pricePerUpgrade).ToString();
-        
-        if(childPanels[nowNum-1].transform.GetChild(3).gameObject.activeSelf  && PlayerManager.instance.curRP >= rpRequirement[nowNum]){
-            unlockCover.SetActive(false);
+                
+        if(UIManager.instance.ptgBonus==0){
+            ptgNextUpgradeText.text = (100*ptgRequirement[nowNum]).ToString() + "%";//(num * (num-1) * pricePerUpgrade).ToString();
+
         }
         else{
-            unlockCover.SetActive(true);
+            if(100*ptgRequirement[nowNum]*(1+UIManager.instance.ptgBonus)>100){
+
+                ptgNextUpgradeText.text = "100%"
+                +"(<color=#C0F678>+"+(100*UIManager.instance.ptgBonus)+"%</color>)";
+            }
+            else{
+
+                ptgNextUpgradeText.text = (100*ptgRequirement[nowNum]*(1+UIManager.instance.ptgBonus)).ToString("N2") + "%"
+                +"(<color=#C0F678>+"+(100*UIManager.instance.ptgBonus)+"%</color>)";
+
+            }
         }
+
+        // if(childPanels[nowNum-1].transform.GetChild(3).gameObject.activeSelf  && PlayerManager.instance.curRP >= rpRequirement[nowNum]){
+        //     unlockCover.SetActive(false);
+        // }
+        // else{
+        //     unlockCover.SetActive(true);
+        // }
         
     }
+    float tempPtg;
     public void Unlock(){//잠금 해제 버튼 누름.
+        if(childPanels[nowNum-1].transform.GetChild(3).gameObject.activeSelf){
+            if(PlayerManager.instance.curRP >= rpRequirement[nowNum]){
 
-        unlockedNextBuilding[nowNum] = true;
-        childPanels[nowNum].transform.GetChild(2).gameObject.SetActive(false);                
-        PlayerManager.instance.curRP -= rpRequirement[nowNum];
+                PlayerManager.instance.curRP -= rpRequirement[nowNum];
+
+                UIManager.instance.successImage.SetActive(false);
+                UIManager.instance.failImage.SetActive(false);
+                UIManager.instance.okBtn.SetActive(false);
+                UIManager.instance.researchPanel.SetActive(true);
+                UIManager.instance.recallImage.SetActive(true);
+            SoundManager.instance.Play("recall");
+                
+                int ranPtg = Random.Range(0,1000);
+                tempPtg = ranPtg * 0.001f;
+
+                Debug.Log("확률 : "+ptgRequirement[nowNum]*(1+UIManager.instance.ptgBonus)+"/ 뽑힌 수 : "+ tempPtg);
+
+                Invoke("DelayResult", 0.7f);
+            }
+            else{
+                UIManager.instance.SetPopUp("연구점수가 부족합니다.","error1");
+            }
+        }
+        else{
+            UIManager.instance.SetPopUp("이전 단계 건물을 완성해야합니다.","error1");
+
+        }
+        
+
+    }
+    void DelayResult(){
+//성공
+        if(ptgRequirement[nowNum]*(1+UIManager.instance.ptgBonus)     >=tempPtg){
+            UIManager.instance.successImage.SetActive(true);
+            UIManager.instance.okBtn.SetActive(true);    
+            SoundManager.instance.Play("rescue");
+                lockedPanel.SetActive(false);
+
+            unlockedNextBuilding[nowNum] = true;
+            childPanels[nowNum].transform.GetChild(2).gameObject.SetActive(false);                
+            //PlayerManager.instance.curRP -= rpRequirement[nowNum];
+        }
+//실패
+        else{
+            UIManager.instance.failImage.SetActive(true);
+            UIManager.instance.okBtn.SetActive(true);
+            SoundManager.instance.Play("error");
+
+        }
     }
 }

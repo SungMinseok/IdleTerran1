@@ -62,9 +62,17 @@ public class UpgradeManager : MonoBehaviour
     int row = 4;//용접기 연료 ``
     [Header("기본,서사,전설 최대 레벨")]
     public int maxLevel0 = 20;
-    [Header("기본,서사,전설 요구 연구점수")]
-    public int[] rpRequirement;
 
+    [Header("요구 연구점수/확률(0<=x<1)")]
+    public int[] rpRequirement;
+    public float[] ptgRequirement;
+
+    [Header("요구사항 패널")]
+    public GameObject lockedPanel;    
+    public Text unlockRequirementText;
+
+    public Text ptgNextUpgradeText;
+    //public GameObject unlockCover;
 
     [Header("상점")]
     public GameObject upgradePanel;
@@ -98,7 +106,6 @@ public class UpgradeManager : MonoBehaviour
 
     public GameObject unlockCover;
     public bool[] unlockedNextUpgrade = new bool[16];//업그레이드 패널 수 만큼, 0,1,2,3/4,5,6,7/8,9,10,11/12,13,14,15
-    public Text unlockRequirementText;
     //public List<bool> testList = new List<bool>(new bool[16]);
     
     void Awake(){
@@ -454,23 +461,67 @@ public class UpgradeManager : MonoBehaviour
 
     
         unlockRequirementText.text = string.Format("{0:#,###0}", rpRequirement[(num%4)-1]);//rpRequirement[(num%4)-1].ToString();
-        if(tempLevel == (num%4)*20 && PlayerManager.instance.curRP >= rpRequirement[(num%4)-1]){
-            unlockCover.SetActive(false);
+        // if(tempLevel == (tempLockedNum%4)*20 && PlayerManager.instance.curRP >= rpRequirement[(num%4)-1]){
+        //     unlockCover.SetActive(false);
+        // }
+        // else{
+        //     unlockCover.SetActive(true);
+        // }
+        if(UIManager.instance.ptgBonus==0){
+            ptgNextUpgradeText.text = (100*ptgRequirement[tempLockedNum%4-1]).ToString() + "%";//(num * (num-1) * pricePerUpgrade).ToString();
+
         }
         else{
-            unlockCover.SetActive(true);
-        }
-    }
-    public void UnlockBtn(){
-        //if(tempLockedNum%4 == 1){//서사 해제
-            if(PlayerManager.instance.curRP >= rpRequirement [tempLockedNum%4-1]){
-                PlayerManager.instance.curRP-=rpRequirement [tempLockedNum%4-1];
-                accessibleUpgradePanelList[tempLockedNum].locked.SetActive(false);
-                unlockedNextUpgrade[tempLockedNum] = true;
+            if(100*ptgRequirement[tempLockedNum%4-1]*(1+UIManager.instance.ptgBonus)>100){
+
+                ptgNextUpgradeText.text = "100%"
+                +"(<color=#C0F678>+"+(100*UIManager.instance.ptgBonus)+"%</color>)";
             }
             else{
 
+                ptgNextUpgradeText.text = (100*ptgRequirement[tempLockedNum%4-1]*(1+UIManager.instance.ptgBonus)).ToString("N2") + "%"
+                +"(<color=#C0F678>+"+(100*UIManager.instance.ptgBonus)+"%</color>)";
             }
+
+        }
+    }
+    float tempPtg;
+    public void UnlockBtn(){        
+        
+        if(tempLevel == (tempLockedNum%4)*20){
+            if(PlayerManager.instance.curRP >= rpRequirement[(tempLockedNum%4)-1]){
+
+                PlayerManager.instance.curRP-=rpRequirement [tempLockedNum%4-1];
+                UIManager.instance.successImage.SetActive(false);
+                UIManager.instance.failImage.SetActive(false);
+                UIManager.instance.okBtn.SetActive(false);
+                UIManager.instance.researchPanel.SetActive(true);
+                UIManager.instance.recallImage.SetActive(true);
+            SoundManager.instance.Play("recall");
+                int ranPtg = Random.Range(0,1000);
+                tempPtg = ranPtg * 0.001f;
+
+                Debug.Log("확률 : "+ptgRequirement[tempLockedNum%4-1]*(1+UIManager.instance.ptgBonus)+"/ 뽑힌 수 : "+ tempPtg);
+
+                Invoke("DelayResult", 0.7f);
+            }
+            else{
+
+                UIManager.instance.SetPopUp("연구점수가 부족합니다.","error1");
+            }
+        }
+        else{
+            UIManager.instance.SetPopUp("이전 단계 장비 강화를 완료해야합니다.","error1");
+        }
+        //if(tempLockedNum%4 == 1){//서사 해제
+            // if(PlayerManager.instance.curRP >= rpRequirement [tempLockedNum%4-1]){
+            //     PlayerManager.instance.curRP-=rpRequirement [tempLockedNum%4-1];
+            //     accessibleUpgradePanelList[tempLockedNum].locked.SetActive(false);
+            //     unlockedNextUpgrade[tempLockedNum] = true;
+            // }
+            // else{
+
+            // }
         //     else{
         //     }
         // }
@@ -494,6 +545,26 @@ public class UpgradeManager : MonoBehaviour
         // }
 
         //accessibleUpgradePanelList[tempLockedNum].locked.SetActive(false);
+    }    
+    void DelayResult(){
+//성공
+        if(ptgRequirement[tempLockedNum%4-1]*(1+UIManager.instance.ptgBonus)     >=tempPtg){
+            UIManager.instance.successImage.SetActive(true);
+            UIManager.instance.okBtn.SetActive(true);    
+            SoundManager.instance.Play("rescue");
+                lockedPanel.SetActive(false);
+
+                //PlayerManager.instance.curRP-=rpRequirement [tempLockedNum%4-1];
+                accessibleUpgradePanelList[tempLockedNum].locked.SetActive(false);
+                unlockedNextUpgrade[tempLockedNum] = true;
+        }
+//실패
+        else{
+            UIManager.instance.failImage.SetActive(true);
+            UIManager.instance.okBtn.SetActive(true);
+            SoundManager.instance.Play("error");
+
+        }
     }
     public int AddTotalLevel(){
         int total = 0;
