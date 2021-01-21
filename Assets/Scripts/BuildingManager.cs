@@ -306,7 +306,7 @@ public class BuildingManager : MonoBehaviour
             }
             else{
 
-                ptgNextUpgradeText.text = (100*ptgRequirement[nowNum]*(1+UIManager.instance.ptgBonus)).ToString("N2") + "%"
+                ptgNextUpgradeText.text = string.Format("{0:0.##}", 100*ptgRequirement[nowNum]*(1+UIManager.instance.ptgBonus)) + "%"
                 +"(<color=#C0F678>+"+(100*UIManager.instance.ptgBonus)+"%</color>)";
 
             }
@@ -334,8 +334,8 @@ public class BuildingManager : MonoBehaviour
                 UIManager.instance.recallImage.SetActive(true);
             SoundManager.instance.Play("recall");
                 
-                int ranPtg = Random.Range(0,1000);
-                tempPtg = ranPtg * 0.001f;
+                int ranPtg = Random.Range(0,10000);
+                tempPtg = ranPtg * 0.0001f;
 
                 Debug.Log("확률 : "+ptgRequirement[nowNum]*(1+UIManager.instance.ptgBonus)+"/ 뽑힌 수 : "+ tempPtg);
 

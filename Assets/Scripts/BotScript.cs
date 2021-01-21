@@ -9,6 +9,7 @@ public enum BotState{
 public class BotScript : MonoBehaviour
 {
     public BotState botState;
+    public int botType;
     public float efficiency;
     [HideInInspector]public Rigidbody2D rb;
     [HideInInspector]public SpriteRenderer sr;
@@ -31,7 +32,7 @@ public class BotScript : MonoBehaviour
     public float speed;
     public float weldingSec;
     public float fuelUsagePerWalk;
-    public int capacity;
+    public long capacity;
     ////////////////////
     public GameObject workLight;
     public GameObject mineral;
@@ -297,15 +298,15 @@ public class BotScript : MonoBehaviour
         }
     }
 
-    public void HandleMineral(float amount = 0,bool floating = true){
+    public void HandleMineral(long amount = 0,bool floating = true){
         //int temp0 = curMineral;
         //int preMineral = curMineral;
         if(amount==0){
-            float temp = Mathf.Ceil(capacity * PlayerManager.instance. bonusCapacity);
-                
+            float temp = Mathf.Ceil(capacity * PlayerManager.instance.bonusCapacity);
+//long temp = Mathf.Ceil((float)capacity * PlayerManager.instance.bonusCapacity);
             switch(packageType){
                 case PackageType.normal :
-                    PlayerManager.instance.curMineral += temp;
+                    PlayerManager.instance.curMineral += (long)temp;
                     break;
                 default :
                     break;
@@ -349,4 +350,9 @@ public class BotScript : MonoBehaviour
     public void DestroyBot(){
         Destroy(this.gameObject);
     }
+    // public void UnsetBot(int typeNum){
+    //     for(int i=0;i<FactoryManager.instance.botManager.childCount;i++){
+    //         if(typeNum == FactoryManager.instance.botManager)
+    //     }
+    // }
 }

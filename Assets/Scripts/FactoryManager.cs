@@ -46,6 +46,7 @@ public class FactoryManager : MonoBehaviour
     public Text priceText_Status;
     public GameObject sellLock;
     public Sprite nullSprite;
+    public Text[] botStatusCount;
     void Awake(){
         
         instance = this;
@@ -61,6 +62,7 @@ public class FactoryManager : MonoBehaviour
         //unlockedNextProduce = new bool[8];
         childPanels = new Transform[parentPanel.childCount];
         botStatusScrollChildren = new Transform[botStatusScroll.childCount];
+        botStatusCount = new Text[botStatusScroll.childCount];
         //childPanels = parentPanel.GetComponentsInChildren<Transform>();
         for(int i=0;i<parentPanel.transform.childCount;i++){
             childPanels[i]=parentPanel.GetChild(i);
@@ -73,6 +75,7 @@ public class FactoryManager : MonoBehaviour
             int temp = i;
             botStatusScrollChildren[temp] = botStatusScroll.GetChild(temp);
             botStatusScrollChildren[temp].GetComponent<Button>().onClick.AddListener(()=>ShowBotStatusEach(temp));
+            botStatusCount[temp] = botStatusScrollChildren[temp].GetChild(2).GetComponent<Text>();
         }
         populationText.text = "인구수 : "+BotManager.instance.botSaved.Count.ToString()+"/"+BotManager.instance.maxPopulation;
         populationText_Status.text = BotManager.instance.botSaved.Count.ToString()+" / "+BotManager.instance.maxPopulation;
@@ -115,6 +118,7 @@ public class FactoryManager : MonoBehaviour
                 clone.transform.localScale = childPanels[nowNum].GetChild(1).transform.localScale *6;
                 clone.GetComponent<SpriteRenderer>().color = childPanels[nowNum].GetChild(1).GetComponent<Image>().color;
                 clone.GetComponent<BotScript>().botState = BotState.Mine;
+                clone.GetComponent<BotScript>().botType = nowNum;
                 clone.GetComponent<BotScript>().efficiency = BotManager.instance.botInfoList[nowNum].efficiency;
                 clone.transform.parent = botManager;
                 BotManager.instance.RefreshBotEquip(BotManager.instance.transform.childCount-1);
@@ -229,8 +233,8 @@ public class FactoryManager : MonoBehaviour
             UIManager.instance.recallImage.SetActive(true);
             SoundManager.instance.Play("recall");
             
-            int ranPtg = Random.Range(0,1000);
-            tempPtg = ranPtg * 0.001f;
+            int ranPtg = Random.Range(0,10000);
+            tempPtg = ranPtg * 0.0001f;
 
             Debug.Log("확률 : "+ptgRequirement[nowNum-1]*(1+UIManager.instance.ptgBonus)+"/ 뽑힌 수 : "+ tempPtg);
 
@@ -281,56 +285,124 @@ public class FactoryManager : MonoBehaviour
     public void EnrollBot(){
         
     }
-    public void OpenBotStatusPanel(){
-        //Debug.Log(BotManager.instance.botSaved.Count + "개의 로봇");
-        //Debug.Log("~"+BotManager.instance.botSaved.Count);
-        for(int i=0;i<BotManager.instance.botSaved.Count;i++){            
-            botStatusScrollChildren[i].GetChild(0).GetComponent<RectTransform>().localScale = childPanels[BotManager.instance.botSaved[i]].GetChild(1).GetComponent<RectTransform>().localScale*2f;
-            botStatusScrollChildren[i].GetChild(0).GetComponent<Image>().sprite = childPanels[BotManager.instance.botSaved[i]].GetChild(1).GetComponent<Image>().sprite;
-            botStatusScrollChildren[i].GetChild(0).GetComponent<Image>().color = childPanels[BotManager.instance.botSaved[i]].GetChild(1).GetComponent<Image>().color;
-        }
-        //Debug.Log(BotManager.instance.botSaved.Count+"~"+tempPre);
-        for(int i=BotManager.instance.botSaved.Count;i<tempPre;i++){
+    // public void OpenBotStatusPanel(){
+    //     //Debug.Log(BotManager.instance.botSaved.Count + "개의 로봇");
+    //     //Debug.Log("~"+BotManager.instance.botSaved.Count);
+    //     for(int i=0;i<BotManager.instance.botSaved.Count;i++){    
+    //         botStatusScrollChildren[i].GetChild(2).GetComponent<Text>().text =     
+    //         //botStatusScrollChildren[i].GetChild(0).GetComponent<RectTransform>().localScale = childPanels[BotManager.instance.botSaved[i]].GetChild(1).GetComponent<RectTransform>().localScale*2f;
+    //         //botStatusScrollChildren[i].GetChild(0).GetComponent<Image>().sprite = childPanels[BotManager.instance.botSaved[i]].GetChild(1).GetComponent<Image>().sprite;
+    //         //botStatusScrollChildren[i].GetChild(0).GetComponent<Image>().color = childPanels[BotManager.instance.botSaved[i]].GetChild(1).GetComponent<Image>().color;
+    //     }
+    //     //Debug.Log(BotManager.instance.botSaved.Count+"~"+tempPre);
+    //     for(int i=BotManager.instance.botSaved.Count;i<tempPre;i++){
 
-        botStatusScrollChildren[i].GetChild(0).GetComponent<Image>().sprite = nullSprite;
+    //     botStatusScrollChildren[i].GetChild(0).GetComponent<Image>().sprite = nullSprite;
+    //     }
+
+        
+    //     populationText.text = "인구수 : "+BotManager.instance.botSaved.Count.ToString()+"/"+BotManager.instance.maxPopulation;
+        
+    //     populationText_Status.text = BotManager.instance.botSaved.Count.ToString()+" / "+BotManager.instance.maxPopulation;
+    // }   
+     public void OpenBotStatusPanel(){
+
+        for(int i=0;i<botStatusCount.Length;i++){    
+            botStatusCount[i].text = "0";     
         }
 
+        for(int i=0;i<BotManager.instance.botSaved.Count;i++){   
+            //int temp = int.Parse(botStatusCount[BotManager.instance.botSaved[i]].text);
+            botStatusCount[BotManager.instance.botSaved[i]].text = (int.Parse(botStatusCount[BotManager.instance.botSaved[i]].text)+1).ToString();
+        }
+
+        for(int i=0;i<botStatusCount.Length;i++){    
+            if(botStatusCount[i].text != "0"){
+                botStatusScrollChildren[i].GetChild(3).gameObject.SetActive(false);
+            }  
+            else{
+                botStatusScrollChildren[i].GetChild(3).gameObject.SetActive(true);
+
+            }   
+        }
         
         populationText.text = "인구수 : "+BotManager.instance.botSaved.Count.ToString()+"/"+BotManager.instance.maxPopulation;
         
         populationText_Status.text = BotManager.instance.botSaved.Count.ToString()+" / "+BotManager.instance.maxPopulation;
     }
     int selectedNum;
-    int selectedPrice;
-    public void ShowBotStatusEach(int num){ // BotManager.instance.botSaved[num] : scv번호
-    selectedNum = num;
-    //Debug.Log(num + "/ "+BotManager.instance.botSaved.Count);
-        if(BotManager.instance.botSaved.Count>num){
+    long selectedPrice;
+    // public void ShowBotStatusEach(int num){ // BotManager.instance.botSaved[num] : scv번호
+    // selectedNum = num;
+    // //Debug.Log(num + "/ "+BotManager.instance.botSaved.Count);
+    //     if(BotManager.instance.botSaved.Count>num){
 
-            nameText_Status.text = childPanels[BotManager.instance.botSaved[num]].GetChild(0).GetComponent<Text>().text;
-            priceText_Status.text = string.Format("{0:#,###0}", Mathf.RoundToInt((float)BotManager.instance.botInfoList[BotManager.instance.botSaved[num]].price*discount));//Mathf.RoundToInt((float)BotManager.instance.botInfoList[BotManager.instance.botSaved[num]].price*discount).ToString();
+    //         nameText_Status.text = childPanels[BotManager.instance.botSaved[num]].GetChild(0).GetComponent<Text>().text;
+    //         priceText_Status.text = string.Format("{0:#,###0}", Mathf.RoundToInt((float)BotManager.instance.botInfoList[BotManager.instance.botSaved[num]].price*discount));//Mathf.RoundToInt((float)BotManager.instance.botInfoList[BotManager.instance.botSaved[num]].price*discount).ToString();
             
-            selectedPrice = Mathf.RoundToInt((float)BotManager.instance.botInfoList[BotManager.instance.botSaved[num]].price*discount);
-            sellLock.SetActive(false);
-        }
-        else{
+    //         selectedPrice = Mathf.RoundToInt((float)BotManager.instance.botInfoList[BotManager.instance.botSaved[num]].price*discount);
+    //         sellLock.SetActive(false);
+    //     }
+    //     else{
             
-            nameText_Status.text = "";
-            priceText_Status.text = "";
+    //         nameText_Status.text = "";
+    //         priceText_Status.text = "";
             
-            sellLock.SetActive(true);
-        }
+    //         sellLock.SetActive(true);
+    //     }
+    // }    
+    public void ShowBotStatusEach(int num){ // BotManager.instance.botSaved[num] : scv번호
+        selectedNum = num;
+    //Debug.Log(num + "/ "+BotManager.instance.botSaved.Count);
+
+        nameText_Status.text = childPanels[num].GetChild(0).GetComponent<Text>().text;
+        priceText_Status.text = string.Format("{0:#,###0}", Mathf.RoundToInt((float)BotManager.instance.botInfoList[num].price*discount));
+
+        //selectedPrice = Mathf.RoundToInt((float)BotManager.instance.botInfoList[num].price*discount);
+        sellLock.SetActive(false);
+        // if(BotManager.instance.botSaved.Count>num){
+
+        //     nameText_Status.text = childPanels[BotManager.instance.botSaved[num]].GetChild(0).GetComponent<Text>().text;
+        //     priceText_Status.text = string.Format("{0:#,###0}", Mathf.RoundToInt((float)BotManager.instance.botInfoList[BotManager.instance.botSaved[num]].price*discount));//Mathf.RoundToInt((float)BotManager.instance.botInfoList[BotManager.instance.botSaved[num]].price*discount).ToString();
+            
+        //     selectedPrice = Mathf.RoundToInt((float)BotManager.instance.botInfoList[BotManager.instance.botSaved[num]].price*discount);
+        //     sellLock.SetActive(false);
+        // }
+        // else{
+            
+        //     nameText_Status.text = "";
+        //     priceText_Status.text = "";
+            
+        //     sellLock.SetActive(true);
+        // }
     }
+    // public void SellBot(){
+    //     tempPre = BotManager.instance.botSaved.Count;
+    //     BotManager.instance.botSaved.RemoveAt(selectedNum);
+    //     botManager.GetChild(selectedNum).GetComponent<BotScript>().DestroyBot();
+    //     PlayerManager.instance.HandleMineral(selectedPrice);
+
+    //     nameText_Status.text = "";
+    //     priceText_Status.text = "";
+    //     sellLock.SetActive(true);
+
+    //     OpenBotStatusPanel();
+    // }
     public void SellBot(){
         tempPre = BotManager.instance.botSaved.Count;
-        BotManager.instance.botSaved.RemoveAt(selectedNum);
-        botManager.GetChild(selectedNum).GetComponent<BotScript>().DestroyBot();
-        PlayerManager.instance.HandleMineral(selectedPrice);
-
-        nameText_Status.text = "";
-        priceText_Status.text = "";
-        sellLock.SetActive(true);
-
+        //BotManager.instance.botSaved.Remove(selectedNum);
+        int tempIndex = BotManager.instance.botSaved.IndexOf(selectedNum);
+        Debug.Log(tempIndex+"번째 제거");
+        BotManager.instance.botSaved.RemoveAt(tempIndex);
+        botManager.GetChild(tempIndex).GetComponent<BotScript>().DestroyBot();
+        //PlayerManager.instance.HandleMineral(selectedPrice);
+        PlayerManager.instance.HandleMineral((long)float.Parse(priceText_Status.text));
+        // nameText_Status.text = "";
+        // priceText_Status.text = "";
+        // sellLock.SetActive(true);
+        if(botStatusCount[selectedNum].text == "1"){
+            sellLock.SetActive(true);
+        }  
         OpenBotStatusPanel();
     }
     int tempPre;

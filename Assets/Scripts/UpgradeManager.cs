@@ -287,8 +287,8 @@ public class UpgradeManager : MonoBehaviour
 
     }
     public void UpgradeBtn(){
-        if(PlayerManager.instance.curMineral >= tempLevel*nowUpgradePanel.priceDelta){
-            PlayerManager.instance.HandleMineral(-tempLevel*nowUpgradePanel.priceDelta);
+        if(PlayerManager.instance.curMineral >= (tempLevel*nowUpgradePanel.priceDelta)){
+            PlayerManager.instance.HandleMineral((-tempLevel*nowUpgradePanel.priceDelta));
 
             SoundManager.instance.Play("up");
             switch(nowPage/row){
@@ -478,8 +478,7 @@ public class UpgradeManager : MonoBehaviour
                 +"(<color=#C0F678>+"+(100*UIManager.instance.ptgBonus)+"%</color>)";
             }
             else{
-
-                ptgNextUpgradeText.text = (100*ptgRequirement[tempLockedNum%4-1]*(1+UIManager.instance.ptgBonus)).ToString("N2") + "%"
+                ptgNextUpgradeText.text = string.Format("{0:0.##}", 100*ptgRequirement[tempLockedNum%4-1]*(1+UIManager.instance.ptgBonus)) + "%"
                 +"(<color=#C0F678>+"+(100*UIManager.instance.ptgBonus)+"%</color>)";
             }
 
@@ -498,8 +497,8 @@ public class UpgradeManager : MonoBehaviour
                 UIManager.instance.researchPanel.SetActive(true);
                 UIManager.instance.recallImage.SetActive(true);
             SoundManager.instance.Play("recall");
-                int ranPtg = Random.Range(0,1000);
-                tempPtg = ranPtg * 0.001f;
+                int ranPtg = Random.Range(0,10000);
+                tempPtg = ranPtg * 0.0001f;
 
                 Debug.Log("확률 : "+ptgRequirement[tempLockedNum%4-1]*(1+UIManager.instance.ptgBonus)+"/ 뽑힌 수 : "+ tempPtg);
 

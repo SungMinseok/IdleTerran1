@@ -23,7 +23,7 @@ public class MineralScript : MonoBehaviour
 
     // }
 
-    public void GotMined(int gotAmount){
+    public void GotMined(long gotAmount){
         // curAmount -= gotAmount;
         // if(curAmount<0){
         //     gameObject.SetActive(false);

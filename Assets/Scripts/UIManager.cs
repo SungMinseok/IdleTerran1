@@ -440,7 +440,7 @@ public class UIManager : MonoBehaviour
             if(PlayerManager.instance.curMineral>float.Parse(teches_Starport[0].priceText.text)){
                 UIManager.instance.SetPopUp("업그레이드 완료.","up");
                 
-                PlayerManager.instance.HandleMineral(-float.Parse(teches_Starport[0].priceText.text));
+                PlayerManager.instance.HandleMineral(-long.Parse(teches_Starport[0].priceText.text));
                 PlayerManager.instance.fastCall ++;
                 RefreshStarportPanel();
             }
@@ -457,7 +457,7 @@ public class UIManager : MonoBehaviour
             if(PlayerManager.instance.curMineral>float.Parse(teches_Starport[1].priceText.text)){
                 UIManager.instance.SetPopUp("업그레이드 완료.","up");
                 
-                PlayerManager.instance.HandleMineral(-float.Parse(teches_Starport[1].priceText.text));
+                PlayerManager.instance.HandleMineral(-long.Parse(teches_Starport[1].priceText.text));
                 PlayerManager.instance.moreSupply ++;
                 RefreshStarportPanel();
             }
@@ -529,7 +529,7 @@ public class UIManager : MonoBehaviour
             if(PlayerManager.instance.curMineral>float.Parse(teches_Science[1].priceText.text)){
                 UIManager.instance.SetPopUp("업그레이드 완료.","up");
                 
-                PlayerManager.instance.HandleMineral(-float.Parse(teches_Science[1].priceText.text));
+                PlayerManager.instance.HandleMineral(-long.Parse(teches_Science[1].priceText.text));
                 PlayerManager.instance.investRP ++;
                 RefreshSciencePanel();
             }

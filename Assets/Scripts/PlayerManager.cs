@@ -58,8 +58,8 @@ public class PlayerManager : MonoBehaviour
     Slider fuelBar;
     Text mineralBar;
     Text rpBar;
-        float calculated = 0;
-        int calculatedRP = 0;
+        long calculated = 0;
+        long calculatedRP = 0;
 
     //public float runSpeed = 4f;
     //private float defaultSpeed;
@@ -70,8 +70,8 @@ public class PlayerManager : MonoBehaviour
     //public float miningSpeed = 5f;
     [Header("기타 값 ( Save & Load )")]
     public bool helperDone;
-    public float curMineral;
-    public int curRP;//researchPoint
+    public long curMineral;
+    public long curRP;//researchPoint
     public float curFuel;
     [Header("기타 값")]
     public float curSpeed;
@@ -233,7 +233,7 @@ public class PlayerManager : MonoBehaviour
         //팩토리
         FactoryManager.instance. ApplyUnlocked();
 
-
+        
         
         // if(helperDone==0){
         //     helperDone = 1;
@@ -639,12 +639,12 @@ Instantiate(effect, mineral.transform.position, Quaternion.identity);
             // }
             ////Debug.Log("미네랄 업");
             //int temp = curMineral-int.Parse(mineralBar.text);
-            float temp = curMineral-calculated;
+            long temp = curMineral-calculated;
             //Debug.Log(temp);
             if(temp>=10 || temp <=-10){
                 
                 //calculated= (int.Parse(mineralBar.text) + temp/10);
-                calculated= calculated + (int)(temp/10);
+                calculated= calculated + (long)(temp/10);
             }
             else{
                 
@@ -665,9 +665,9 @@ Instantiate(effect, mineral.transform.position, Quaternion.identity);
 #endregion
 #region SetRP
         if(calculatedRP!=curRP){
-            int temp = curRP-calculatedRP;
+            long temp = curRP-calculatedRP;
             if(temp>=10 || temp <=-10){
-                calculatedRP= calculatedRP + temp/10;
+                calculatedRP= calculatedRP + (long)(temp/10);
             }
             else{
                 calculatedRP= temp>0 ? calculatedRP + 1 : calculatedRP - 1;
@@ -826,14 +826,14 @@ Instantiate(effect, mineral.transform.position, Quaternion.identity);
         
     }
 
-    public void HandleMineral(float amount = 0,bool floating = true){
+    public void HandleMineral(long amount = 0,bool floating = true){
         //int temp0 = curMineral;
         //int preMineral = curMineral;
         if(amount==0){
             float temp = Mathf.Ceil(capacity * bonusCapacity);
             switch(packageType){
                 case PackageType.normal :
-                    curMineral += temp;
+                    curMineral += (long)temp;
                     break;
                 default :
                     break;
@@ -852,7 +852,7 @@ Instantiate(effect, mineral.transform.position, Quaternion.identity);
                         PrintFloating("+ "+amount.ToString());
                     }
                     else{
-                        PrintFloating("- "+(-amount).ToString());
+                        //PrintFloating("- "+(-amount).ToString());
                     }
                 }
             }
@@ -902,7 +902,7 @@ Instantiate(effect, mineral.transform.position, Quaternion.identity);
         // }
         // mineralBar.text = curMineral.ToString();
     }    
-    public void HandleRP(int amount = 0,bool floating = true){
+    public void HandleRP(long amount = 0,bool floating = true){
         if(amount==0){
         }
         else{

@@ -34,8 +34,8 @@ public class DBManager : MonoBehaviour
         
     [Header("기타 값 ( Save & Load )")]
         public bool helperDone;
-        public float curMineral;
-        public int curRP;
+        public long curMineral;
+        public long curRP;
         public float curFuel;
 
 
