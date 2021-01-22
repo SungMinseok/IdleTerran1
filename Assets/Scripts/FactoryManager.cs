@@ -12,7 +12,7 @@ public class FactoryManager : MonoBehaviour
     public float[] ptgRequirement;
 
     [Header("재판매 할인율")]
-    public float discount = 0.5f;
+    public float discount;
     public Transform botManager;
     public Transform factoryPos;
     public Transform parentPanel;
@@ -389,7 +389,7 @@ public class FactoryManager : MonoBehaviour
     //     OpenBotStatusPanel();
     // }
     public void SellBot(){
-        tempPre = BotManager.instance.botSaved.Count;
+        //tempPre = BotManager.instance.botSaved.Count;
         //BotManager.instance.botSaved.Remove(selectedNum);
         int tempIndex = BotManager.instance.botSaved.IndexOf(selectedNum);
         Debug.Log(tempIndex+"번째 제거");
@@ -402,53 +402,70 @@ public class FactoryManager : MonoBehaviour
         // sellLock.SetActive(true);
         if(botStatusCount[selectedNum].text == "1"){
             sellLock.SetActive(true);
+            nameText_Status.text = "";
+            priceText_Status.text = "";
         }  
         OpenBotStatusPanel();
     }
-    int tempPre;
+    //int tempPre;
+    // public void SelltheSameTypeBot(){
+    //     //List<int> temp = new List<int>();
+    //     for(int i=0;i<BotManager.instance.botSaved.Count;i++){
+    //         if(BotManager.instance.botSaved[i]==BotManager.instance.botSaved[selectedNum]){
+                
+    //             //BotManager.instance.botSaved.RemoveAt(i);
+    //             botManager.GetChild(i).GetComponent<BotScript>().DestroyBot();
+    //             PlayerManager.instance.HandleMineral(selectedPrice);
+    //             //temp.Add(i);
+    //         }
+    //         //Debug.Log("제거한 로봇 개수"+));
+    //     }
+    //     tempPre = BotManager.instance.botSaved.Count;
+    //     //Debug.Log("선택한 로봇 번호"+BotManager.instance.botSaved[selectedNum]);
+    //     int tempSelected = BotManager.instance.botSaved[selectedNum];
+    //     while(BotManager.instance.botSaved.Contains(tempSelected)){
+    //         //Debug.Log("리스트 리무브");
+    //         BotManager.instance.botSaved.Remove(tempSelected);
+    //         //BotManager.instance.botSaved.RemoveAll(delegate (int x){return x==BotManager.instance.botSaved[selectedNum];});
+    //         //Debug.Log("선택한 로봇 개수(리스트)"+BotManager.instance.botSaved.RemoveAll(delegate (int x){return x==BotManager.instance.botSaved[selectedNum];}));
+    //     }
+        
+    //     nameText_Status.text = "";
+    //     priceText_Status.text = "";
+    //     sellLock.SetActive(true);
+
+    //     OpenBotStatusPanel();
+    // }
     public void SelltheSameTypeBot(){
         //List<int> temp = new List<int>();
-        for(int i=0;i<BotManager.instance.botSaved.Count;i++){
-            if(BotManager.instance.botSaved[i]==BotManager.instance.botSaved[selectedNum]){
-                
-                //BotManager.instance.botSaved.RemoveAt(i);
-                botManager.GetChild(i).GetComponent<BotScript>().DestroyBot();
-                PlayerManager.instance.HandleMineral(selectedPrice);
-                //temp.Add(i);
-            }
-            //Debug.Log("제거한 로봇 개수"+));
-        }
-        tempPre = BotManager.instance.botSaved.Count;
-        //Debug.Log("선택한 로봇 번호"+BotManager.instance.botSaved[selectedNum]);
-        int tempSelected = BotManager.instance.botSaved[selectedNum];
-        while(BotManager.instance.botSaved.Contains(tempSelected)){
-            //Debug.Log("리스트 리무브");
-            BotManager.instance.botSaved.Remove(tempSelected);
-            //BotManager.instance.botSaved.RemoveAll(delegate (int x){return x==BotManager.instance.botSaved[selectedNum];});
-            //Debug.Log("선택한 로봇 개수(리스트)"+BotManager.instance.botSaved.RemoveAll(delegate (int x){return x==BotManager.instance.botSaved[selectedNum];}));
-        }
-        
+        while(BotManager.instance.botSaved.Contains(selectedNum)){
 
+            int tempIndex = BotManager.instance.botSaved.IndexOf(selectedNum);
+            Debug.Log(tempIndex+"번째 제거");
+            BotManager.instance.botSaved.RemoveAt(tempIndex);
+            botManager.GetChild(tempIndex).GetComponent<BotScript>().DestroyBot();
+            PlayerManager.instance.HandleMineral((long)float.Parse(priceText_Status.text));
+        }
         // for(int i=0;i<BotManager.instance.botSaved.Count;i++){
-
-        // BotManager.instance.botSaved.RemoveAll(delegate (int x){return x==BotManager.instance.botSaved[selectedNum];});
+        //     if(BotManager.instance.botSaved[i]==BotManager.instance.botSaved[selectedNum]){
+                
+        //         //BotManager.instance.botSaved.RemoveAt(i);
+        //         botManager.GetChild(i).GetComponent<BotScript>().DestroyBot();
+        //         PlayerManager.instance.HandleMineral(selectedPrice);
+        //         //temp.Add(i);
+        //     }
+        //     //Debug.Log("제거한 로봇 개수"+));
         // }
-
-        //BotManager.instance.botSaved.Remove(n > n.StartWith(BotManager.instance.botSaved[selectedNum]));
-
-
-        //Debug.Log("같은 갯수 : "+temp.Count);
+        //tempPre = BotManager.instance.botSaved.Count;
+        //Debug.Log("선택한 로봇 번호"+BotManager.instance.botSaved[selectedNum]);
+        // int tempSelected = BotManager.instance.botSaved[selectedNum];
+        // while(BotManager.instance.botSaved.Contains(tempSelected)){
+        //     //Debug.Log("리스트 리무브");
+        //     BotManager.instance.botSaved.Remove(tempSelected);
+        //     //BotManager.instance.botSaved.RemoveAll(delegate (int x){return x==BotManager.instance.botSaved[selectedNum];});
+        //     //Debug.Log("선택한 로봇 개수(리스트)"+BotManager.instance.botSaved.RemoveAll(delegate (int x){return x==BotManager.instance.botSaved[selectedNum];}));
+        // }
         
-        // for(int i=0;i<temp.Count+1;i++){
-        //     //Debug.Log(temp[i]);
-        //     BotManager.instance.botSaved.RemoveAt(temp[i]);
-        // }
-        // temp.Clear();
-
-        //BotManager.instance.botSaved.RemoveAt(selectedNum);
-        //botManager.GetChild(selectedNum).GetComponent<BotScript>().DestroyBot();
-        //PlayerManager.instance.HandleMineral(int.Parse(priceText_Status.text));
-
         nameText_Status.text = "";
         priceText_Status.text = "";
         sellLock.SetActive(true);

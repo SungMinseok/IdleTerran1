@@ -37,7 +37,7 @@ public class SpriteButton : MonoBehaviour
     // }
     void OnMouseUp(){
         //if(!CameraMovement.instance.isMoving){
-        if(!UIManager.instance.OnUI()){
+        if(!UIManager.instance.OnUI() && !UIManager.instance.uiBlocked){
 
             if(buildingType == BuildingType.Enterable){
                 PlayerManager.instance.Order(transform,OrderType.Enter);

@@ -1252,6 +1252,7 @@ Debug.Log("GETITEM");
         }
         //boxCountText.text = "x "+(++boxCount).ToString();
 
+                        StopAuto();
         Destroy(item);
                 //getItemFlag = false;
 

@@ -18,6 +18,7 @@ public class Tech{
 public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
+    public bool uiBlocked;
     // void Awake(){
         
     //     if (instance != null)

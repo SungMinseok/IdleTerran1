@@ -20,8 +20,8 @@ public class SettingManager : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        QualitySettings.vSyncCount = 0;
-        Application.targetFrameRate = 40;
+        // QualitySettings.vSyncCount = 0;
+        // Application.targetFrameRate = 60;
 
         screenSize = new Vector2(Screen.width,Screen.height);
     }

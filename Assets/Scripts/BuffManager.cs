@@ -803,6 +803,9 @@ RefreshUICount();
         autoStimpack = true;
 
     }
+    public void ToggleAutoStim(){
+        autoStimpack = !autoStimpack;
+    }
     public void RefreshUICount(){
         
         boxCountText.text = "x " + boxCount.ToString();
@@ -815,14 +818,11 @@ RefreshUICount();
                 }
 
                 //     if(buffs[i].name=="AD"){
-                        
                 //         StartCoroutine(ADCoolTimeCoroutine(buffs[i]));
                 //     }
                 //     else{
-                        
                 //         StartCoroutine(BuffCoolTimeCoroutine(buffs[i]));
                 //     }
-
                 // if(buffs[i].duration!= -1){
                 //     StartCoroutine(BuffCoroutine(buffs[i]));
                 // }
