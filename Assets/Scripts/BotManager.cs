@@ -19,12 +19,16 @@ public class Bot{
 public class BotManager : MonoBehaviour
 {
     public static BotManager instance;
+    public Transform ready, activated;
     public List<Bot> botInfoList;
     public List<int> botSaved;
     public int maxPopulation = 5;
     public int populationLimit = 50;
     public int[] addPopulationPrices= new int[9];
 
+    [Header("생산 위치")]
+    public Transform factoryExit;
+    public Transform centerExit;
     [Header("보급고 UI")]
     public Text populationText;
     public Text priceText;
@@ -50,8 +54,8 @@ public class BotManager : MonoBehaviour
     public void RefreshBotEquip(int num= -1){
         if(num == -1){
                 
-            for(int i=0;i<transform.childCount;i++){
-                var temp =transform.GetChild(i).GetComponent<BotScript>();
+            for(int i=0;i<activated.childCount;i++){
+                var temp =activated.GetChild(i).GetComponent<BotScript>();
                 temp.speed = PlayerManager.instance.speed;
                 temp.weldingSec = PlayerManager.instance.weldingSec + Random.Range(PlayerManager.instance.weldingSec * -0.01f, PlayerManager.instance.weldingSec * 0.01f);
                 temp.capacity = Mathf.RoundToInt(temp.efficiency * PlayerManager.instance.capacity);
@@ -61,7 +65,7 @@ public class BotManager : MonoBehaviour
         }
         else{
             
-            var temp =transform.GetChild(num).GetComponent<BotScript>();
+            var temp =activated.GetChild(num).GetComponent<BotScript>();
             temp.speed = PlayerManager.instance.speed;
             temp.weldingSec = PlayerManager.instance.weldingSec + Random.Range(PlayerManager.instance.weldingSec * -0.01f, PlayerManager.instance.weldingSec * 0.01f);
             temp.capacity = (int)(temp.efficiency * PlayerManager.instance.capacity);
@@ -140,5 +144,45 @@ public class BotManager : MonoBehaviour
             SoundManager.instance.Play("notenoughmin");
 
         }
+    }
+
+    public void ActivateBot(int typeNum, int type = 0){
+        var clone = ready.GetChild(0);
+
+                        
+                //var clone = Instantiate(robots[0],factoryPos.position,Quaternion.identity);
+        clone.transform.localScale = FactoryManager.instance.childPanels[typeNum].GetChild(1).transform.localScale *6;
+        clone.GetComponent<SpriteRenderer>().color = FactoryManager.instance.childPanels[typeNum].GetChild(1).GetComponent<Image>().color;
+        clone.GetComponent<BotScript>().botState = BotState.Mine;
+        clone.GetComponent<BotScript>().botType = typeNum;
+        clone.GetComponent<BotScript>().efficiency = botInfoList[typeNum].efficiency;
+        clone.parent = activated;
+        BotManager.instance.RefreshBotEquip(activated.childCount-1);
+                
+        //BotManager.instance.botSaved.Add(num);
+        if(type == 0){
+            clone.position = factoryExit.position;
+        }
+        else if(type == 1){
+
+            clone.position = centerExit.position;
+        }
+
+
+
+        clone.gameObject.name = "Bot_Type_"+typeNum;
+        clone.gameObject.SetActive(true);
+
+    }
+    public void DeactivateBot(int typeNum){
+        
+        int tempIndex = botSaved.IndexOf(typeNum);
+        Debug.Log(tempIndex+"번째 제거");
+        BotManager.instance.botSaved.RemoveAt(tempIndex);
+        //activated.GetChild(tempIndex).GetComponent<BotScript>().DestroyBot();
+        var clone = activated.GetChild(tempIndex);
+        clone.gameObject.name = "Bot_Ready";
+        clone.parent = ready;
+        clone.gameObject.SetActive(false);
     }
 }

@@ -20,7 +20,12 @@ public class FloatingEffect : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-       Destroy(animator.gameObject);
+         if(animator.CompareTag("FT")){
+
+            animator.gameObject.SetActive(false);
+            animator.transform.parent = UIManager.instance.ready_FT;
+         }
+       //Destroy(animator.gameObject);
         //Debug.Log(animator.gameObject.name);
     }
 

@@ -72,8 +72,8 @@ public class SoundManager : MonoBehaviour
             Destroy(this.gameObject);
         }
     
-        //bgmPlayer.clip = bgmSounds[0].clip;
-        //bgmPlayer.Play();        
+        bgmPlayer.clip = bgmSounds[0].clip;
+        bgmPlayer.Play();        
         
         for(int i = 0; i<sfxSounds.Length; i++)
         {
@@ -81,11 +81,53 @@ public class SoundManager : MonoBehaviour
             sfxSounds[i].SetSource(soundObject.AddComponent<AudioSource>());
             soundObject.transform.SetParent(this.transform);
         }
+        
+    }
+    void Start(){
+        // ToggleBGM();
+        // ToggleSound();
     }
     public void BGMPlay(int num){
         
         bgmPlayer.clip = bgmSounds[num].clip;
         bgmPlayer.Play();   
+    }
+    public void ToggleBGM(){
+        bgmPlayer.volume = UIManager.instance.bgmState ? 1 : 0;
+        // if(bgmPlayer.volume==1){
+
+        //     bgmPlayer.volume = 0;
+        //     //UIManager.instance.bgmState = false;
+        // }
+        // else{
+        //     bgmPlayer.volume = 1;
+        //     //UIManager.instance.bgmState = true;
+        // }
+    }
+    public void ToggleSound(){
+        
+        for (int i = 0; i < sfxSounds.Length; i++)
+        {
+            sfxSounds[i].volume = UIManager.instance.sfxState ? 1 : 0;
+            sfxSounds[i].SetVolume();
+            // if(sfxSounds[0].volume == 1){
+
+            //     sfxSounds[i].volume = 0;
+            //     sfxSounds[i].SetVolume();
+            //     //UIManager.instance.sfxState = false;
+            // }
+            // else{
+                
+            //     sfxSounds[i].volume = 1;
+            //     sfxSounds[i].SetVolume();
+            //     //UIManager.instance.sfxState = true;
+            // }
+            //if(_soundName == sfxSounds[i].soundName)
+            //{
+                //if(!sfxSounds[i].isPlaying())
+                //return;
+            //}
+        }
     }
 
     public void Play(string _soundName){

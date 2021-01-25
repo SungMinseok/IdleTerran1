@@ -13,6 +13,7 @@ public class FactoryManager : MonoBehaviour
 
     [Header("재판매 할인율")]
     public float discount;
+    public Text discountText;
     public Transform botManager;
     public Transform factoryPos;
     public Transform parentPanel;
@@ -86,19 +87,19 @@ public class FactoryManager : MonoBehaviour
         nameText.text = BotManager.instance.botInfoList[num].name;
         botImage.color = childPanels[num].GetChild(1).GetComponent<Image>().color;
         botImage.transform.localScale = childPanels[num].GetChild(1).transform.localScale*6;
-        efficiencyText.text = "본체의 "+(BotManager.instance.botInfoList[num].efficiency*100).ToString()+"%"+"(<color=#C0F678>"+Mathf.RoundToInt(BotManager.instance.botInfoList[num].efficiency*PlayerManager.instance.capacity)+"</color>)";
+        efficiencyText.text = "본체의 "+(BotManager.instance.botInfoList[num].efficiency*100).ToString()+"%"+"(<color=#C0F678>"+Mathf.Ceil(BotManager.instance.botInfoList[num].efficiency*PlayerManager.instance.capacity)+"</color>)";
         priceText.text = string.Format("{0:#,###0}", BotManager.instance.botInfoList[num].price);//BotManager.instance.botInfoList[num].price.ToString();
 
     }
     public void ProduceInTuto(){
-        var clone = Instantiate(robots[0],BuildingManager.instance.buildingsInMap[0].transform.position,Quaternion.identity);
-                clone.transform.localScale = childPanels[nowNum].GetChild(1).transform.localScale *6;
-        clone.GetComponent<SpriteRenderer>().color = childPanels[0].GetChild(1).GetComponent<Image>().color;
-        clone.GetComponent<BotScript>().botState = BotState.Mine;
-        clone.GetComponent<BotScript>().efficiency = BotManager.instance.botInfoList[0].efficiency;
-        clone.transform.parent = botManager;
-        BotManager.instance.RefreshBotEquip(BotManager.instance.transform.childCount-1);
-
+        // var clone = Instantiate(robots[0],BuildingManager.instance.buildingsInMap[0].transform.position,Quaternion.identity);
+        //         clone.transform.localScale = childPanels[nowNum].GetChild(1).transform.localScale *6;
+        // clone.GetComponent<SpriteRenderer>().color = childPanels[0].GetChild(1).GetComponent<Image>().color;
+        // clone.GetComponent<BotScript>().botState = BotState.Mine;
+        // clone.GetComponent<BotScript>().efficiency = BotManager.instance.botInfoList[0].efficiency;
+        // clone.transform.parent = botManager;
+        // BotManager.instance.RefreshBotEquip(BotManager.instance.transform.childCount-1);
+        BotManager.instance.ActivateBot(0);
 
         BotManager.instance.botSaved.Add(nowNum);
         populationText.text = "인구수 : "+BotManager.instance.botSaved.Count.ToString()+"/"+BotManager.instance.maxPopulation;
@@ -114,14 +115,16 @@ public class FactoryManager : MonoBehaviour
                 
                 PlayerManager.instance.HandleMineral(-BotManager.instance.botInfoList[nowNum].price, false);
                     
-                var clone = Instantiate(robots[0],factoryPos.position,Quaternion.identity);
-                clone.transform.localScale = childPanels[nowNum].GetChild(1).transform.localScale *6;
-                clone.GetComponent<SpriteRenderer>().color = childPanels[nowNum].GetChild(1).GetComponent<Image>().color;
-                clone.GetComponent<BotScript>().botState = BotState.Mine;
-                clone.GetComponent<BotScript>().botType = nowNum;
-                clone.GetComponent<BotScript>().efficiency = BotManager.instance.botInfoList[nowNum].efficiency;
-                clone.transform.parent = botManager;
-                BotManager.instance.RefreshBotEquip(BotManager.instance.transform.childCount-1);
+                //var clone = Instantiate(robots[0],factoryPos.position,Quaternion.identity);
+                BotManager.instance.ActivateBot(nowNum);
+                // var clone = Instantiate(robots[0],factoryPos.position,Quaternion.identity);
+                // clone.transform.localScale = childPanels[nowNum].GetChild(1).transform.localScale *6;
+                // clone.GetComponent<SpriteRenderer>().color = childPanels[nowNum].GetChild(1).GetComponent<Image>().color;
+                // clone.GetComponent<BotScript>().botState = BotState.Mine;
+                // clone.GetComponent<BotScript>().botType = nowNum;
+                // clone.GetComponent<BotScript>().efficiency = BotManager.instance.botInfoList[nowNum].efficiency;
+                // clone.transform.parent = botManager;
+                // BotManager.instance.RefreshBotEquip(BotManager.instance.transform.childCount-1);
 
 
                 BotManager.instance.botSaved.Add(nowNum);
@@ -152,17 +155,19 @@ public class FactoryManager : MonoBehaviour
 
     }    
     public void ProduceByLoad(){
-        var clone = Instantiate(robots[0],factoryPos.position,Quaternion.identity);
-                clone.transform.localScale = childPanels[nowNum].GetChild(1).transform.localScale *6;
-        clone.GetComponent<SpriteRenderer>().color = childPanels[nowNum].GetChild(1).GetComponent<Image>().color;
-        clone.GetComponent<BotScript>().botState = BotState.Mine;
-        clone.GetComponent<BotScript>().efficiency = BotManager.instance.botInfoList[nowNum].efficiency;
-        clone.transform.parent = botManager;
+        // var clone = Instantiate(robots[0],factoryPos.position,Quaternion.identity);
+        // clone.transform.localScale = childPanels[nowNum].GetChild(1).transform.localScale *6;
+        // clone.GetComponent<SpriteRenderer>().color = childPanels[nowNum].GetChild(1).GetComponent<Image>().color;
+        // clone.GetComponent<BotScript>().botState = BotState.Mine;
+        // clone.GetComponent<BotScript>().efficiency = BotManager.instance.botInfoList[nowNum].efficiency;
+        // clone.transform.parent = botManager;
+                BotManager.instance.ActivateBot(nowNum, 1);
+
         // if(botManager.childCount!=0){
         //     clone.GetComponent<SpriteRenderer>().sortingOrder = botManager.GetChild(botManager.childCount-1).GetComponent<SpriteRenderer>().sortingOrder +1;
 
         // }
-        BotManager.instance.RefreshBotEquip(BotManager.instance.transform.childCount-1);
+        //BotManager.instance.RefreshBotEquip(BotManager.instance.transform.childCount-1);
 
 
         //BotManager.instance.botSaved.Add(nowNum);
@@ -226,15 +231,16 @@ public class FactoryManager : MonoBehaviour
         if(PlayerManager.instance.curRP >= rpRequirement[nowNum-1]){        
             PlayerManager.instance.curRP -= rpRequirement[nowNum-1];
 
-            UIManager.instance.successImage.SetActive(false);
-            UIManager.instance.failImage.SetActive(false);
-            UIManager.instance.okBtn.SetActive(false);
-            UIManager.instance.researchPanel.SetActive(true);
-            UIManager.instance.recallImage.SetActive(true);
-            SoundManager.instance.Play("recall");
+            // UIManager.instance.successImage.SetActive(false);
+            // UIManager.instance.failImage.SetActive(false);
+            // UIManager.instance.okBtn.SetActive(false);
+            // UIManager.instance.researchPanel.SetActive(true);
+            // UIManager.instance.recallImage.SetActive(true);
+            // SoundManager.instance.Play("recall");
             
-            int ranPtg = Random.Range(0,10000);
-            tempPtg = ranPtg * 0.0001f;
+            // int ranPtg = Random.Range(0,10000);
+            // tempPtg = ranPtg * 0.0001f;
+            tempPtg = UIManager.instance.OpenResearchPanel();
 
             Debug.Log("확률 : "+ptgRequirement[nowNum-1]*(1+UIManager.instance.ptgBonus)+"/ 뽑힌 수 : "+ tempPtg);
 
@@ -325,6 +331,7 @@ public class FactoryManager : MonoBehaviour
 
             }   
         }
+        discountText.text = "제작한 채취로봇들을 확인할 수 있습니다.\n구매가격의 <color=#C0F678>"+(discount*100f).ToString()+"%</color>로 판매할 수 있습니다.";
         
         populationText.text = "인구수 : "+BotManager.instance.botSaved.Count.ToString()+"/"+BotManager.instance.maxPopulation;
         
@@ -389,17 +396,12 @@ public class FactoryManager : MonoBehaviour
     //     OpenBotStatusPanel();
     // }
     public void SellBot(){
-        //tempPre = BotManager.instance.botSaved.Count;
-        //BotManager.instance.botSaved.Remove(selectedNum);
-        int tempIndex = BotManager.instance.botSaved.IndexOf(selectedNum);
-        Debug.Log(tempIndex+"번째 제거");
-        BotManager.instance.botSaved.RemoveAt(tempIndex);
-        botManager.GetChild(tempIndex).GetComponent<BotScript>().DestroyBot();
-        //PlayerManager.instance.HandleMineral(selectedPrice);
+        BotManager.instance.DeactivateBot(selectedNum);
+        // int tempIndex = BotManager.instance.botSaved.IndexOf(selectedNum);
+        // Debug.Log(tempIndex+"번째 제거");
+        // BotManager.instance.botSaved.RemoveAt(tempIndex);
+        // botManager.GetChild(tempIndex).GetComponent<BotScript>().DestroyBot();
         PlayerManager.instance.HandleMineral((long)float.Parse(priceText_Status.text));
-        // nameText_Status.text = "";
-        // priceText_Status.text = "";
-        // sellLock.SetActive(true);
         if(botStatusCount[selectedNum].text == "1"){
             sellLock.SetActive(true);
             nameText_Status.text = "";
@@ -439,12 +441,13 @@ public class FactoryManager : MonoBehaviour
     public void SelltheSameTypeBot(){
         //List<int> temp = new List<int>();
         while(BotManager.instance.botSaved.Contains(selectedNum)){
+                SellBot();
+            // int tempIndex = BotManager.instance.botSaved.IndexOf(selectedNum);
+            // Debug.Log(tempIndex+"번째 제거");
+            // BotManager.instance.botSaved.RemoveAt(tempIndex);
+            // botManager.GetChild(tempIndex).GetComponent<BotScript>().DestroyBot();
+            // PlayerManager.instance.HandleMineral((long)float.Parse(priceText_Status.text));
 
-            int tempIndex = BotManager.instance.botSaved.IndexOf(selectedNum);
-            Debug.Log(tempIndex+"번째 제거");
-            BotManager.instance.botSaved.RemoveAt(tempIndex);
-            botManager.GetChild(tempIndex).GetComponent<BotScript>().DestroyBot();
-            PlayerManager.instance.HandleMineral((long)float.Parse(priceText_Status.text));
         }
         // for(int i=0;i<BotManager.instance.botSaved.Count;i++){
         //     if(BotManager.instance.botSaved[i]==BotManager.instance.botSaved[selectedNum]){
@@ -471,6 +474,7 @@ public class FactoryManager : MonoBehaviour
         sellLock.SetActive(true);
 
         OpenBotStatusPanel();
+        //StartCoroutine(SellAllCoroutine());
     }
 
 }

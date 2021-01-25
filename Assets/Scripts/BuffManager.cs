@@ -64,7 +64,6 @@ public class BuffManager : MonoBehaviour
     public bool autoChargeFuel;
     private bool autoCharging;
     public bool autoGatherRP;
-    public bool autoStimpack;
     [Header("랜덤박스 전체")]
     public GameObject randomBoxPanel_All;
     public Transform randomBoxPanel_All_Grid;
@@ -239,7 +238,7 @@ RefreshUICount();
                 break;
         }
 
-        if(autoStimpack){
+        if(UIManager.instance.autoStimpack){
             ActivateBuff(buff.name);
         }
 
@@ -610,7 +609,7 @@ RefreshUICount();
         if(BotManager.instance.botSaved.Count!=0){
             for(int i=0;i<BotManager.instance.botSaved.Count;i++){
                 //Debug.Log(BotManager.instance.botSaved)
-                var temp = botManager.GetChild(i).GetComponent<BotScript>();
+                var temp = BotManager.instance.activated.GetChild(i).GetComponent<BotScript>();
                 for(int j=0;j<3;j++){
                     //Debug.Log(i+"번 봇 "+j+"번 째 색변경 성공");
                     //botManager.GetChild(i).GetComponent<BotScript>().booster.gameObject.SetActive(true);
@@ -684,11 +683,11 @@ RefreshUICount();
     }
     public IEnumerator AutoGatherRPCoroutine(Transform clone){
         //Debug.Log("자동 이동");
-        while(clone!=null){
-            clone.position = Vector2.MoveTowards(clone.position, PlayerManager.instance.transform.position, Time.deltaTime*2);
+        while(clone.position != PlayerManager.instance.centerPos.position){
+            clone.position = Vector2.MoveTowards(clone.position, PlayerManager.instance.centerPos.position, Time.deltaTime*2);
             yield return new WaitForFixedUpdate();
         }
-//        PlayerManager.instance.GetItem(clone.gameObject);
+        PlayerManager.instance.GetItem(clone.gameObject);
 
 
     }
@@ -697,7 +696,7 @@ RefreshUICount();
         PlayerManager.instance.bonusCapacity = amount;
         if(BotManager.instance.botSaved.Count!=0){
             for(int i=0;i<BotManager.instance.botSaved.Count;i++){
-                var temp = botManager.GetChild(i).GetComponent<BotScript>();
+                var temp = BotManager.instance.activated.GetChild(i).GetComponent<BotScript>();
                 for(int j=0;j<3;j++){
                     temp.mineral.transform.localScale =  new Vector2(amount,amount);
                 }
@@ -796,16 +795,13 @@ RefreshUICount();
             //Debug.Log("코루틴 종료");
 
     }   
-    public void AutoStimOff(){
-        autoStimpack = false;
-    }
-    public void AutoStimOn(){
-        autoStimpack = true;
+    // public void AutoStimOff(){
+    //     autoStimpack = false;
+    // }
+    // public void AutoStimOn(){
+    //     autoStimpack = true;
 
-    }
-    public void ToggleAutoStim(){
-        autoStimpack = !autoStimpack;
-    }
+    // }
     public void RefreshUICount(){
         
         boxCountText.text = "x " + boxCount.ToString();
@@ -918,12 +914,13 @@ RefreshUICount();
                         break;
                     case 2:
                         tempBonus = PlayerManager.instance.moreSupply * int.Parse(countText.text);
-                        totalText.text = (int.Parse(totalText.text) + tempBonus).ToString();
+                        //totalText.text = (int.Parse(totalText.text) + tempBonus).ToString();
+                        totalText.text = string.Format("{0:#,###0}", (float.Parse(totalText.text) + tempBonus));
                         bonusPtgText.text = tempBonus.ToString();
                         break;
                     case 3:
                         tempBonus = PlayerManager.instance.moreSupply * int.Parse(countText.text);
-                        totalText.text = (int.Parse(totalText.text) + tempBonus).ToString();
+                        totalText.text = string.Format("{0:#,###0}", (float.Parse(totalText.text) + tempBonus));
                         bonusPtgText.text = tempBonus.ToString();
                         break;
                 }

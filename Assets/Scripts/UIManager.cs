@@ -32,7 +32,18 @@ public class UIManager : MonoBehaviour
     //     }
     // }
     [Header ("세팅")]
+    public Transform settingGrid;
+    GameObject[] toggleImage;
+    public bool autoStimpack;
+    public bool bgmState;
+    public bool sfxState;
     public bool set_floating;
+    public bool set_helpUI;
+    [Header ("플로팅 텍스트")]
+    public Transform ready_FT;
+    public Transform  activated_FT;
+    public Color mineralColor;
+    public Color rpColor;
     [Header ("페이더")]
     public Animator fader;
     [Space]
@@ -50,6 +61,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] public Text minText;
     [SerializeField] public Text rpText;
     [SerializeField] public Text timerText;
+    public Text minPerSecText;
     [Header("하단 UI")]
     public GameObject buildLock;
     public Text statusInfoText;
@@ -128,8 +140,23 @@ public class UIManager : MonoBehaviour
 #endif
     }
     void Start(){
+        toggleImage = new GameObject[settingGrid.childCount];
+
+        for(int i=0;i<settingGrid.childCount;i++){
+            int temp = i;
+            toggleImage[i] = settingGrid.GetChild(i).GetChild(2).gameObject;
+            settingGrid.GetChild(temp).GetComponent<Button>().onClick.AddListener(()=>ToggleSettings(temp));
+
+        }
+
+
+
+
+
         RefreshSciencePanel();
         RefreshStarportPanel();
+
+        SetSettings();
     }
 
     // void Update(){
@@ -232,9 +259,17 @@ public class UIManager : MonoBehaviour
     public void StartTimer(){
         timerBtn = !timerBtn;
     }
- 
+    IEnumerator CalculateMineralPerSecond(){
+        long temp  = PlayerManager.instance.curMineral;
+        yield return new WaitForSeconds(5f);
+        minPerSecText.text = "+"+string.Format("{0:#,###0}",(PlayerManager.instance.curMineral- temp))+"/s";
+        
+        //Debug.Log(PlayerManager.instance.curMineral- temp);
+    }
     private void Update()
     {
+        //StartCoroutine(CalculateMineralPerSecond());
+
         // if(timerBtn){
         //     UpdateTimer(totalTime );
         // }
@@ -291,7 +326,7 @@ public class UIManager : MonoBehaviour
     
     public void EnableColliders(){
         foreach(BoxCollider2D col in boxes){
-            if(col.tag!="RP"){
+            if(!col.CompareTag("RP")){
 
                 col.isTrigger = false;
             }
@@ -563,6 +598,7 @@ public class UIManager : MonoBehaviour
     }
     public void SetRewardPop(string des, string what, int amount = 1){
         rewardPopText.text = des;
+        SoundManager.instance.Play("rescue");
         autoText.SetActive(false);
         switch(what){
             case "Box":
@@ -626,6 +662,126 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene("LaunchNuke");
         //nukePanel.SetActive(true);
     }
+    public float OpenResearchPanel(){
+        AchvManager.instance.totalResearch ++;
+        AchvManager.instance.RefreshAchv(2);
+        UIManager.instance.successImage.SetActive(false);
+        UIManager.instance.failImage.SetActive(false);
+        UIManager.instance.okBtn.SetActive(false);
+        UIManager.instance.researchPanel.SetActive(true);
+        UIManager.instance.recallImage.SetActive(true);
+        SoundManager.instance.Play("recall");
+        int ranPtg = Random.Range(0,10000);
+        return ranPtg * 0.0001f;
+    }
+    public void ToggleAutoStim(){
+        autoStimpack = !autoStimpack;
+    }
+    public void SetSettings(){
+        //Default : off
+        toggleImage[0].SetActive(autoStimpack);
+
+        
+        //Default : on(true)
+        toggleImage[1].SetActive(bgmState);
+        if(!bgmState){
+            ToggleSettings(1);
+            ToggleSettings(1);
+        }
+        //
+        toggleImage[2].SetActive(sfxState);
+        if(!sfxState){
+            ToggleSettings(2);
+            ToggleSettings(2);
+        }
+        //
+        toggleImage[3].SetActive(set_floating);
+        // if(!set_floating){
+        //     ToggleSettings(3);
+        // }
+        toggleImage[4].SetActive(set_helpUI);
+        if(!set_helpUI){
+            for(int i=0;i<lowerUI.Length;i++){
+                lowerUI[i].transform.GetChild(0).GetChild(0).gameObject.SetActive(set_helpUI);
+            }
+        }
+
+    }
+    public void ToggleSettings(int num){
+        //bool goState = !toggleImage[num].activeSelf;
+        
+        switch(num){
+            case 0:
+                autoStimpack = !autoStimpack;
+                break;
+            case 1:
+                bgmState = !bgmState;
+                SoundManager.instance.ToggleBGM();
+                break;
+            case 2:
+                sfxState = !sfxState;
+                SoundManager.instance.ToggleSound();
+                break;
+            case 3:
+                set_floating = !set_floating;
+                break;
+            case 4:
+                set_helpUI = !set_helpUI;
+                for(int i=0;i<lowerUI.Length;i++){
+                    //bool temp = lowerUI[0].transform.GetChild(0).GetChild(0).gameObject.activeSelf;
+                    lowerUI[i].transform.GetChild(0).GetChild(0).gameObject.SetActive(set_helpUI);
+                }
+                break;
+        }
+        
+        toggleImage[num].SetActive(!toggleImage[num].activeSelf);
+    }
+    public void PrintFloating(string text, Transform _transform, Sprite sprite = null, int type = 0)//0: 미네랄, 1 : RP
+    {
+
+        if (text != "")
+        {
+            var clone = ready_FT.GetChild(0);
+            clone.transform.position = new Vector2(_transform.position.x,_transform.position.y+0.3f);
+            //var clone = Instantiate(floatingText, floatingCanvas.transform.position, Quaternion.identity);
+            //var clone = Instantiate(floatingText, new Vector2(transform.position.x,transform.position.y+0.3f), Quaternion.identity);
+            clone.transform.GetChild(0).GetComponent<Text>().text = text;
+            if(type==0)
+                clone.transform.GetChild(0).GetComponent<Text>().color = mineralColor;
+            else
+                clone.transform.GetChild(0).GetComponent<Text>().color = rpColor;
+
+            
+            if(activated_FT.transform.childCount>=1){
+
+                clone.GetComponent<Canvas>().sortingOrder = activated_FT.transform.GetChild(activated_FT.transform.childCount-1).transform.GetComponent<Canvas>().sortingOrder+1;
+            }
+            clone.transform.SetParent(activated_FT.transform);
+
+            clone.gameObject.SetActive(true);
+        }
+        // else
+        // {
+        //     var clone = Instantiate(floatingImage, floatingCanvas.transform.position, Quaternion.identity);
+        //     clone.GetComponent<FloatingText>().image.sprite = sprite;
+        //     clone.transform.SetParent(floatingCanvas.transform);
+        // }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #if DEV_MODE
     public void SetGameSpeed(float speed){

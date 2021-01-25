@@ -327,15 +327,17 @@ public class BuildingManager : MonoBehaviour
 
                 PlayerManager.instance.curRP -= rpRequirement[nowNum];
 
-                UIManager.instance.successImage.SetActive(false);
-                UIManager.instance.failImage.SetActive(false);
-                UIManager.instance.okBtn.SetActive(false);
-                UIManager.instance.researchPanel.SetActive(true);
-                UIManager.instance.recallImage.SetActive(true);
-            SoundManager.instance.Play("recall");
+            //     UIManager.instance.successImage.SetActive(false);
+            //     UIManager.instance.failImage.SetActive(false);
+            //     UIManager.instance.okBtn.SetActive(false);
+            //     UIManager.instance.researchPanel.SetActive(true);
+            //     UIManager.instance.recallImage.SetActive(true);
+            // SoundManager.instance.Play("recall");
                 
-                int ranPtg = Random.Range(0,10000);
-                tempPtg = ranPtg * 0.0001f;
+            //     int ranPtg = Random.Range(0,10000);
+            //     tempPtg = ranPtg * 0.0001f;
+            
+                tempPtg = UIManager.instance.OpenResearchPanel();
 
                 Debug.Log("확률 : "+ptgRequirement[nowNum]*(1+UIManager.instance.ptgBonus)+"/ 뽑힌 수 : "+ tempPtg);
 
@@ -372,4 +374,5 @@ public class BuildingManager : MonoBehaviour
 
         }
     }
+    
 }

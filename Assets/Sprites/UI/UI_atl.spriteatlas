@@ -43,7 +43,7 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: a696f91dc4ae2a146857ac9f37896f92, type: 3}
-    totalSpriteSurfaceArea: 10977543
+    totalSpriteSurfaceArea: 11562759
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -56,6 +56,8 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 71e06e72df62b4c43899ac1e1973d57d, type: 3}
   - {fileID: 21300000, guid: f63425d2123751641b08d9ade4717c3e, type: 3}
   - {fileID: 21300000, guid: ee9f97d2d139b4c4c8d3a9979fda6ff9, type: 3}
+  - {fileID: 1544084101132751874, guid: 888104032bcd10a4382bf849e1119340, type: 3}
+  - {fileID: 6220461733829208710, guid: 888104032bcd10a4382bf849e1119340, type: 3}
   - {fileID: 21300000, guid: d324431313fbe494bbb38d6599e20256, type: 3}
   - {fileID: 21300000, guid: 56697af3a1281bc40a85ef43c31a4331, type: 3}
   - {fileID: 21300000, guid: d0a14244fda59f445bc52d4fcf5da264, type: 3}
@@ -84,12 +86,14 @@ SpriteAtlas:
   - {fileID: 21300000, guid: e6428dcc55bcbfc4d9520d2a40db64a6, type: 3}
   - {fileID: 21300000, guid: 91f44dec7b4d03347a71d58dd2aadedd, type: 3}
   - {fileID: 21300000, guid: 987df1fc72de54446b48aecf159e8922, type: 3}
+  - {fileID: 21300000, guid: f9c0065da5b11d445846de3f5053c1b8, type: 3}
   - {fileID: -6470460504253458178, guid: 82b5ef5dade2e0b4481f5e6911560655, type: 3}
   - {fileID: 21300000, guid: 3350a6dde26e29945ba509a359a9c91d, type: 3}
   - {fileID: 21300000, guid: 54572bdd8f5d2714bbb294198af0cb38, type: 3}
   - {fileID: 21300000, guid: 5516340e2afb2414a85c10838363da64, type: 3}
   - {fileID: 21300000, guid: c9cad62ee54b2bd45b3d285a86dc9b31, type: 3}
   - {fileID: 6937817954938267909, guid: a9f5ec5e437bc1e47acac31955b45b29, type: 3}
+  - {fileID: 21300000, guid: e541b1ded63ac7c40837bdfd55c19d9b, type: 3}
   - {fileID: -1248623373463830765, guid: e5117a3f9562143448db56479f6f7e29, type: 3}
   m_PackedSpriteNamesToIndex:
   - 4_1_0
@@ -101,6 +105,8 @@ SpriteAtlas:
   - 512x512_white
   - 592x120_white
   - circle 3d
+  - Fuel 3d_1
+  - Fuel 3d_0
   - up0
   - Price
   - Arrow 3d
@@ -129,12 +135,14 @@ SpriteAtlas:
   - null
   - Arrow
   - 1600x1200
+  - plus2 3d
   - 3_0
   - "2 - \uBCF5\uC0AC\uBCF8"
   - up3
   - 592x120_noline
   - mainText
   - 2_0
+  - trophy 3d
   - dollar 3d_0
   m_Tag: UI_atl
   m_IsVariant: 0

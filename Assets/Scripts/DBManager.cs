@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 public class DBManager : MonoBehaviour
 {    
     public static DBManager instance;
+    public int loadCount;
     public int debugVersion;
     public bool ActivateLoad;
     public bool loadComplete;
@@ -24,6 +25,7 @@ public class DBManager : MonoBehaviour
     }
     [System.Serializable]   //SL에 필수적 속성 : 직렬화. 컴퓨터가 읽고쓰기 쉽게.
     public class Data{
+        public int loadCount;
         //현재 위치, 현재 시간, 현재 미네랄, 현재 연료, 현재 개스, 현재 장비 레벨, 튜토리얼 유무
         public float playerX,playerY,playerZ;
         public float timer; // UI
@@ -81,11 +83,18 @@ public class DBManager : MonoBehaviour
         //자동모드
         public bool autoChargeFuel;
         public bool autoGatherRP;
-        public bool autoStimpack;
+        //public bool autoStimpack;
         
         //캐쉬 구매 목록
         public int[] packageCheck;
         public int[] normalCheck;
+
+        //설정
+        public bool autoStimpack;
+        public bool bgmState;
+        public bool sfxState;
+        public bool set_floating;
+        public bool set_helpUI;
     }
     UIManager theUI;
     PlayerManager thePlayer;
@@ -102,6 +111,7 @@ public class DBManager : MonoBehaviour
         // data.playerX = thePlayer.transform.position.x;
         // data.playerY = thePlayer.transform.position.y;
         // data.playerZ = thePlayer.transform.position.z;
+        data.loadCount = DBManager.instance.loadCount;
 
         data.timer = theUI.playTime;
         
@@ -161,11 +171,17 @@ public class DBManager : MonoBehaviour
         //자동모드
         data.autoChargeFuel = BuffManager.instance.autoChargeFuel;
         data.autoGatherRP= BuffManager.instance.autoGatherRP;
-        data.autoStimpack= BuffManager.instance.autoStimpack;
         
         //캐쉬 구매 목록
         data.packageCheck = ShopManager.instance.packageCheck;
         data.normalCheck= ShopManager.instance.normalCheck;
+
+        //설정
+        data.autoStimpack= UIManager.instance.autoStimpack;
+        data.bgmState= UIManager.instance.bgmState;
+        data.sfxState= UIManager.instance.sfxState;
+        data.set_floating= UIManager.instance.set_floating;
+        data.set_helpUI= UIManager.instance.set_helpUI;
 
         BinaryFormatter bf = new BinaryFormatter();
         //FileStream file = File.Create(Application.persistentDataPath + "/SaveFile" + num +".dat");
@@ -197,6 +213,8 @@ public class DBManager : MonoBehaviour
                 //Debug.Log(Application.);
                 // Vector3 vector =new Vector3(data.playerX, data.playerY, data.playerZ);
                 // thePlayer.transform.position = vector;
+
+                DBManager.instance.loadCount = data.loadCount + 1 ;
 
                 theUI.playTime = data.timer;
                 
@@ -317,12 +335,33 @@ public class DBManager : MonoBehaviour
         //자동모드
                 BuffManager.instance.autoChargeFuel = data.autoChargeFuel;
                 BuffManager.instance.autoGatherRP = data.autoGatherRP;
-                BuffManager.instance.autoStimpack = data.autoStimpack;
 
                 
         //캐쉬 구매 목록
                 ShopManager.instance.packageCheck = data.packageCheck;
                 ShopManager.instance.normalCheck = data.normalCheck;
+            
+            
+        //설정
+                if(data.loadCount == 0 ){
+
+                    UIManager.instance.autoStimpack = false;
+            
+                    UIManager.instance.bgmState = true;
+                    UIManager.instance.sfxState = true;
+                    UIManager.instance.set_floating = true;
+                    UIManager.instance.set_helpUI = true;
+                }
+                else{
+
+                    UIManager.instance.autoStimpack = data.autoStimpack;
+                    UIManager.instance.bgmState = data.bgmState;
+                    UIManager.instance.sfxState = data.sfxState;
+                    UIManager.instance.set_floating = data.set_floating;
+                    UIManager.instance.set_helpUI = data.set_helpUI;
+                }
+            
+            
             }
 
 

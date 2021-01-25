@@ -39,8 +39,8 @@ public class BotScript : MonoBehaviour
     public GameObject booster;
     public SpriteRenderer[] boosters;
     bool miningFlag;
-    public GameObject floatingText;
-    public GameObject floatingCanvas;
+    //public GameObject floatingText;
+    //public GameObject floatingCanvas;
     public GameObject miningMineral;
     public Transform selectedMineral;
     void Awake(){
@@ -63,7 +63,7 @@ public class BotScript : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();   
-        floatingCanvas = PlayerManager.instance.floatingCanvas;     
+        //floatingCanvas = PlayerManager.instance.floatingCanvas;     
         
         selectedMineral = UIManager.instance.mineralsInMap[Random.Range(0,UIManager.instance.mineralsInMap.Length)] ;
     }
@@ -127,7 +127,7 @@ public class BotScript : MonoBehaviour
                 } 
             }
             else if(isHolding&&!isMining){
-                destination = GameObject.FindWithTag("Center").transform;
+                destination = PlayerManager.instance.centerPos;
                 if(gotDestination){
                         HandleMineral();
                     gotDestination = false;
@@ -176,6 +176,8 @@ public class BotScript : MonoBehaviour
         if(movement != Vector2.zero && !isMining){
             if(PlayerManager.instance.curFuel>0){
                 rb.MovePosition(rb.position + movement * (speed * PlayerManager.instance.bonusSpeed) * Time.deltaTime);
+//                Debug.Log("봇 속도 : "+(speed * PlayerManager.instance.bonusSpeed) * Time.deltaTime);
+
                 PlayerManager.instance.HandleFuel(-fuelUsagePerWalk);
 
             }
@@ -241,7 +243,8 @@ public class BotScript : MonoBehaviour
         private void OnTriggerExit2D(Collider2D collision){
         // if(!placeFlag){
         //     placeFlag = true;
-            if(collision.tag == "Mineral Field"){
+            if(collision.CompareTag("Mineral Field")){
+
                     gotMine = false;
         isMining = false;
         
@@ -249,7 +252,8 @@ public class BotScript : MonoBehaviour
         // miningMineral = null;
             }        
             
-            else if(collision.tag == "Center"){
+            else if(collision.CompareTag("Center")){
+
                     gotDestination = false;
             }
         //}
@@ -307,13 +311,15 @@ public class BotScript : MonoBehaviour
             switch(packageType){
                 case PackageType.normal :
                     PlayerManager.instance.curMineral += (long)temp;
+                    AchvManager.instance.totalMineral +=(long)temp;
                     break;
                 default :
                     break;
             }
             
             if(UIManager.instance.set_floating) {
-                if(floating) PrintFloating("+ "+temp.ToString());
+                if(floating) UIManager.instance.PrintFloating("+ "+temp.ToString(), transform);
+                //PrintFloating("+ "+temp.ToString());
             }
         }
         else{
@@ -322,32 +328,33 @@ public class BotScript : MonoBehaviour
 
 
     }    
-    public void PrintFloating(string text, Sprite sprite = null)
-    {
+    // public void PrintFloating(string text, Sprite sprite = null)
+    // {
 
-        if (text != "")
-        {
-            //var clone = Instantiate(floatingText, floatingCanvas.transform.position, Quaternion.identity);
-            var clone = Instantiate(floatingText, new Vector2(transform.position.x,transform.position.y+0.3f), Quaternion.identity);
-            clone.transform.GetChild(0).GetComponent<Text>().text = text;
-            if(floatingCanvas.transform.childCount>=1){
-                var temp = floatingCanvas.transform.GetChild(floatingCanvas.transform.childCount-1).transform;
-                //Vector2 tempVect = new Vector2(temp.localScale.x * 1.05f,temp.localScale.y *1.05f);
-                //clone.transform.localScale = new Vector2(temp.localScale.x+ 0.05f,temp.localScale.y +0.05f);;
-                clone.GetComponent<Canvas>().sortingOrder = temp.GetComponent<Canvas>().sortingOrder+1;
+    //     if (text != "")
+    //     {
+    //         //var clone = Instantiate(floatingText, floatingCanvas.transform.position, Quaternion.identity);
+    //         var clone = Instantiate(floatingText, new Vector2(transform.position.x,transform.position.y+0.3f), Quaternion.identity);
+    //         clone.transform.GetChild(0).GetComponent<Text>().text = text;
+    //         if(floatingCanvas.transform.childCount>=1){
+    //             var temp = floatingCanvas.transform.GetChild(floatingCanvas.transform.childCount-1).transform;
+    //             //Vector2 tempVect = new Vector2(temp.localScale.x * 1.05f,temp.localScale.y *1.05f);
+    //             //clone.transform.localScale = new Vector2(temp.localScale.x+ 0.05f,temp.localScale.y +0.05f);;
+    //             clone.GetComponent<Canvas>().sortingOrder = temp.GetComponent<Canvas>().sortingOrder+1;
             
             
-                // Debug.Log(clone.transform.localScale);
-                // Debug.Log(floatingCanvas.transform.GetChild(floatingCanvas.transform.childCount-1).transform.localScale);
+    //             // Debug.Log(clone.transform.localScale);
+    //             // Debug.Log(floatingCanvas.transform.GetChild(floatingCanvas.transform.childCount-1).transform.localScale);
             
-            }
-            clone.transform.SetParent(floatingCanvas.transform);
-        }
-    }
+    //         }
+    //         clone.transform.SetParent(floatingCanvas.transform);
+    //     }
+    // }
     public void RepSound(){
         SoundManager.instance.Play("rep"+Random.Range(0,5));
     }    
     public void DestroyBot(){
+        Debug.Log("봇 파괴");
         Destroy(this.gameObject);
     }
     // public void UnsetBot(int typeNum){

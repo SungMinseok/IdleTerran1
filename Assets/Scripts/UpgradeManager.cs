@@ -58,6 +58,7 @@ public class Upgrade{
 public class UpgradeManager : MonoBehaviour
 {
     public static UpgradeManager instance;
+    public Color[] uiColors;
     int column = 4;//기본 서사 신화 전설
     int row = 4;//용접기 연료 ``
     [Header("기본,서사,전설 최대 레벨")]
@@ -342,6 +343,9 @@ public class UpgradeManager : MonoBehaviour
                 else accessibleUpgradePanelList[j].locked.SetActive(true);
                 
                 upgradePanelList_UI[j].GetComponent<Button>().interactable = true;
+                upgradePanelList_UI[j].GetChild(4).gameObject.SetActive(false);
+                upgradePanelList_UI[j].GetChild(4).GetChild(0).GetComponent<Image>().color = uiColors[j%4];
+                upgradePanelList_UI[j].GetChild(4).GetChild(0).GetChild(0).GetComponent<Text>().color = uiColors[j%4];
             }
 
         }
@@ -353,22 +357,25 @@ public class UpgradeManager : MonoBehaviour
     public void RefreshUpgradePanelUI(int num){//0, 1, 2, 3
 
 
-        if(tempLevel<=20){
+        if(tempLevel<20){
         }
-        else if(tempLevel<=40 && tempLevel>20){
+        else if(tempLevel<40 && tempLevel>=20){
             accessibleUpgradePanelList[num*4].level.text = "<color=white>20</color> / "+maxLevel0.ToString() ;
             accessibleUpgradePanelList[num*4+1].locked.SetActive(false);
             upgradePanelList_UI[num*4].GetComponent<Button>().interactable = false;
+            upgradePanelList_UI[num*4].GetChild(4).gameObject.SetActive(true);
         }
-        else if(tempLevel<=60 && tempLevel>40){
+        else if(tempLevel<60 && tempLevel>=40){
             accessibleUpgradePanelList[num*4].level.text = "<color=white>20</color> / "+maxLevel0.ToString() ;
             accessibleUpgradePanelList[num*4+1].level.text = "<color=white>20</color> / "+maxLevel0.ToString() ;
             accessibleUpgradePanelList[num*4+1].locked.SetActive(false);
             accessibleUpgradePanelList[num*4+2].locked.SetActive(false);
             upgradePanelList_UI[num*4].GetComponent<Button>().interactable = false;
             upgradePanelList_UI[num*4+1].GetComponent<Button>().interactable = false;
+            upgradePanelList_UI[num*4].GetChild(4).gameObject.SetActive(true);
+            upgradePanelList_UI[num*4+1].GetChild(4).gameObject.SetActive(true);
         }
-        else{
+        else if(tempLevel<61 && tempLevel>=60){
             accessibleUpgradePanelList[num*4].level.text = "<color=white>20</color> / "+maxLevel0.ToString() ;
             accessibleUpgradePanelList[num*4+1].level.text = "<color=white>20</color> / "+maxLevel0.ToString() ;
             accessibleUpgradePanelList[num*4+2].level.text = "<color=white>20</color> / "+maxLevel0.ToString() ;
@@ -378,6 +385,27 @@ public class UpgradeManager : MonoBehaviour
             upgradePanelList_UI[num*4].GetComponent<Button>().interactable = false;
             upgradePanelList_UI[num*4+1].GetComponent<Button>().interactable = false;
             upgradePanelList_UI[num*4+2].GetComponent<Button>().interactable = false;
+            upgradePanelList_UI[num*4].GetChild(4).gameObject.SetActive(true);
+            upgradePanelList_UI[num*4+1].GetChild(4).gameObject.SetActive(true);
+            upgradePanelList_UI[num*4+2].GetChild(4).gameObject.SetActive(true);
+        }
+        else if(tempLevel >= 61){
+            
+            accessibleUpgradePanelList[num*4].level.text = "<color=white>20</color> / "+maxLevel0.ToString() ;
+            accessibleUpgradePanelList[num*4+1].level.text = "<color=white>20</color> / "+maxLevel0.ToString() ;
+            accessibleUpgradePanelList[num*4+2].level.text = "<color=white>20</color> / "+maxLevel0.ToString() ;
+            accessibleUpgradePanelList[num*4+3].level.text = "<color=white>20</color> / "+maxLevel0.ToString() ;
+            accessibleUpgradePanelList[num*4+1].locked.SetActive(false);
+            accessibleUpgradePanelList[num*4+2].locked.SetActive(false);
+            accessibleUpgradePanelList[num*4+3].locked.SetActive(false);
+            upgradePanelList_UI[num*4].GetComponent<Button>().interactable = false;
+            upgradePanelList_UI[num*4+1].GetComponent<Button>().interactable = false;
+            upgradePanelList_UI[num*4+2].GetComponent<Button>().interactable = false;
+            upgradePanelList_UI[num*4+3].GetComponent<Button>().interactable = false;
+            upgradePanelList_UI[num*4].GetChild(4).gameObject.SetActive(true);
+            upgradePanelList_UI[num*4+1].GetChild(4).gameObject.SetActive(true);
+            upgradePanelList_UI[num*4+2].GetChild(4).gameObject.SetActive(true);
+            upgradePanelList_UI[num*4+3].GetChild(4).gameObject.SetActive(true);
         }
 
         //잠금해제 적용.
@@ -491,14 +519,15 @@ public class UpgradeManager : MonoBehaviour
             if(PlayerManager.instance.curRP >= rpRequirement[(tempLockedNum%4)-1]){
 
                 PlayerManager.instance.curRP-=rpRequirement [tempLockedNum%4-1];
-                UIManager.instance.successImage.SetActive(false);
-                UIManager.instance.failImage.SetActive(false);
-                UIManager.instance.okBtn.SetActive(false);
-                UIManager.instance.researchPanel.SetActive(true);
-                UIManager.instance.recallImage.SetActive(true);
-            SoundManager.instance.Play("recall");
-                int ranPtg = Random.Range(0,10000);
-                tempPtg = ranPtg * 0.0001f;
+            //     UIManager.instance.successImage.SetActive(false);
+            //     UIManager.instance.failImage.SetActive(false);
+            //     UIManager.instance.okBtn.SetActive(false);
+            //     UIManager.instance.researchPanel.SetActive(true);
+            //     UIManager.instance.recallImage.SetActive(true);
+            // SoundManager.instance.Play("recall");
+            //     int ranPtg = Random.Range(0,10000);
+            //    tempPtg = ranPtg * 0.0001f;
+                tempPtg = UIManager.instance.OpenResearchPanel();
 
                 Debug.Log("확률 : "+ptgRequirement[tempLockedNum%4-1]*(1+UIManager.instance.ptgBonus)+"/ 뽑힌 수 : "+ tempPtg);
 
