@@ -28,7 +28,7 @@ public class SpriteButton : MonoBehaviour
         }
     }
     void OnMouseEnter(){
-        Debug.Log("들옴");
+        //Debug.Log("들옴");
         //transform.localScale = new Vector2(defaultScale.x * 1.1f,defaultScale.y * 1.1f);
     }
     // void OnMouseExit(){
@@ -37,8 +37,8 @@ public class SpriteButton : MonoBehaviour
     // }
     void OnMouseUp(){
         //if(!CameraMovement.instance.isMoving){
-        if(!UIManager.instance.OnUI() && !UIManager.instance.uiBlocked){
-
+        if(!UIManager.instance.OnUI() && !UIManager.instance.uiBlocked && !CameraMovement.instance.isMoving){
+            Debug.Log(gameObject.name+": 클릭");
             if(buildingType == BuildingType.Enterable){
                 PlayerManager.instance.Order(transform,OrderType.Enter);
                 //if(objectName=="Center") BuffManager.instance. RefreshUICount();
@@ -67,6 +67,10 @@ public class SpriteButton : MonoBehaviour
             else if(buildingType == BuildingType.None){
 
             }
+        }
+        else{
+            Debug.Log(gameObject.name+": 클릭 무시"+UIManager.instance.OnUI()+UIManager.instance.uiBlocked+CameraMovement.instance.isMoving);
+
         }
 
         //}

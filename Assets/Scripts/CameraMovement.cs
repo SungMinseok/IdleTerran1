@@ -42,11 +42,17 @@ public class CameraMovement : MonoBehaviour
             Vector3 difference = dragOrigin - cam.ScreenToWorldPoint(Input.mousePosition);
             //cam.transform.position += difference;
             cam.transform.position = ClampCamera(cam.transform.position + difference);
-            isMoving = true;
+            //isMoving = true;
+            Invoke("DelayCheck",0.25f);
         }
         else{
             isMoving = false;
         }
+    }
+
+    void DelayCheck(){
+        
+        isMoving = true;
     }
 
     // void OnMouseEnter(){
