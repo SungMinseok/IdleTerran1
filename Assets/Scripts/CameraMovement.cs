@@ -29,7 +29,7 @@ public class CameraMovement : MonoBehaviour
     void LateUpdate()
     {
         
-        if(!UIManager.instance.OnUI()){
+        if(!UIManager.instance.OnUI() && !UIManager.instance.uiBlocked){
             PanCamera();
         }
     }

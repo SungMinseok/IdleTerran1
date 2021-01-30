@@ -75,7 +75,7 @@ public class BuffManager : MonoBehaviour
     void Start()
     {
         //CreateDropship();
-        boxCountText.text = "x " + boxCount.ToString();
+        boxCountText.text = boxCount.ToString();
         boxCountText2.text = "x " + boxCount.ToString();
 
         for(int i=0; i< buffs.Count;i++){
@@ -540,7 +540,7 @@ RefreshUICount();
         Debug.Log("상자 삭제");
         SoundManager.instance.Play("rescue");
 
-        boxCountText.text = "x "+(++boxCount).ToString();
+        boxCountText.text = (++boxCount).ToString();
         boxCountText2.text = "x " + boxCount.ToString();
 
         Destroy(box.transform.parent.gameObject);
@@ -804,7 +804,7 @@ RefreshUICount();
     // }
     public void RefreshUICount(){
         
-        boxCountText.text = "x " + boxCount.ToString();
+        boxCountText.text = boxCount.ToString();
         boxCountText2.text = "x " + boxCount.ToString();
         for(int i=0;i<buffs.Count;i++){
             if(buffs[i].count > 0 || buffs[i].count==-1 ){
@@ -838,7 +838,7 @@ RefreshUICount();
         if(boxCount >0){
             recallEffect.SetActive(true);
             randomBoxPanel.SetActive(true);
-            boxCountText.text = "x "+(--boxCount).ToString();
+            boxCountText.text = (--boxCount).ToString();
             boxCountText2.text = "x " + boxCount.ToString();
             SoundManager.instance.Play("recall");
             
@@ -877,7 +877,7 @@ RefreshUICount();
 
 
 
-                boxCountText.text = "x "+(--boxCount).ToString();
+                boxCountText.text = (--boxCount).ToString();
                 boxCountText2.text = "x " + boxCount.ToString();
                 randomBoxRemain.text = "남은 보급품 : "+ boxCount.ToString();
                     
