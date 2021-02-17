@@ -45,6 +45,8 @@ public class BuffManager : MonoBehaviour
     public Sprite mineralSprite;
     public Sprite rpSprite;
     public Sprite spSprite;
+    public Text bonusLevelText_Main;
+    public Text bonusLevelText;
     public GameObject recallEffect;
     [Header("드랍쉽")]
     public GameObject dropship;
@@ -64,11 +66,15 @@ public class BuffManager : MonoBehaviour
     public bool autoChargeFuel;
     private bool autoCharging;
     public bool autoGatherRP;
-    [Header("랜덤박스 전체")]
+    [Header("랜덤박스 전체 개봉")]
     public GameObject randomBoxPanel_All;
     public Transform randomBoxPanel_All_Grid;
     public GameObject randomBoxPanel_All_Ok;
     public Text randomBoxRemain;
+    Text[] totalTexts;
+    Text[] countTexts;
+    Text[] bonusTexts;
+    GameObject[] recallImages;
     void Awake(){
         instance = this;
     }
@@ -97,6 +103,19 @@ public class BuffManager : MonoBehaviour
                 
                     //buffs[i].btn.GetChild(buffs[i].btn.childCount-2).GetComponent<Text>().text
             //}
+        }
+
+        totalTexts = new Text[randomBoxPanel_All_Grid.childCount];
+        countTexts = new Text[randomBoxPanel_All_Grid.childCount];
+        bonusTexts = new Text[randomBoxPanel_All_Grid.childCount];
+        recallImages = new GameObject[randomBoxPanel_All_Grid.childCount];
+
+        for(int i=0;i<randomBoxPanel_All_Grid.childCount;i++){
+            totalTexts[i] = randomBoxPanel_All_Grid.GetChild(i).GetChild(2).GetChild(0).GetComponent<Text>();
+            countTexts[i] = randomBoxPanel_All_Grid.GetChild(i).GetChild(1).GetChild(0).GetComponent<Text>();
+            bonusTexts[i] = randomBoxPanel_All_Grid.GetChild(i).GetChild(3).GetComponent<Text>();            
+            recallImages[i] = randomBoxPanel_All_Grid.GetChild(i).GetChild(0).gameObject;
+
         }
 RefreshUICount();
     }
@@ -147,7 +166,7 @@ RefreshUICount();
         coolTimeImage.gameObject.SetActive(true);//centerBuffImg.gameObject.SetActive(true);
         coolTimeText.text = buff.coolTime.ToString();//centerBuffText.text = buff.time.ToString();
         
-        
+        //buff.remainingCoolTime = buff.coolTime;
 
         while(buff.remainingCoolTime>0f){  
             
@@ -304,21 +323,7 @@ RefreshUICount();
         Invoke("DelayOkBtn",0.7f);
     }    
     public void SetRandomBox(bool all = false){ //획득 가능 랜덤 상자 클릭
-        //if(boxCount >0){
-            // //ActivateBuff("Center");
-            // recallEffect.SetActive(true);
-            // randomBoxPanel.SetActive(true);
-            // //boxCount --;
-            // boxCountText.text = "x "+(--boxCount).ToString();
-                
-            // SoundManager.instance.Play("recall");
-            //if(setRandom == -1){
-
-                ranType = Random.Range(0,4);//0,1
-            //}
-            //else{
-                //ranType = setRandom;
-            //}
+            ranType = Random.Range(0,randomBoxPanel_All_Grid.childCount);//0,1
             float tempAmount=0;
             float tempBonusAmount=0;
             
@@ -366,19 +371,19 @@ RefreshUICount();
                 bonusAmountText.text = string.Format("{0:#,###0}", tempBonusAmount);//tempBonusAmount.ToString();
                 totalAmountText.text = string.Format("{0:#,###0}", tempAmount+tempBonusAmount);//(tempAmount+tempBonusAmount).ToString();
 
-            Invoke("DelayOkBtn",0.7f);
+                Invoke("DelayOkBtn",0.7f);
             }
             else{
-                //float tempTotal = tempAmount +tempBonusAmount;
-                randomBoxPanel_All_Grid.GetChild(ranType).GetChild(0).gameObject.SetActive(false);
-                randomBoxPanel_All_Grid.GetChild(ranType).GetChild(0).gameObject.SetActive(true);
-                //Text amount = randomBoxPanel_All_Grid.GetChild(ranType).GetChild(2).GetChild(1).GetChild(0).GetComponent<Text>();
-                //Text bonus = randomBoxPanel_All_Grid.GetChild(ranType).GetChild(2).GetChild(3).GetChild(0).GetComponent<Text>();
-                Text total = randomBoxPanel_All_Grid.GetChild(ranType).GetChild(2).GetChild(0).GetComponent<Text>();
-                Text count = randomBoxPanel_All_Grid.GetChild(ranType).GetChild(1).GetChild(0).GetComponent<Text>();
-                //amount.text = (tempAmount+float.Parse(amount.text)).ToString();
-                //bonus.text = (tempBonusAmount+float.Parse(bonus.text)).ToString();
-                //total.text = (float.Parse(amount.text)+float.Parse(bonus.text)).ToString();
+                // randomBoxPanel_All_Grid.GetChild(ranType).GetChild(0).gameObject.SetActive(false);
+                // randomBoxPanel_All_Grid.GetChild(ranType).GetChild(0).gameObject.SetActive(true);
+                recallImages[ranType].SetActive(false);
+                recallImages[ranType].SetActive(true);
+
+                //Text total = randomBoxPanel_All_Grid.GetChild(ranType).GetChild(2).GetChild(0).GetComponent<Text>();
+                //Text count = randomBoxPanel_All_Grid.GetChild(ranType).GetChild(1).GetChild(0).GetComponent<Text>();
+                Text total = totalTexts[ranType];
+                Text count = countTexts[ranType];
+
                 total.text = string.Format("{0:#,###0}", (float.Parse(total.text) + tempAmount));//(float.Parse(total.text) + tempAmount).ToString();
                 count.text = (float.Parse(count.text)+1).ToString();
             }
@@ -422,10 +427,12 @@ RefreshUICount();
             
             
             //PlayerManager.instance.HandleMineral(tempResult[0]);
-            PlayerManager.instance.HandleMineral((long)float.Parse(string.Format("{0:#,###0}", randomBoxPanel_All_Grid.GetChild(0).GetChild(2).GetChild(0).GetComponent<Text>().text) ));
-            PlayerManager.instance.HandleRP((long)float.Parse(string.Format("{0:#,###0}",randomBoxPanel_All_Grid.GetChild(1).GetChild(2).GetChild(0).GetComponent<Text>().text) ));
-            BuffManager.instance.buffs[0].count+=int.Parse(randomBoxPanel_All_Grid.GetChild(2).GetChild(2).GetChild(0).GetComponent<Text>().text);
-            BuffManager.instance.buffs[1].count+=int.Parse(randomBoxPanel_All_Grid.GetChild(3).GetChild(2).GetChild(0).GetComponent<Text>().text);
+            PlayerManager.instance.HandleMineral((long)float.Parse(randomBoxPanel_All_Grid.GetChild(0).GetChild(2).GetChild(0).GetComponent<Text>().text) );
+            PlayerManager.instance.HandleRP((long)float.Parse(randomBoxPanel_All_Grid.GetChild(1).GetChild(2).GetChild(0).GetComponent<Text>().text) );
+            //Debug.Log("1 : "+randomBoxPanel_All_Grid.GetChild(2).GetChild(2).GetChild(0).GetComponent<Text>().text);
+            //Debug.Log("2 : "+float.Parse(randomBoxPanel_All_Grid.GetChild(2).GetChild(2).GetChild(0).GetComponent<Text>().text));
+            BuffManager.instance.buffs[0].count+=(int)float.Parse(randomBoxPanel_All_Grid.GetChild(2).GetChild(2).GetChild(0).GetComponent<Text>().text);
+//            BuffManager.instance.buffs[1].count+=(int)float.Parse(randomBoxPanel_All_Grid.GetChild(3).GetChild(2).GetChild(0).GetComponent<Text>().text);
                 
             for(int i=0;i< randomBoxPanel_All_Grid.childCount;i++){
 
@@ -550,7 +557,7 @@ RefreshUICount();
     public void CheckBuffState(){
         //스팀팩 잠금 해제
         UIManager.instance.ActivateLowerUIPanel(3);
-        UIManager.instance.ActivateLowerUIPanel(4);
+        //UIManager.instance.ActivateLowerUIPanel(4);
 
         // BuildingManager.instance.BuildingStateCheck(1);
         // BuildingManager.instance.BuildingStateCheck(4);
@@ -856,9 +863,9 @@ RefreshUICount();
             //recallEffect.SetActive(true);
             for(int i=0;i< randomBoxPanel_All_Grid.childCount;i++){
                 randomBoxPanel_All_Grid.GetChild(i).GetChild(0).GetComponent<SpriteRenderer>().color = Color.white;
-                Text totalText = randomBoxPanel_All_Grid.GetChild(i).GetChild(2).GetChild(0).GetComponent<Text>();
-                Text countText = randomBoxPanel_All_Grid.GetChild(i).GetChild(1).GetChild(0).GetComponent<Text>();
-                Text bonusPtgText = randomBoxPanel_All_Grid.GetChild(i).GetChild(3).GetComponent<Text>();
+                Text totalText = totalTexts[i];//randomBoxPanel_All_Grid.GetChild(i).GetChild(2).GetChild(0).GetComponent<Text>();
+                Text countText = countTexts[i];//randomBoxPanel_All_Grid.GetChild(i).GetChild(1).GetChild(0).GetComponent<Text>();
+                Text bonusPtgText = bonusTexts[i];//randomBoxPanel_All_Grid.GetChild(i).GetChild(3).GetComponent<Text>();
                 totalText.text = "0";
                 countText.text = "0";
                 bonusPtgText.text = "";
@@ -882,22 +889,23 @@ RefreshUICount();
                 randomBoxRemain.text = "남은 보급품 : "+ boxCount.ToString();
                     
                 SetRandomBox(true);
-
-                yield return new WaitForSeconds(0.01f);
+yield return new WaitForSeconds(0.001f);
+                //yield return new WaitForSeconds(0.01f);
+                //yield return null;
                 //}
             }
 
                 yield return new WaitForSeconds(1f);
             //보너스 적용.
             for(int i=0;i< randomBoxPanel_All_Grid.childCount;i++){
-                randomBoxPanel_All_Grid.GetChild(i).GetChild(0).GetComponent<SpriteRenderer>().color = Color.yellow;
-                randomBoxPanel_All_Grid.GetChild(i).GetChild(0).gameObject.SetActive(false);
-                randomBoxPanel_All_Grid.GetChild(i).GetChild(0).gameObject.SetActive(true);
+                recallImages[i].GetComponent<SpriteRenderer>().color = Color.yellow;
+                recallImages[i].SetActive(false);
+                recallImages[i].SetActive(true);
             SoundManager.instance.Play("recall");
                 
-                Text totalText = randomBoxPanel_All_Grid.GetChild(i).GetChild(2).GetChild(0).GetComponent<Text>();
-                Text countText = randomBoxPanel_All_Grid.GetChild(i).GetChild(1).GetChild(0).GetComponent<Text>();
-                Text bonusPtgText = randomBoxPanel_All_Grid.GetChild(i).GetChild(3).GetComponent<Text>();
+                Text totalText = totalTexts[i];//randomBoxPanel_All_Grid.GetChild(i).GetChild(2).GetChild(0).GetComponent<Text>();
+                Text countText = countTexts[i];//randomBoxPanel_All_Grid.GetChild(i).GetChild(1).GetChild(0).GetComponent<Text>();
+                Text bonusPtgText = bonusTexts[i];
 
                 float tempBonus = 0;
                 switch(i){
@@ -916,12 +924,12 @@ RefreshUICount();
                         tempBonus = PlayerManager.instance.moreSupply * int.Parse(countText.text);
                         //totalText.text = (int.Parse(totalText.text) + tempBonus).ToString();
                         totalText.text = string.Format("{0:#,###0}", (float.Parse(totalText.text) + tempBonus));
-                        bonusPtgText.text = tempBonus.ToString();
+                        bonusPtgText.text = "+"+tempBonus.ToString();
                         break;
                     case 3:
                         tempBonus = PlayerManager.instance.moreSupply * int.Parse(countText.text);
                         totalText.text = string.Format("{0:#,###0}", (float.Parse(totalText.text) + tempBonus));
-                        bonusPtgText.text = tempBonus.ToString();
+                        bonusPtgText.text = "+"+tempBonus.ToString();
                         break;
                 }
                 //tempResult[i] = long.Parse(totalText.text);

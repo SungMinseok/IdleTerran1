@@ -39,6 +39,7 @@ public class DBManager : MonoBehaviour
         public long curMineral;
         public long curRP;
         public float curFuel;
+        public long curCoin;
 
 
     [Header("장비 단계 ( Save & Load )")]
@@ -95,6 +96,13 @@ public class DBManager : MonoBehaviour
         public bool sfxState;
         public bool set_floating;
         public bool set_helpUI;
+
+        //업적
+        public int[] achvPhases;
+        public long totalMineral;
+        public long totalRP;
+        public uint totalResearch; 
+        public long totalClick; 
     }
     UIManager theUI;
     PlayerManager thePlayer;
@@ -120,6 +128,7 @@ public class DBManager : MonoBehaviour
         data.curMineral = thePlayer.curMineral;
         data.curFuel = thePlayer.curFuel;
         data.curRP = thePlayer.curRP;
+        data.curCoin = thePlayer.curCoin;
 
     //[Header("장비 단계 ( Save & Load )")]
         data.weldingLevel = thePlayer.weldingLevel;
@@ -183,6 +192,17 @@ public class DBManager : MonoBehaviour
         data.set_floating= UIManager.instance.set_floating;
         data.set_helpUI= UIManager.instance.set_helpUI;
 
+        //업적
+        data.achvPhases = new int[AchvManager.instance.achvs.Length];
+        for(int i=0;i<AchvManager.instance.achvs.Length;i++){
+            data.achvPhases[i] = AchvManager.instance.achvs[i].phase;
+        }
+
+        data.totalMineral = AchvManager.instance.totalMineral;
+        data.totalRP = AchvManager.instance.totalRP;
+        data.totalResearch = AchvManager.instance.totalResearch;
+        data.totalClick = AchvManager.instance.totalClick;
+
         BinaryFormatter bf = new BinaryFormatter();
         //FileStream file = File.Create(Application.persistentDataPath + "/SaveFile" + num +".dat");
         //FileStream file = File.Create(Application.persistentDataPath + "/SaveFile.dat");
@@ -197,6 +217,15 @@ public class DBManager : MonoBehaviour
         //FileInfo fileCheck = new FileInfo(Application.persistentDataPath + "/SaveFile.dat");
         FileInfo fileCheck = debugVersion!=-1 ?  new FileInfo(Application.persistentDataPath + "/SaveFile_"+debugVersion+".dat")
         : new FileInfo(Application.persistentDataPath + "/SaveFile.dat");
+
+//초기 설정
+                    UIManager.instance.autoStimpack = false;
+            
+                    UIManager.instance.bgmState = true;
+                    UIManager.instance.sfxState = true;
+                    UIManager.instance.set_floating = true;
+                    UIManager.instance.set_helpUI = true;
+
 
         if(fileCheck.Exists){
         //FileStream file = File.Open(Application.persistentDataPath + "/SaveFile.dat", FileMode.Open);
@@ -223,6 +252,7 @@ public class DBManager : MonoBehaviour
                 thePlayer.curMineral =data.curMineral;
                 thePlayer.curFuel =data.curFuel;
                 thePlayer.curRP =data.curRP;
+                thePlayer.curCoin =data.curCoin;
 
             //[Header("장비 단계 ( Save & Load )")]
                 thePlayer.weldingLevel =data.weldingLevel;
@@ -232,44 +262,49 @@ public class DBManager : MonoBehaviour
                 thePlayer.weightLevel =data.weightLevel;
 
                 //건설 // 배열은 널체크
-                if(data.buildTimeCounter==null){//아예처음생성시 게임 내 데이터 배열 길이 맞춰줌.
-               // Debug.Log("아예처음생성시 게임 내 데이터 배열 길이 맞춰줌.");
-                    data.buildTimeCounter = new float[BuildingManager.instance.buildTimeCounter.Length];
-                }
-                else if(data.buildTimeCounter.Length!=BuildingManager.instance.buildTimeCounter.Length){//게임내 배열 길이 증가한 경우 저장된값들까지만 로드
-                //Debug.Log("게임내 배열 길이 증가한 경우 저장된값들까지만 로드");
+            //     if(data.buildTimeCounter==null){//아예처음생성시 게임 내 데이터 배열 길이 맞춰줌.
+            //    // Debug.Log("아예처음생성시 게임 내 데이터 배열 길이 맞춰줌.");
+            //         data.buildTimeCounter = new float[BuildingManager.instance.buildTimeCounter.Length];
+            //     }
+            //     else if(data.buildTimeCounter.Length!=BuildingManager.instance.buildTimeCounter.Length){//게임내 배열 길이 증가한 경우 저장된값들까지만 로드
+            //     //Debug.Log("게임내 배열 길이 증가한 경우 저장된값들까지만 로드");
                     
-                    for(int i=0;i<data.buildTimeCounter.Length;i++){
-                        BuildingManager.instance.buildTimeCounter[i] = data.buildTimeCounter[i];
-                    }
-                    data.buildTimeCounter = new float[BuildingManager.instance.buildTimeCounter.Length];
+            //         for(int i=0;i<data.buildTimeCounter.Length;i++){
+            //             BuildingManager.instance.buildTimeCounter[i] = data.buildTimeCounter[i];
+            //         }
+            //         data.buildTimeCounter = new float[BuildingManager.instance.buildTimeCounter.Length];
 
-                }
-                else{
-                //Debug.Log("그대로 로드");
-                    BuildingManager.instance.buildTimeCounter = data.buildTimeCounter;
-                }
+            //     }
+            //     else{
+            //     //Debug.Log("그대로 로드");
+            //         BuildingManager.instance.buildTimeCounter = data.buildTimeCounter;
+            //     }
 
                 //BuildingManager.instance.unlockedNextBuilding = data.unlockedNextBuilding ;
-                if(data.unlockedNextBuilding==null){//아예처음생성시 게임 내 데이터 배열 길이 맞춰줌.
-                    data.unlockedNextBuilding = new bool[BuildingManager.instance.unlockedNextBuilding.Length];
-                }
-                else if(data.unlockedNextBuilding.Length!=BuildingManager.instance.unlockedNextBuilding.Length){//게임내 배열 길이 증가한 경우 저장된값들까지만 로드
-                    for(int i=0;i<data.unlockedNextBuilding.Length;i++){
-                        BuildingManager.instance.unlockedNextBuilding[i] = data.unlockedNextBuilding[i];
-                    }
-                    data.unlockedNextBuilding = new bool[BuildingManager.instance.unlockedNextBuilding.Length];
+                // if(data.unlockedNextBuilding==null){//아예처음생성시 게임 내 데이터 배열 길이 맞춰줌.
+                //     data.unlockedNextBuilding = new bool[BuildingManager.instance.unlockedNextBuilding.Length];
+                // }
+                // else if(data.unlockedNextBuilding.Length!=BuildingManager.instance.unlockedNextBuilding.Length){//게임내 배열 길이 증가한 경우 저장된값들까지만 로드
+                //     for(int i=0;i<data.unlockedNextBuilding.Length;i++){
+                //         BuildingManager.instance.unlockedNextBuilding[i] = data.unlockedNextBuilding[i];
+                //     }
+                //     data.unlockedNextBuilding = new bool[BuildingManager.instance.unlockedNextBuilding.Length];
 
-                }
-                else{                        
-                    BuildingManager.instance.unlockedNextBuilding= data.unlockedNextBuilding;
+                // }
+                // else{                        
+                //     BuildingManager.instance.unlockedNextBuilding= data.unlockedNextBuilding;
 
-                }
+                // }
+                if(data.buildTimeCounter!=null) BuildingManager.instance.buildTimeCounter = data.buildTimeCounter;
+
+                if(data.unlockedNextBuilding!=null) BuildingManager.instance.unlockedNextBuilding = data.unlockedNextBuilding;
+
                 //채취로봇
                 BotManager.instance.botSaved = data.botSaved;
 
                 
                 //업글
+                //Debug.Log("a "+data.unlockedNextUpgrade.Length);
                 if(data.unlockedNextUpgrade!=null) UpgradeManager.instance.unlockedNextUpgrade = data.unlockedNextUpgrade;
 
                 //팩토리
@@ -286,38 +321,35 @@ public class DBManager : MonoBehaviour
                 if(data.questOverList!=null) QuestManager.instance.questOverList = data.questOverList;
 
                 //버프
-                // if(data.remainingCoolTime.Length == BuffManager.instance.buffs.Count){
+
+                // if(data.remainingCoolTime==null){//아예처음생성시 게임 내 데이터 배열 길이 맞춰줌.
+                //     Debug.Log("0");
+                //     data.remainingCoolTime = new float[BuffManager.instance.buffs.Count];
+                //     data.remainingDuration = new float[BuffManager.instance.buffs.Count];
+                //     data.count = new int[BuffManager.instance.buffs.Count];
+                // }
+                // else if(data.remainingCoolTime.Length!=BuffManager.instance.buffs.Count){//게임내 배열 길이 증가한 경우 저장된값들까지만 로드
+                //     Debug.Log("1");
+                //     for(int i=0;i<data.remainingCoolTime.Length;i++){
+                //         BuffManager.instance.buffs[i].remainingCoolTime = data.remainingCoolTime[i];
+                //         BuffManager.instance.buffs[i].remainingDuration = data.remainingDuration[i];
+                //         BuffManager.instance.buffs[i].count = data.count[i];
+                //     }
+                //     data.remainingCoolTime = new float[BuffManager.instance.buffs.Count];
+                //     data.remainingDuration = new float[BuffManager.instance.buffs.Count];
+                //     data.count = new int[BuffManager.instance.buffs.Count];
+                // }
+                // else{                    
+                //     Debug.Log("2");
                 //     for(int i=0;i<BuffManager.instance.buffs.Count;i++){
                 //         BuffManager.instance.buffs[i].remainingCoolTime = data.remainingCoolTime[i];
                 //         BuffManager.instance.buffs[i].remainingDuration = data.remainingDuration[i];
                 //         BuffManager.instance.buffs[i].count = data.count[i];
                 //     }
                 // }
-                // else{
-                //     data.remainingCoolTime = new float[BuffManager.instance.buffs.Count];
-                //     data.remainingDuration = new float[BuffManager.instance.buffs.Count];
-                //     data.count = new int[BuffManager.instance.buffs.Count];
-                // }
-                if(data.remainingCoolTime==null){//아예처음생성시 게임 내 데이터 배열 길이 맞춰줌.
-                    Debug.Log("0");
-                    data.remainingCoolTime = new float[BuffManager.instance.buffs.Count];
-                    data.remainingDuration = new float[BuffManager.instance.buffs.Count];
-                    data.count = new int[BuffManager.instance.buffs.Count];
-                }
-                else if(data.remainingCoolTime.Length!=BuffManager.instance.buffs.Count){//게임내 배열 길이 증가한 경우 저장된값들까지만 로드
-                    Debug.Log("1");
+                if(data.remainingCoolTime != null){
                     for(int i=0;i<data.remainingCoolTime.Length;i++){
-                        BuffManager.instance.buffs[i].remainingCoolTime = data.remainingCoolTime[i];
-                        BuffManager.instance.buffs[i].remainingDuration = data.remainingDuration[i];
-                        BuffManager.instance.buffs[i].count = data.count[i];
-                    }
-                    data.remainingCoolTime = new float[BuffManager.instance.buffs.Count];
-                    data.remainingDuration = new float[BuffManager.instance.buffs.Count];
-                    data.count = new int[BuffManager.instance.buffs.Count];
-                }
-                else{                    
-                    Debug.Log("2");
-                    for(int i=0;i<BuffManager.instance.buffs.Count;i++){
+                        
                         BuffManager.instance.buffs[i].remainingCoolTime = data.remainingCoolTime[i];
                         BuffManager.instance.buffs[i].remainingDuration = data.remainingDuration[i];
                         BuffManager.instance.buffs[i].count = data.count[i];
@@ -343,26 +375,39 @@ public class DBManager : MonoBehaviour
             
             
         //설정
-                if(data.loadCount == 0 ){
+        //Debug.Log("로드카운트 "+data.loadCount);
+                //if(data.loadCount == 0 ){
 
-                    UIManager.instance.autoStimpack = false;
+                    // UIManager.instance.autoStimpack = false;
             
-                    UIManager.instance.bgmState = true;
-                    UIManager.instance.sfxState = true;
-                    UIManager.instance.set_floating = true;
-                    UIManager.instance.set_helpUI = true;
-                }
-                else{
+                    // UIManager.instance.bgmState = true;
+                    // UIManager.instance.sfxState = true;
+                    // UIManager.instance.set_floating = true;
+                    // UIManager.instance.set_helpUI = true;
+                //}
+                //else{
 
                     UIManager.instance.autoStimpack = data.autoStimpack;
                     UIManager.instance.bgmState = data.bgmState;
                     UIManager.instance.sfxState = data.sfxState;
                     UIManager.instance.set_floating = data.set_floating;
                     UIManager.instance.set_helpUI = data.set_helpUI;
+                //}
+            //업적 <<<<<<<<<<<<<<<<<<<<<배열 로드 정석>>>>>>>>>>>>>>>>>>
+            //Debug.Log(data.achvPhases.Length);
+                if(data.achvPhases !=null){
+                    for(int i=0;i<data.achvPhases.Length;i++){
+                        AchvManager.instance.achvs[i].phase = data.achvPhases[i];                        
+                    }
                 }
-            
+                AchvManager.instance.totalMineral =data.totalMineral ;
+                AchvManager.instance.totalRP =data.totalRP ;
+                AchvManager.instance.totalResearch =data.totalResearch ;
+                AchvManager.instance.totalClick =data.totalClick ;
             
             }
+
+
 
 
             file.Close();

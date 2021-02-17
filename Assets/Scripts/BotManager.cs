@@ -34,6 +34,7 @@ public class BotManager : MonoBehaviour
     public Text priceText;
     public GameObject AddBtn;
     public GameObject depotPanel;
+    public GameObject upDone;
     // Start is called before the first frame update
     void Awake()
     {
@@ -120,13 +121,15 @@ public class BotManager : MonoBehaviour
             //Debug.Log("5/5 " +5/5);
             priceText.text = addPopulationPrices[(maxPopulation/5-1) ].ToString();
             populationText.text = maxPopulation.ToString() + " >> " + (maxPopulation + 5).ToString();
+            upDone.SetActive(false);
             AddBtn.SetActive(true);
 
         }
         else{
             priceText.text = "N/A";
             populationText.text = maxPopulation.ToString();
-            AddBtn.SetActive(false);
+            upDone.SetActive(true);
+            //AddBtn.SetActive(false);
         }
 
     }

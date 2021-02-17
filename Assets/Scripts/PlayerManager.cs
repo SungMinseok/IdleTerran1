@@ -55,11 +55,16 @@ public class PlayerManager : MonoBehaviour
     public GameObject autoPanel;
     public Color mineralColor;
     public Color rpColor;
-    Slider fuelBar;
-    Text mineralBar;
+
+
+
+    public Slider fuelBar;
+    public Text mineralBar;
+    public Text coinBar;
     Text rpBar;
         long calculated = 0;
         long calculatedRP = 0;
+        long calculatedCoin = 0;
 
     //public float runSpeed = 4f;
     //private float defaultSpeed;
@@ -73,6 +78,7 @@ public class PlayerManager : MonoBehaviour
     public long curMineral;
     public long curRP;//researchPoint
     public float curFuel;
+    public long curCoin;
     [Header("기타 값")]
     public float curSpeed;
     public float bonusSpeed = 1;
@@ -192,6 +198,7 @@ public class PlayerManager : MonoBehaviour
         //미네랄
         mineralBar = UIManager.instance.minText;
         rpBar = UIManager.instance.rpText;
+        coinBar = UIManager.instance.coinText;
 
         miningCoroutine = MiningCoroutine();
 
@@ -211,6 +218,7 @@ public class PlayerManager : MonoBehaviour
             
             mineralBar.text = "0";
             rpBar.text = "0";
+            coinBar.text = "0";
             //selectedMineral = mineralPos;
         }
         // DBManager.instance.CallLoad(0);
@@ -609,6 +617,20 @@ public class PlayerManager : MonoBehaviour
             AchvManager.instance.RefreshAchv(1);
         }
 #endregion
+#region SetCoin
+        if(calculatedCoin!=curCoin){
+            long temp = curCoin-calculatedCoin;
+            if(temp>=10 || temp <=-10){
+                calculatedCoin= calculatedCoin + (long)(temp/10);
+            }
+            else{
+                calculatedCoin= temp>0 ? calculatedCoin + 1 : calculatedCoin - 1;
+
+            }
+            coinBar.text = string.Format("{0:#,###0}", calculatedCoin);
+            //AchvManager.instance.RefreshAchv(1);
+        }
+#endregion
 
         if (shadowType == ShadowType.booster){
             //if(animator.GetFloat("Speed")!=0 && !animator.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.Att")){
@@ -1002,11 +1024,24 @@ public class PlayerManager : MonoBehaviour
         canMove = true;
     }
     //장비 레벨 현재 장비에 적용
-    public void RefreshEquip(){
-        weldingSec = defaultWeldingSec + (weldingLevel-1) * UpgradeManager.instance.upgradeList[0].upgradeDelta;
-        speed = defaultSpeed + (engineLevel-1) * UpgradeManager.instance.upgradeList[1].upgradeDelta;
-        maxFuel = defaultFuel + (fuelLevel-1)  * UpgradeManager.instance.upgradeList[2].upgradeDelta;
-        capacity = defaultCapacity + (bodyLevel-1) * (int)UpgradeManager.instance.upgradeList[3].upgradeDelta;
+    public void RefreshEquip(int num = -1){
+        if(num==-1){
+
+            weldingSec = defaultWeldingSec + (weldingLevel-1) * UpgradeManager.instance.upgradeList[0].upgradeDelta;
+            speed = defaultSpeed + (engineLevel-1) * UpgradeManager.instance.upgradeList[1].upgradeDelta;
+            maxFuel = defaultFuel + (fuelLevel-1)  * UpgradeManager.instance.upgradeList[2].upgradeDelta;
+            capacity = defaultCapacity + (bodyLevel-1) * (int)UpgradeManager.instance.upgradeList[3].upgradeDelta;
+
+            //for(int i=0;i<4;i++){
+                FactoryManager.instance.motherStatusText[0].text = weldingSec.ToString() + " 초";
+                FactoryManager.instance.motherStatusText[1].text = speed.ToString();
+                FactoryManager.instance.motherStatusText[2].text = string.Format("{0:#,###0}",maxFuel);
+                FactoryManager.instance.motherStatusText[3].text = string.Format("{0:#,###0}",capacity);
+            //}
+        }
+        else{
+
+        }
 
         BotManager.instance.RefreshBotEquip();
     }    
@@ -1191,12 +1226,13 @@ public class PlayerManager : MonoBehaviour
             case "RP" :
                 tempAmount = 100*(investRP+1);
                 curRP += tempAmount;
-                if(UIManager.instance.set_floating)  UIManager.instance.PrintFloating("+ "+tempAmount.ToString(), centerPos,null,1);//PrintFloating("+ "+tempAmount.ToString(),null,1);
+                if(UIManager.instance.set_floating) UIManager.instance.PrintFloating("+ "+tempAmount.ToString(), centerPos,null,1);//PrintFloating("+ "+tempAmount.ToString(),null,1);
+                if(!BuffManager.instance.autoGatherRP) StopAuto();
                 break;
         }
         //boxCountText.text = "x "+(++boxCount).ToString();
 
-                        StopAuto();
+                        
         Destroy(item);
                 //getItemFlag = false;
 

@@ -14,11 +14,14 @@ public class FactoryManager : MonoBehaviour
     [Header("재판매 할인율")]
     public float discount;
     public Text discountText;
+
+    [Header("공장 패널")]
     public Transform botManager;
     public Transform factoryPos;
     public Transform parentPanel;
     public Transform[] childPanels;
     public GameObject[] robots;
+    public GameObject[] locked;
     public int nowNum;
     public int pricePerUpgrade = 500;
 
@@ -27,7 +30,7 @@ public class FactoryManager : MonoBehaviour
     public Text priceNextUpgradeText;
     public Text ptgNextUpgradeText;
 
-    [Header("생산 패널")]
+    [Header("생산하기 패널")]
     public Text nameText;
     public Image botImage;
     public Text efficiencyText;
@@ -48,6 +51,8 @@ public class FactoryManager : MonoBehaviour
     public GameObject sellLock;
     public Sprite nullSprite;
     public Text[] botStatusCount;
+    public GameObject[] locked_Status;
+    public Text[] motherStatusText;
     void Awake(){
         
         instance = this;
@@ -62,6 +67,7 @@ public class FactoryManager : MonoBehaviour
         sellLock.SetActive(true);
         //unlockedNextProduce = new bool[8];
         childPanels = new Transform[parentPanel.childCount];
+        locked = new GameObject[parentPanel.childCount]; 
         botStatusScrollChildren = new Transform[botStatusScroll.childCount];
         botStatusCount = new Text[botStatusScroll.childCount];
         //childPanels = parentPanel.GetComponentsInChildren<Transform>();
@@ -77,6 +83,9 @@ public class FactoryManager : MonoBehaviour
             botStatusScrollChildren[temp] = botStatusScroll.GetChild(temp);
             botStatusScrollChildren[temp].GetComponent<Button>().onClick.AddListener(()=>ShowBotStatusEach(temp));
             botStatusCount[temp] = botStatusScrollChildren[temp].GetChild(2).GetComponent<Text>();
+        }
+        for(int i=0;i<parentPanel.childCount;i++){
+            locked[i] = childPanels[i].GetChild(2).gameObject;
         }
         populationText.text = "인구수 : "+BotManager.instance.botSaved.Count.ToString()+"/"+BotManager.instance.maxPopulation;
         populationText_Status.text = BotManager.instance.botSaved.Count.ToString()+" / "+BotManager.instance.maxPopulation;
@@ -179,13 +188,13 @@ public class FactoryManager : MonoBehaviour
     public void ApplyUnlocked(){
         for(int i=0;i<unlockedNextProduce.Length;i++){
             if(unlockedNextProduce[i]){
-                childPanels[i].transform.GetChild(2).gameObject.SetActive(false);
+                locked[i].SetActive(false);
             }
             else{
-                childPanels[i].transform.GetChild(2).gameObject.SetActive(true);
+                locked[i].gameObject.SetActive(true);
             }
         }
-        childPanels[0].transform.GetChild(2).gameObject.SetActive(false);
+        locked[0].SetActive(false);
     }
     
     public void OpenLockedBtn(int num){//잠겨있는 버튼 누름.
@@ -262,7 +271,7 @@ public class FactoryManager : MonoBehaviour
             SoundManager.instance.Play("rescue");
             lockedPanel.SetActive(false);
             unlockedNextProduce[nowNum] = true;
-            childPanels[nowNum].transform.GetChild(2).gameObject.SetActive(false);      
+            locked[nowNum].SetActive(false);      
         }
 //실패
         else{
@@ -284,9 +293,9 @@ public class FactoryManager : MonoBehaviour
         unlockedNextProduce = new bool[8];
         for(int i=0;i<unlockedNextProduce.Length;i++){
             unlockedNextProduce[i] = false;
-            childPanels[i].transform.GetChild(2).gameObject.SetActive(true);
+            locked[i].SetActive(true);
         }
-        childPanels[0].transform.GetChild(2).gameObject.SetActive(false);
+        locked[0].SetActive(false);
     }
     public void EnrollBot(){
         

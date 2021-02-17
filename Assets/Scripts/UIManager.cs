@@ -61,6 +61,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] public Text minText;
     [SerializeField] public Text rpText;
     [SerializeField] public Text timerText;
+    public Text coinText;
     public Text minPerSecText;
     [Header("하단 UI")]
     public GameObject buildLock;
@@ -248,6 +249,8 @@ public class UIManager : MonoBehaviour
 
     public void ChargeFuel(){
         PlayerManager.instance.HandleFuel(1000f, false);
+        AchvManager.instance.totalClick ++;
+        AchvManager.instance.RefreshAchv(3);
     }
     public void ChargeFullFuel(){
 
@@ -427,6 +430,10 @@ public class UIManager : MonoBehaviour
         yield return null;
     }
     public void ActivateLowerUIPanel(int num){
+        //드랍쉽
+        if(num==7) num = 6;
+        
+
         lowerUI[num].transform.GetChild(2).gameObject.SetActive(false);
     }
     public void DeactivateLowerUIPanel(int num){
@@ -436,6 +443,8 @@ public class UIManager : MonoBehaviour
     public void RefreshStarportPanel(){
         //초기 설정
         BuffManager.instance.buffs[2].coolTime = (3600-PlayerManager.instance.fastCall*60*teches_Starport[0].delta);
+        
+        //BuffManager.instance.buffs[2].remainingCoolTime = (3600-PlayerManager.instance.fastCall*60*teches_Starport[0].delta);
 
         teches_Starport[0].mainText.text = "신속 호출 " + PlayerManager.instance.fastCall + "단계";
         if(PlayerManager.instance.fastCall<20){
@@ -450,7 +459,9 @@ public class UIManager : MonoBehaviour
             teches_Starport[0].priceText.text = "N/A";
         }
 
-        teches_Starport[1].mainText.text = "알찬 구성품 " + PlayerManager.instance.moreSupply + "단계";
+        teches_Starport[1].mainText.text = "알찬 보급품 " + PlayerManager.instance.moreSupply + "단계";
+        BuffManager.instance.bonusLevelText_Main.text = "알찬 보급품 " + PlayerManager.instance.moreSupply + "단계";
+        BuffManager.instance.bonusLevelText.text = "알찬 보급품 " + PlayerManager.instance.moreSupply + "단계";
         if(PlayerManager.instance.moreSupply<20){
 
             teches_Starport[1].btn.SetActive(true);
@@ -476,7 +487,7 @@ public class UIManager : MonoBehaviour
             if(PlayerManager.instance.curMineral>float.Parse(teches_Starport[0].priceText.text)){
                 UIManager.instance.SetPopUp("업그레이드 완료.","up");
                 
-                PlayerManager.instance.HandleMineral(-long.Parse(teches_Starport[0].priceText.text));
+                PlayerManager.instance.HandleMineral(-(long)float.Parse(teches_Starport[0].priceText.text));
                 PlayerManager.instance.fastCall ++;
                 RefreshStarportPanel();
             }
@@ -492,8 +503,9 @@ public class UIManager : MonoBehaviour
         
             if(PlayerManager.instance.curMineral>float.Parse(teches_Starport[1].priceText.text)){
                 UIManager.instance.SetPopUp("업그레이드 완료.","up");
-                
-                PlayerManager.instance.HandleMineral(-long.Parse(teches_Starport[1].priceText.text));
+                //string.Format("{0:#,###0}",PlayerManager.instance.nowAccumulatedRP);
+                //PlayerManager.instance.HandleMineral(-long.Parse(teches_Starport[1].priceText.text));
+                PlayerManager.instance.HandleMineral(-(long)float.Parse(teches_Starport[1].priceText.text));
                 PlayerManager.instance.moreSupply ++;
                 RefreshStarportPanel();
             }
@@ -565,7 +577,7 @@ public class UIManager : MonoBehaviour
             if(PlayerManager.instance.curMineral>float.Parse(teches_Science[1].priceText.text)){
                 UIManager.instance.SetPopUp("업그레이드 완료.","up");
                 
-                PlayerManager.instance.HandleMineral(-long.Parse(teches_Science[1].priceText.text));
+                PlayerManager.instance.HandleMineral(-(long)float.Parse(teches_Science[1].priceText.text));
                 PlayerManager.instance.investRP ++;
                 RefreshSciencePanel();
             }
@@ -615,6 +627,11 @@ public class UIManager : MonoBehaviour
                 rewardImage.sprite = sprites[2];
                 BuffManager.instance.buffs[5].count += amount;
                 BuffManager.instance.SetAutoRemainRP();
+                break;
+            case "Coin":
+                rewardImage.sprite = sprites[3];
+                PlayerManager.instance.curCoin += amount;
+                //BuffManager.instance.SetAutoRemainRP();
                 break;
             
         }
@@ -790,10 +807,10 @@ public class UIManager : MonoBehaviour
     public void DebugBtn(int num){
         switch(num){
             case 0 : 
-                ShopManager.instance.Buy("100");
+                //ShopManager.instance.Buy("100");
                 break;
             case 1 : 
-                ShopManager.instance.Buy("106");
+                ShopManager.instance.BuyCoin(3);
                 break;
         }
     }

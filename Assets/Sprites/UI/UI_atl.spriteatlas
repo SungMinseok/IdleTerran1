@@ -43,7 +43,7 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: a696f91dc4ae2a146857ac9f37896f92, type: 3}
-    totalSpriteSurfaceArea: 11562759
+    totalSpriteSurfaceArea: 11661227
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -78,7 +78,7 @@ SpriteAtlas:
   - {fileID: -1135513190014899655, guid: 4b3f741944362e6458c50ad4a7cbf747, type: 3}
   - {fileID: 21300000, guid: 787794b9520d6b342bdffa6c7bd8eb6d, type: 3}
   - {fileID: 2753217934699055344, guid: 60aae3e9fd7131a46b62cadc71eb4355, type: 3}
-  - {fileID: -1939124408491743511, guid: 07001af9c131d6345b388f962f4e0650, type: 3}
+  - {fileID: 21300000, guid: 07001af9c131d6345b388f962f4e0650, type: 3}
   - {fileID: 1544084101132751874, guid: 35661eea9353c924f9442002be597498, type: 3}
   - {fileID: 6220461733829208710, guid: 35661eea9353c924f9442002be597498, type: 3}
   - {fileID: 21300000, guid: 980ceb7b411e9bc4f831c497cbf11cc4, type: 3}
@@ -88,6 +88,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 987df1fc72de54446b48aecf159e8922, type: 3}
   - {fileID: 21300000, guid: f9c0065da5b11d445846de3f5053c1b8, type: 3}
   - {fileID: -6470460504253458178, guid: 82b5ef5dade2e0b4481f5e6911560655, type: 3}
+  - {fileID: 21300000, guid: c51b6abd28284ea47b0fa92e2a12b15f, type: 3}
   - {fileID: 21300000, guid: 3350a6dde26e29945ba509a359a9c91d, type: 3}
   - {fileID: 21300000, guid: 54572bdd8f5d2714bbb294198af0cb38, type: 3}
   - {fileID: 21300000, guid: 5516340e2afb2414a85c10838363da64, type: 3}
@@ -127,7 +128,7 @@ SpriteAtlas:
   - DNA 3d_1
   - 512x512
   - box 3d_0
-  - build 3d_0
+  - build 3d
   - Fuel 3d_1
   - Fuel 3d_0
   - up2
@@ -137,6 +138,7 @@ SpriteAtlas:
   - 1600x1200
   - plus2 3d
   - 3_0
+  - coin 3d
   - "2 - \uBCF5\uC0AC\uBCF8"
   - up3
   - 592x120_noline
