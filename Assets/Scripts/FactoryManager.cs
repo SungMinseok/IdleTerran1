@@ -52,7 +52,10 @@ public class FactoryManager : MonoBehaviour
     public Sprite nullSprite;
     public Text[] botStatusCount;
     public GameObject[] locked_Status;
+    [Header("StatusPanel 장비 값")]
     public Text[] motherStatusText;
+    [Header("BayPanel 장비 값")]
+    public Text[] bayStatusText;
     void Awake(){
         
         instance = this;
@@ -485,5 +488,42 @@ public class FactoryManager : MonoBehaviour
         OpenBotStatusPanel();
         //StartCoroutine(SellAllCoroutine());
     }
+    public void RefreshEquipStatus(int num = -1){ //상태창 오픈시, 업그레이드 창 오픈시.
+        if(num==-1){
 
+            //for(int i=0;i<4;i++){bayStatusText
+
+                bayStatusText[0].text = PlayerManager.instance.weldingSec.ToString() + " 초";
+                motherStatusText[0].text = PlayerManager.instance.weldingSec.ToString() + " 초";
+                bayStatusText[1].text = PlayerManager.instance.speed.ToString();
+                motherStatusText[1].text = PlayerManager.instance.speed.ToString();
+                bayStatusText[2].text = string.Format("{0:#,###0}",PlayerManager.instance.maxFuel);
+                motherStatusText[2].text = string.Format("{0:#,###0}",PlayerManager.instance.maxFuel);
+                bayStatusText[3].text = string.Format("{0:#,###0}",PlayerManager.instance.capacity);
+                motherStatusText[3].text = string.Format("{0:#,###0}",PlayerManager.instance.capacity);
+            //}
+        }
+        else{
+            switch(num){
+                case 0:
+                    bayStatusText[0].text = PlayerManager.instance.weldingSec.ToString() + " 초";
+                    motherStatusText[0].text = PlayerManager.instance.weldingSec.ToString() + " 초";
+                    break;
+                case 1:
+                    bayStatusText[1].text = PlayerManager.instance.speed.ToString();
+                    motherStatusText[1].text = PlayerManager.instance.speed.ToString();
+                    break;
+                case 2:
+                    bayStatusText[2].text = string.Format("{0:#,###0}", PlayerManager.instance.maxFuel);
+                    motherStatusText[2].text = string.Format("{0:#,###0}", PlayerManager.instance.maxFuel);
+                    break;
+                case 3:
+                    bayStatusText[3].text = string.Format("{0:#,###0}", PlayerManager.instance.capacity);
+                    motherStatusText[3].text = string.Format("{0:#,###0}", PlayerManager.instance.capacity);
+                    break;
+            }
+        }
+
+        BotManager.instance.RefreshBotEquip();
+    }  
 }

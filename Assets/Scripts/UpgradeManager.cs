@@ -312,7 +312,8 @@ public class UpgradeManager : MonoBehaviour
                 default :
                     break;
             }
-            PlayerManager.instance.RefreshEquip();
+            //PlayerManager.instance.RefreshEquip();
+            FactoryManager.instance.RefreshEquipStatus(nowPage/row);
             ShowUpgradePanel(nowPage);  //최신화
         }
         else{

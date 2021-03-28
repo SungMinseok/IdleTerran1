@@ -1033,11 +1033,12 @@ public class PlayerManager : MonoBehaviour
             capacity = defaultCapacity + (bodyLevel-1) * (int)UpgradeManager.instance.upgradeList[3].upgradeDelta;
 
             //for(int i=0;i<4;i++){
-                FactoryManager.instance.motherStatusText[0].text = weldingSec.ToString() + " 초";
-                FactoryManager.instance.motherStatusText[1].text = speed.ToString();
-                FactoryManager.instance.motherStatusText[2].text = string.Format("{0:#,###0}",maxFuel);
-                FactoryManager.instance.motherStatusText[3].text = string.Format("{0:#,###0}",capacity);
+                // FactoryManager.instance.motherStatusText[0].text = weldingSec.ToString() + " 초";
+                // FactoryManager.instance.motherStatusText[1].text = speed.ToString();
+                // FactoryManager.instance.motherStatusText[2].text = string.Format("{0:#,###0}",maxFuel);
+                // FactoryManager.instance.motherStatusText[3].text = string.Format("{0:#,###0}",capacity);
             //}
+            FactoryManager.instance.RefreshEquipStatus();
         }
         else{
 
