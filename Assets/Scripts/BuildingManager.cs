@@ -132,11 +132,12 @@ public class BuildingManager : MonoBehaviour
     }
 
     IEnumerator BuildingCoroutine(int buildingNum){
+        yield return null;
         Debug.Log(buildingNum +"번 건설이동");
-        PlayerManager.instance.canMove = false;
-        PlayerManager.instance.Order(buildingsInMap[buildingNum].transform,OrderType.Build);
-        yield return new WaitUntil(()=>PlayerManager.instance.buildStart);
-        PlayerManager.instance.buildStart = false;
+        // PlayerManager.instance.canMove = false;
+        // PlayerManager.instance.Order(buildingsInMap[buildingNum].transform,OrderType.Build);
+        // yield return new WaitUntil(()=>PlayerManager.instance.buildStart);
+        // PlayerManager.instance.buildStart = false;
             PlayerManager.instance.HandleMineral(-buildings[nowBuilding].price);
 
         Debug.Log(buildingNum +"번 건설시작");

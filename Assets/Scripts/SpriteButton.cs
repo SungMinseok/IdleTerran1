@@ -40,28 +40,20 @@ public class SpriteButton : MonoBehaviour
         if(!UIManager.instance.OnUI() && !UIManager.instance.uiBlocked && !CameraMovement.instance.isMoving){
             Debug.Log(gameObject.name+": 클릭");
             if(buildingType == BuildingType.Enterable){
-                PlayerManager.instance.Order(transform,OrderType.Enter);
-                //if(objectName=="Center") BuffManager.instance. RefreshUICount();
-                //UIManager.instance.TogglegoTo(objectName);
+                UIManager.instance.EnterBuilding(objectName);
+                //PlayerManager.instance.Order(transform,OrderType.Enter);
             }
             else if(buildingType == BuildingType.Resource){
 
-                PlayerManager.instance.selectedMineral = this.transform;
-                UIManager.instance.ToggleAuto();
+                // PlayerManager.instance.selectedMineral = this.transform;
+                // UIManager.instance.ToggleAuto();
             }
             else if(buildingType == BuildingType.Drop || buildingType == BuildingType.Item ){
-                //PlayerManager.instance.destination = this.transform;
-                // Debug.Log(transform.position);
-                // Debug.Log(PlayerManager.instance. transform.position);
-                PlayerManager.instance.Order(transform,OrderType.Get);
+               // PlayerManager.instance.Order(transform,OrderType.Get);
                 
             }
             else if(buildingType == BuildingType.UI ){
                 Debug.Log("UI");
-                //PlayerManager.instance.destination = this.transform;
-                // Debug.Log(transform.position);
-                // Debug.Log(PlayerManager.instance. transform.position);
-                //PlayerManager.instance.Order(transform,OrderType.Get);
                 
             }
             else if(buildingType == BuildingType.None){

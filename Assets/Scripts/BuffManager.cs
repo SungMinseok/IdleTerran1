@@ -599,19 +599,27 @@ RefreshUICount();
     public void SetBoosterColor(string _color = "default"){
         //if(buffs[i].remainingDuration!=buffs[i].duration){
             //Debug.Log("부스터 색 변경 > "+_color);
-        for(int i=0;i<PlayerManager.instance.boosters.Length;i++){
-            switch(_color){
-                case "red" : 
-            //Debug.Log("f");
-                    PlayerManager.instance.boosters[i].color =new Color(1,0,0,0.5f);
-                    break;
-                default :
-                    PlayerManager.instance.boosters[i].color = new Color(1,1,1,0.5f);
-                    break;
-            }
+        // for(int i=0;i<PlayerManager.instance.boosters.Length;i++){
+        //     switch(_color){
+        //         case "red" : 
+        //     //Debug.Log("f");
+        //             PlayerManager.instance.boosters[i].color =new Color(1,0,0,0.5f);
+        //             break;
+        //         default :
+        //             PlayerManager.instance.boosters[i].color = new Color(1,1,1,0.5f);
+        //             break;
+        //     }
+        // }
+        Color newColor = new Color(0,0,0,0);
+        switch(_color){
+            case "red" : 
+                newColor =new Color(1,0,0,0.5f);
+                break;
+            default :
+                newColor = new Color(1,1,1,0.5f);
+                break;
         }
-        
-        Color newColor = PlayerManager.instance.boosters[0].color;
+        //= PlayerManager.instance.boosters[0].color;
 
         if(BotManager.instance.botSaved.Count!=0){
             for(int i=0;i<BotManager.instance.botSaved.Count;i++){
@@ -689,17 +697,17 @@ RefreshUICount();
         StartCoroutine(AutoGatherRPCoroutine(clone));
     }
     public IEnumerator AutoGatherRPCoroutine(Transform clone){
-        //Debug.Log("자동 이동");
-        while(clone.position != PlayerManager.instance.centerPos.position){
-            clone.position = Vector2.MoveTowards(clone.position, PlayerManager.instance.centerPos.position, Time.deltaTime*2);
-            yield return new WaitForFixedUpdate();
-        }
-        PlayerManager.instance.GetItem(clone.gameObject);
+        yield return null;
+        // while(clone.position != PlayerManager.instance.centerPos.position){
+        //     clone.position = Vector2.MoveTowards(clone.position, PlayerManager.instance.centerPos.position, Time.deltaTime*2);
+        //     yield return new WaitForFixedUpdate();
+        // }
+        // PlayerManager.instance.GetItem(clone.gameObject);
 
 
     }
     public void SetMineralSize(float amount = 1){
-        PlayerManager.instance.mineral.transform.localScale = new Vector2(amount,amount);
+        //PlayerManager.instance.mineral.transform.localScale = new Vector2(amount,amount);
         PlayerManager.instance.bonusCapacity = amount;
         if(BotManager.instance.botSaved.Count!=0){
             for(int i=0;i<BotManager.instance.botSaved.Count;i++){

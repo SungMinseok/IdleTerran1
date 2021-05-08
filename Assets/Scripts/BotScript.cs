@@ -20,9 +20,9 @@ public class BotScript : MonoBehaviour
     [HideInInspector]public bool isAlive;
     [HideInInspector]public bool isHolding;//뭔가 들고 있을 때
     [HideInInspector]public bool isMining;//채취 중일 때
-    [SerializeField] public UnitType type;
-    [SerializeField] public ShadowType shadowType;
-    [SerializeField] public PackageType packageType = PackageType.none;
+    //[SerializeField] public UnitType type;
+    //[SerializeField] public ShadowType shadowType;
+    //[SerializeField] public PackageType packageType = PackageType.none;
     private Animator animator;
     public bool gotMine;//미네랄 발견
     public bool gotDestination;//센터 발견
@@ -44,7 +44,7 @@ public class BotScript : MonoBehaviour
     public GameObject miningMineral;
     public Transform selectedMineral;
     void Awake(){
-        if(shadowType==ShadowType.booster){
+        //if(shadowType==ShadowType.booster){
             
             booster = transform.GetChild(0).gameObject;
             booster.SetActive(false);
@@ -55,7 +55,7 @@ public class BotScript : MonoBehaviour
                 boosters[i] = booster.transform.GetChild(i).GetComponent<SpriteRenderer>();
             }
             defaultSide = boosters[1].GetComponent<RectTransform>().localPosition;
-        }
+        //}
     }
     void Start()
     {
@@ -261,7 +261,7 @@ public class BotScript : MonoBehaviour
     }
     public void SetBooster(string dir){
         if(dir=="UPDOWN"){
-            if (shadowType == ShadowType.booster){
+            //if (shadowType == ShadowType.booster){
                 if(animator.GetFloat("Vertical") < 0){//하
                     boosters[0].gameObject.SetActive(false);
                     boosters[1].gameObject.SetActive(false);
@@ -276,10 +276,10 @@ public class BotScript : MonoBehaviour
                     mineral.transform.localPosition = new Vector2(0,0.11f);
                     workLight.transform.localPosition = new Vector2(0.1f,0.2f);
                 }
-            }
+            //}
         }
         else{
-            if (shadowType == ShadowType.booster){
+            //if (shadowType == ShadowType.booster){
                 if(animator.GetFloat("Horizontal") > 0){//우
                     boosters[1].flipX = false;
                     boosters[1].transform.localPosition = new Vector2(defaultSide.x,defaultSide.y);
@@ -298,7 +298,7 @@ public class BotScript : MonoBehaviour
                     mineral.transform.localPosition = new Vector2(-0.084f,0.034f);
                     workLight.transform.localPosition = new Vector2(-0.25f,0);
                 }
-            }
+            //}
         }
     }
 
@@ -308,14 +308,14 @@ public class BotScript : MonoBehaviour
         if(amount==0){
             float temp = Mathf.Ceil(capacity * PlayerManager.instance.bonusCapacity);
 //long temp = Mathf.Ceil((float)capacity * PlayerManager.instance.bonusCapacity);
-            switch(packageType){
-                case PackageType.normal :
+            //switch(packageType){
+            //    case PackageType.normal :
                     PlayerManager.instance.curMineral += (long)temp;
                     AchvManager.instance.totalMineral +=(long)temp;
-                    break;
-                default :
-                    break;
-            }
+            //        break;
+            //    default :
+            //        break;
+            //}
             
             if(UIManager.instance.set_floating) {
                 if(floating) UIManager.instance.PrintFloating("+ "+temp.ToString(), transform);

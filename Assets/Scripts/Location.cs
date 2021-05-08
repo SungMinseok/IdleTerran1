@@ -20,7 +20,7 @@ public class Location : MonoBehaviour
     }
     private void OnTriggerStay2D(Collider2D collision){
             if(collision.gameObject.name == "Player"){
-                collision.GetComponent<PlayerManager>().Death();
+               // collision.GetComponent<PlayerManager>().Death();
             }
     }
 }

@@ -711,7 +711,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Enter Save num...
+  m_Text: "\uB2C9\uB124\uC784 \uC785\uB825"
 --- !u!222 &756212805
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1560,6 +1560,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaused: 0
   saveNum: 0
+  saveName: 
   screenSize: {x: 0, y: 0}
 --- !u!4 &1403368468
 Transform:
@@ -2138,13 +2139,13 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1987528810}
   m_TextComponent: {fileID: 325178784}
   m_Placeholder: {fileID: 756212804}
-  m_ContentType: 0
+  m_ContentType: 5
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 0
+  m_KeyboardType: 6
   m_LineType: 0
   m_HideMobileInput: 0
-  m_CharacterValidation: 0
+  m_CharacterValidation: 4
   m_CharacterLimit: 0
   m_OnEndEdit:
     m_PersistentCalls:

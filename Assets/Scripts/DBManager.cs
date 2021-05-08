@@ -11,6 +11,8 @@ public class DBManager : MonoBehaviour
 {    
     public static DBManager instance;
     public int loadCount;
+    [Header ("닉네임")]
+    public string nickName;
     public int debugVersion;
     public bool ActivateLoad;
     public bool loadComplete;
@@ -20,7 +22,8 @@ public class DBManager : MonoBehaviour
         instance = this;
         if(SettingManager.instance!=null){
 
-            debugVersion = SettingManager.instance.saveNum;
+            //debugVersion = SettingManager.instance.saveNum;
+            nickName = SettingManager.instance.saveName;
         }
     }
     [System.Serializable]   //SL에 필수적 속성 : 직렬화. 컴퓨터가 읽고쓰기 쉽게.
@@ -106,6 +109,8 @@ public class DBManager : MonoBehaviour
     }
     UIManager theUI;
     PlayerManager thePlayer;
+    ShopManager theShop;
+    AchvManager theAchv;
     public Data data;
 
     bool isPaused = false; 
@@ -204,9 +209,10 @@ public class DBManager : MonoBehaviour
         data.totalClick = AchvManager.instance.totalClick;
 
         BinaryFormatter bf = new BinaryFormatter();
-        //FileStream file = File.Create(Application.persistentDataPath + "/SaveFile" + num +".dat");
-        //FileStream file = File.Create(Application.persistentDataPath + "/SaveFile.dat");
-        FileStream file = debugVersion!=-1 ? File.Create(Application.persistentDataPath + "/SaveFile_"+debugVersion+".dat")
+
+        //원래 숫자로 확인_210413
+        //FileStream file = debugVersion!=-1 ? File.Create(Application.persistentDataPath + "/SaveFile_"+debugVersion+".dat")
+        FileStream file = nickName!="" ? File.Create(Application.persistentDataPath + "/SaveFile_"+nickName+".dat")
         : File.Create(Application.persistentDataPath + "/SaveFile.dat");
         bf.Serialize(file, data);
         file.Close();
@@ -215,21 +221,22 @@ public class DBManager : MonoBehaviour
     public void CallLoad(int num){
         BinaryFormatter bf = new BinaryFormatter();
         //FileInfo fileCheck = new FileInfo(Application.persistentDataPath + "/SaveFile.dat");
-        FileInfo fileCheck = debugVersion!=-1 ?  new FileInfo(Application.persistentDataPath + "/SaveFile_"+debugVersion+".dat")
+        FileInfo fileCheck = nickName!="" ?  new FileInfo(Application.persistentDataPath + "/SaveFile_"+nickName+".dat")
         : new FileInfo(Application.persistentDataPath + "/SaveFile.dat");
 
 //초기 설정
-                    UIManager.instance.autoStimpack = false;
-            
-                    UIManager.instance.bgmState = true;
-                    UIManager.instance.sfxState = true;
-                    UIManager.instance.set_floating = true;
-                    UIManager.instance.set_helpUI = true;
+        theUI=FindObjectOfType<UIManager>();
+        theUI.autoStimpack = false;
+
+        theUI.bgmState = true;
+        theUI.sfxState = true;
+        theUI.set_floating = true;
+        theUI.set_helpUI = true;
 
 
         if(fileCheck.Exists){
         //FileStream file = File.Open(Application.persistentDataPath + "/SaveFile.dat", FileMode.Open);
-        FileStream file = debugVersion!=-1 ?  File.Open(Application.persistentDataPath + "/SaveFile_"+debugVersion+".dat", FileMode.Open)
+        FileStream file = nickName!="" ?  File.Open(Application.persistentDataPath + "/SaveFile_"+nickName+".dat", FileMode.Open)
         : File.Open(Application.persistentDataPath + "/SaveFile.dat", FileMode.Open);
         
             if(file != null && file.Length >0){
@@ -238,6 +245,8 @@ public class DBManager : MonoBehaviour
 
                 theUI=FindObjectOfType<UIManager>();
                 thePlayer=FindObjectOfType<PlayerManager>();
+                theShop=FindObjectOfType<ShopManager>();
+                theAchv=FindObjectOfType<AchvManager>();
 
                 //Debug.Log(Application.);
                 // Vector3 vector =new Vector3(data.playerX, data.playerY, data.playerZ);
@@ -370,8 +379,8 @@ public class DBManager : MonoBehaviour
 
                 
         //캐쉬 구매 목록
-                ShopManager.instance.packageCheck = data.packageCheck;
-                ShopManager.instance.normalCheck = data.normalCheck;
+                theShop.packageCheck = data.packageCheck;
+                theShop.normalCheck = data.normalCheck;
             
             
         //설정
@@ -387,23 +396,23 @@ public class DBManager : MonoBehaviour
                 //}
                 //else{
 
-                    UIManager.instance.autoStimpack = data.autoStimpack;
-                    UIManager.instance.bgmState = data.bgmState;
-                    UIManager.instance.sfxState = data.sfxState;
-                    UIManager.instance.set_floating = data.set_floating;
-                    UIManager.instance.set_helpUI = data.set_helpUI;
+                    theUI.autoStimpack = data.autoStimpack;
+                    theUI.bgmState = data.bgmState;
+                    theUI.sfxState = data.sfxState;
+                    theUI.set_floating = data.set_floating;
+                    theUI.set_helpUI = data.set_helpUI;
                 //}
             //업적 <<<<<<<<<<<<<<<<<<<<<배열 로드 정석>>>>>>>>>>>>>>>>>>
             //Debug.Log(data.achvPhases.Length);
                 if(data.achvPhases !=null){
                     for(int i=0;i<data.achvPhases.Length;i++){
-                        AchvManager.instance.achvs[i].phase = data.achvPhases[i];                        
+                        theAchv.achvs[i].phase = data.achvPhases[i];                        
                     }
                 }
-                AchvManager.instance.totalMineral =data.totalMineral ;
-                AchvManager.instance.totalRP =data.totalRP ;
-                AchvManager.instance.totalResearch =data.totalResearch ;
-                AchvManager.instance.totalClick =data.totalClick ;
+                theAchv.totalMineral =data.totalMineral ;
+                theAchv.totalRP =data.totalRP ;
+                theAchv.totalResearch =data.totalResearch ;
+                theAchv.totalClick =data.totalClick ;
             
             }
 

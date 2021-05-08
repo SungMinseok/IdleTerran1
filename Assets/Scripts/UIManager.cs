@@ -56,6 +56,7 @@ public class UIManager : MonoBehaviour
     public GameObject debugPanel;
     
     [Header("상단 UI")]
+    public Text nickNameText;
     [SerializeField] public Slider fuelBar;
     public Text fuelPercentText;
     [SerializeField] public Text minText;
@@ -150,7 +151,7 @@ public class UIManager : MonoBehaviour
 
         }
 
-
+        nickNameText.text = DBManager.instance.nickName;
 
 
 
@@ -180,72 +181,72 @@ public class UIManager : MonoBehaviour
     //         // timerText.text = string.Format("{0:00} : {1:00} : {2:00}", hour, minute, second);
     //     }
     // }
-    public void ToggleAuto(){ 
-        SoundManager.instance.Play("btn1");
+    // public void ToggleAuto(){ 
+    //     SoundManager.instance.Play("btn1");
 
-        PlayerManager.instance.goTo = false;
-        //if(PlayerManager.instance.isAuto || PlayerManager.instance.goToCenter) PlayerManager.instance.StopAuto();
-        if(!PlayerManager.instance.isAuto) {
+    //     PlayerManager.instance.goTo = false;
+    //     //if(PlayerManager.instance.isAuto || PlayerManager.instance.goToCenter) PlayerManager.instance.StopAuto();
+    //     if(!PlayerManager.instance.isAuto) {
             
-            PlayerManager.instance.YesSound();
-        }
-        else{
+    //         PlayerManager.instance.YesSound();
+    //     }
+    //     else{
             
-                PlayerManager.instance.StopAuto();
-        }
-        PlayerManager.instance.isAuto = !PlayerManager.instance.isAuto;
-    }    
-    public void TogglegoTo(string where){ 
-        SoundManager.instance.Play("btn1");
-        PlayerManager.instance.isAuto = false;
-        //if(PlayerManager.instance.goToCenter||PlayerManager.instance.isAuto) PlayerManager.instance.StopAuto();
-//목적지로 향할 때 버튼 클릭. 1. 같은 목적지 2. 다른 목적지
-        if(PlayerManager.instance.goTo){
-            if(PlayerManager.instance.destination.name == where){//같은 목적지 버튼일경우 멈춤
+    //             PlayerManager.instance.StopAuto();
+    //     }
+    //     PlayerManager.instance.isAuto = !PlayerManager.instance.isAuto;
+    // }    
+//     public void TogglegoTo(string where){ 
+//         SoundManager.instance.Play("btn1");
+//         PlayerManager.instance.isAuto = false;
+//         //if(PlayerManager.instance.goToCenter||PlayerManager.instance.isAuto) PlayerManager.instance.StopAuto();
+// //목적지로 향할 때 버튼 클릭. 1. 같은 목적지 2. 다른 목적지
+//         if(PlayerManager.instance.goTo){
+//             if(PlayerManager.instance.destination.name == where){//같은 목적지 버튼일경우 멈춤
 
-                PlayerManager.instance.StopAuto();
+//                 PlayerManager.instance.StopAuto();
 
-                //PlayerManager.instance.goTo = !PlayerManager.instance.goTo;    
-            }
-            else{
-                PlayerManager.instance.orderType = OrderType.Enter;
-                PlayerManager.instance.YesSound();
-                PlayerManager.instance.destination = GameObject.Find(where).transform;
-            }
-        }
-//목적지 없을 때
-        else{
-                PlayerManager.instance.StopAuto();
+//                 //PlayerManager.instance.goTo = !PlayerManager.instance.goTo;    
+//             }
+//             else{
+//                 PlayerManager.instance.orderType = OrderType.Enter;
+//                 PlayerManager.instance.YesSound();
+//                 PlayerManager.instance.destination = GameObject.Find(where).transform;
+//             }
+//         }
+// //목적지 없을 때
+//         else{
+//                 PlayerManager.instance.StopAuto();
             
-                PlayerManager.instance.orderType = OrderType.Enter;
-            PlayerManager.instance.YesSound();
+//                 PlayerManager.instance.orderType = OrderType.Enter;
+//             PlayerManager.instance.YesSound();
 
-            PlayerManager.instance.destination = GameObject.Find(where).transform;
+//             PlayerManager.instance.destination = GameObject.Find(where).transform;
             
-        PlayerManager.instance.goTo = !PlayerManager.instance.goTo;    
-        }
+//         PlayerManager.instance.goTo = !PlayerManager.instance.goTo;    
+//         }
 
         
-        // PlayerManager.instance.StopAuto();
+//         // PlayerManager.instance.StopAuto();
 
-        // PlayerManager.instance.isAuto = false;
-        // //if(PlayerManager.instance.goToCenter||PlayerManager.instance.isAuto) PlayerManager.instance.StopAuto();
+//         // PlayerManager.instance.isAuto = false;
+//         // //if(PlayerManager.instance.goToCenter||PlayerManager.instance.isAuto) PlayerManager.instance.StopAuto();
 
-        // // if(PlayerManager.instance.destination !=null){
-        // //     if(PlayerManager.instance.destination.name == where){//같은 목적지 버튼일경우 멈춤
+//         // // if(PlayerManager.instance.destination !=null){
+//         // //     if(PlayerManager.instance.destination.name == where){//같은 목적지 버튼일경우 멈춤
 
-        // //     }
-        // // }
+//         // //     }
+//         // // }
 
-        // if(!PlayerManager.instance.goTo) {
+//         // if(!PlayerManager.instance.goTo) {
             
-        //     PlayerManager.instance.YesSound();
+//         //     PlayerManager.instance.YesSound();
 
-        //     PlayerManager.instance.destination = GameObject.Find(where).transform;
+//         //     PlayerManager.instance.destination = GameObject.Find(where).transform;
 
-        // }
-        // PlayerManager.instance.goTo = !PlayerManager.instance.goTo;
-    }
+//         // }
+//         // PlayerManager.instance.goTo = !PlayerManager.instance.goTo;
+//     }
 
     public void ChargeFuel(){
         PlayerManager.instance.HandleFuel(1000f, false);
@@ -269,26 +270,23 @@ public class UIManager : MonoBehaviour
         
         //Debug.Log(PlayerManager.instance.curMineral- temp);
     }
-    private void Update()
-    {
-        //StartCoroutine(CalculateMineralPerSecond());
+    // private void Update()
+    // {
+    //     //StartCoroutine(CalculateMineralPerSecond());
 
-        // if(timerBtn){
-        //     UpdateTimer(totalTime );
-        // }
+    //     // if(timerBtn){
+    //     //     UpdateTimer(totalTime );
+    //     // }
 
-        //if(QuestManager.instance.questOverList.Contains(3) || SettingManager.instance.testMode){
+    //     //if(QuestManager.instance.questOverList.Contains(3) || SettingManager.instance.testMode){
 
-            if(PlayerManager.instance.goTo || BuildingManager.instance.ConstructingCheck()){
-                buildLock.SetActive(true);
-            }
-            else{
-                buildLock.SetActive(false);
-            }
-        //}
-    }
-    // void FixedUpdate(){
-    //     UpdateTimer();
+    //         if(PlayerManager.instance.goTo || BuildingManager.instance.ConstructingCheck()){
+    //             buildLock.SetActive(true);
+    //         }
+    //         else{
+    //             buildLock.SetActive(false);
+    //         }
+    //     //}
     // }
 
 
@@ -321,9 +319,7 @@ public class UIManager : MonoBehaviour
     // }
 
 /////////////////////////////////////////////센터
-    public void ExitCenterBtn(){
-        PlayerManager.instance.ExitCenter();
-    }
+
 
     /////////////////콜라이더 설정
     
@@ -358,11 +354,11 @@ public class UIManager : MonoBehaviour
             
         // }
     }
-    public void EnterBuilding(){
-        PlayerManager.instance.StopAuto();
+    public void EnterBuilding(string buildingName){
+        //PlayerManager.instance.StopAuto();
         //GameObject temp = GameObject.Find(PlayerManager.instance.enterableBuilding + "Panel");
         for(int i=0; i<buildings.Length; i++){
-            if(buildings[i].name == PlayerManager.instance.enterableBuilding + "Panel"){
+            if(buildings[i].name == buildingName + "Panel"){
                 buildings[i].SetActive(true);
                 //selectPanel.SetActive(false);
                 return;        

@@ -28,7 +28,8 @@ public class LoadingScript : MonoBehaviour
 #if DEV_MODE
     void SetSaveNum(){
         if(inputText.text != ""){
-            SettingManager.instance.saveNum = int.Parse(inputText.text);
+            //SettingManager.instance.saveNum = int.Parse(inputText.text);
+            SettingManager.instance.saveName = inputText.text;
             StartCoroutine(Load());
         }
     }

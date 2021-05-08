@@ -7,6 +7,7 @@ public class SettingManager : MonoBehaviour
     public static SettingManager instance;
     public bool isPaused;
     public int saveNum;
+    public string saveName;
 
     public Vector2 screenSize;
     private void Awake()

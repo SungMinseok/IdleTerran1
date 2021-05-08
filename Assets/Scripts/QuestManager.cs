@@ -104,7 +104,7 @@ public class QuestManager : MonoBehaviour
                 //yield return new WaitForSeconds(2f);
                 break;
             case 1 : 
-                yield return new WaitUntil(()=> PlayerManager.instance.isAuto );
+                //yield return new WaitUntil(()=> PlayerManager.instance.isAuto );
                 break;
             case 2 : 
                 yield return new WaitUntil(()=> PlayerManager.instance.curFuel >=500 );
@@ -113,11 +113,11 @@ public class QuestManager : MonoBehaviour
                 yield return new WaitUntil(()=> PlayerManager.instance.curMineral >=24 );
                 break;
             case 4 : //보급고 건설 버튼 클릭
-                yield return new WaitUntil(()=> PlayerManager.instance.orderType == OrderType.Build );
+                //yield return new WaitUntil(()=> PlayerManager.instance.orderType == OrderType.Build );
                 break;
             case 6 :
                 rp.SetActive(true);
-                yield return new WaitUntil(()=> PlayerManager.instance.orderType == OrderType.Get);
+                //yield return new WaitUntil(()=> PlayerManager.instance.orderType == OrderType.Get);
                 break;            
             case 7 :
                 //yield return new WaitUntil(()=> BuildingManager.instance.unlockedNextBuilding[1]);

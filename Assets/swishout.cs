@@ -22,7 +22,7 @@ public class swishout : StateMachineBehaviour
        animator.gameObject.SetActive(false);
        if(animator.name != "SelectPanel"){
 
-            PlayerManager.instance.ExitCenter();
+            //PlayerManager.instance.ExitCenter();
        }
     }
 
